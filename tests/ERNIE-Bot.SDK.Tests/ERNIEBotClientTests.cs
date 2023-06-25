@@ -137,7 +137,7 @@ namespace ERNIE_Bot.SDK.Tests
         [Fact]
         public async Task ThrowErrorTest()
         {
-            var httpClient = await TestHelper.FakeHttpClient("error.txt", System.Net.HttpStatusCode.BadRequest);
+            var httpClient = await TestHelper.FakeHttpClient("error.txt");
             var fakeTokenStore = new TokenStoreHelper("test");
             var client = new ERNIEBotClient("test", "test", httpClient, fakeTokenStore);
 

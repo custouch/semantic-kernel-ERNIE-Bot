@@ -10,7 +10,7 @@ namespace ERNIE_BOT.SDK.Tests
 {
     internal static class TestHelper
     {
-        internal static async Task<HttpResponseMessage> GetHttpResponseFormFileAsync(string fileName, HttpStatusCode code = HttpStatusCode.OK, bool isStream = false)
+        internal static async Task<HttpResponseMessage> GetHttpResponseFormFileAsync(string fileName, bool isStream = false)
         {
             var filePath = Path.Combine("./TestDatas", fileName);
 
@@ -24,7 +24,7 @@ namespace ERNIE_BOT.SDK.Tests
                 var content = File.ReadAllText(filePath);
                 return new HttpResponseMessage
                 {
-                    StatusCode = code,
+                    StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(content)
                 };
             }
@@ -41,7 +41,7 @@ namespace ERNIE_BOT.SDK.Tests
                 }
                 return new HttpResponseMessage
                 {
-                    StatusCode = code,
+                    StatusCode = HttpStatusCode.OK,
                     Content = streamContent
                 };
             }
@@ -50,9 +50,9 @@ namespace ERNIE_BOT.SDK.Tests
 
         }
 
-        internal static async Task<HttpClient> FakeHttpClient(string fileName, HttpStatusCode code = HttpStatusCode.OK, bool isStream = false)
+        internal static async Task<HttpClient> FakeHttpClient(string fileName, bool isStream = false)
         {
-            var response = await GetHttpResponseFormFileAsync(fileName, code, isStream);
+            var response = await GetHttpResponseFormFileAsync(fileName, isStream);
             var client = new HttpClient(new MockHttpMessageHandler(response));
 
             return client;

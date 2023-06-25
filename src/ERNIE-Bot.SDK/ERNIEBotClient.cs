@@ -184,23 +184,21 @@ namespace ERNIE_Bot.SDK
         private async Task<TResponse> ParseResponseAsync<TResponse>(HttpResponseMessage response)
         {
             var responseJson = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
+            var error = JsonSerializer.Deserialize<ERNIEBotError>(responseJson);
+
+            if (error?.Code != -1)
             {
-                var result = JsonSerializer.Deserialize<TResponse>(responseJson);
-                if (result != null)
-                {
-                    return result;
-                }
-                else
-                {
-                    throw new ERNIEBotException(-1, "Invalid response content");
-                }
+                throw new ERNIEBotException(error);
+            }
+
+            var result = JsonSerializer.Deserialize<TResponse>(responseJson);
+            if (result != null)
+            {
+                return result;
             }
             else
             {
-                var error = JsonSerializer.Deserialize<ERNIEBotError>(responseJson);
-
-                throw new ERNIEBotException(error);
+                throw new ERNIEBotException(-1, "Invalid response content");
             }
         }
 
