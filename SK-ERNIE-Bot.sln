@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BB18CA42-C76C-44A3-9758-E77FCFE94353}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Connectors.AI.ERNIE-Bot", "src\Connectors.AI.ERNIE-Bot\Connectors.AI.ERNIE-Bot.csproj", "{A2822608-D4A3-4AE6-856C-484DC27CF18F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERNIE-Bot.SDK", "src\ERNIE-Bot.SDK\ERNIE-Bot.SDK.csproj", "{876A5DBE-75C2-4BE0-A5D3-45451AB180D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4EE43261-6566-4D2D-BCC2-9D89A4BBEE84}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERNIE-Bot.SDK.Tests", "tests\ERNIE-Bot.SDK.Tests\ERNIE-Bot.SDK.Tests.csproj", "{78C62497-E3B9-41A0-BF4F-129FDB50D053}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{8545A6B2-D942-4658-9413-278F1B33612D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERNIE-Bot.Sample", "samples\ERNIE-Bot.Sample\ERNIE-Bot.Sample.csproj", "{5CEE2488-705C-4AD9-A7F2-F37A886E4C62}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2822608-D4A3-4AE6-856C-484DC27CF18F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2822608-D4A3-4AE6-856C-484DC27CF18F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2822608-D4A3-4AE6-856C-484DC27CF18F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2822608-D4A3-4AE6-856C-484DC27CF18F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{876A5DBE-75C2-4BE0-A5D3-45451AB180D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{876A5DBE-75C2-4BE0-A5D3-45451AB180D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{876A5DBE-75C2-4BE0-A5D3-45451AB180D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{876A5DBE-75C2-4BE0-A5D3-45451AB180D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78C62497-E3B9-41A0-BF4F-129FDB50D053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78C62497-E3B9-41A0-BF4F-129FDB50D053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78C62497-E3B9-41A0-BF4F-129FDB50D053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78C62497-E3B9-41A0-BF4F-129FDB50D053}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CEE2488-705C-4AD9-A7F2-F37A886E4C62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CEE2488-705C-4AD9-A7F2-F37A886E4C62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CEE2488-705C-4AD9-A7F2-F37A886E4C62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CEE2488-705C-4AD9-A7F2-F37A886E4C62}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A2822608-D4A3-4AE6-856C-484DC27CF18F} = {BB18CA42-C76C-44A3-9758-E77FCFE94353}
+		{876A5DBE-75C2-4BE0-A5D3-45451AB180D8} = {BB18CA42-C76C-44A3-9758-E77FCFE94353}
+		{78C62497-E3B9-41A0-BF4F-129FDB50D053} = {4EE43261-6566-4D2D-BCC2-9D89A4BBEE84}
+		{5CEE2488-705C-4AD9-A7F2-F37A886E4C62} = {8545A6B2-D942-4658-9413-278F1B33612D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9277BACD-5820-497C-B2F1-F71532226D39}
+	EndGlobalSection
+EndGlobal
