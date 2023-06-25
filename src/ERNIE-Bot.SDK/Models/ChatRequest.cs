@@ -14,14 +14,14 @@ namespace ERNIE_Bot.SDK.Models
         public string? UserId { get; set; }
     }
 
-    public class ChatCompletionsRequest:ChatRequest
+    public class ChatCompletionsRequest : ChatRequest
     {
         [JsonPropertyName("temperature")]
         public float? Temperature { get; set; }
         [JsonPropertyName("top_p")]
         public float? TopP { get; set; }
         [JsonPropertyName("penalty_score")]
-        public float? PenaltyScore { get; set; }  
+        public float? PenaltyScore { get; set; }
     }
 
     public class Message
@@ -31,5 +31,10 @@ namespace ERNIE_Bot.SDK.Models
 
         [JsonPropertyName("content")]
         public string Content { get; set; } = string.Empty;
+    }
+    public static class MessageRole
+    {
+        public const string User = "user";
+        public const string Assistant = "assistant";
     }
 }

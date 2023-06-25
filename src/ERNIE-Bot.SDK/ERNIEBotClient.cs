@@ -1,4 +1,5 @@
 ﻿using ERNIE_Bot.SDK.Models;
+using IdentityModel;
 using IdentityModel.Client;
 using Microsoft;
 using Microsoft.Extensions.Configuration;
@@ -41,7 +42,7 @@ namespace ERNIE_Bot.SDK
         /// Api for ERNIE-Bot
         /// </summary>
         /// <returns></returns>
-        public async Task<ChatResponse> ChatCompletionsAsync(ChatCompletionsRequest request, CancellationToken cancellationToken)
+        public async Task<ChatResponse> ChatCompletionsAsync(ChatCompletionsRequest request, CancellationToken cancellationToken = default)
         {
             if (request.Stream.HasValue && request.Stream.Value)
             {
@@ -50,7 +51,7 @@ namespace ERNIE_Bot.SDK
 
             var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.ERNIEBotEndpoint, request);
 
-            var response = await _client.SendAsync(webRequest);
+            var response = await _client.SendAsync(webRequest, cancellationToken);
 
             return await ParseResponseAsync<ChatResponse>(response);
         }
@@ -59,7 +60,7 @@ namespace ERNIE_Bot.SDK
         /// Api for ERNIE-Bot Stream
         /// </summary>
         /// <returns></returns>
-        public async IAsyncEnumerable<ChatResponse> ChatCompletionsStreamAsync(ChatCompletionsRequest request, [EnumeratorCancellation] CancellationToken cancellationToken)
+        public async IAsyncEnumerable<ChatResponse> ChatCompletionsStreamAsync(ChatCompletionsRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             request.Stream = true;
             var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.ERNIEBotEndpoint, request, cancellationToken);
@@ -76,7 +77,7 @@ namespace ERNIE_Bot.SDK
         /// Api for ERNIE-Bot-turbo 
         /// </summary>
         /// <returns></returns>
-        public async Task<ChatResponse> ChatEBInstantAsync(ChatRequest request)
+        public async Task<ChatResponse> ChatEBInstantAsync(ChatRequest request, CancellationToken cancellationToken = default)
         {
             if (request.Stream.HasValue && request.Stream.Value)
             {
@@ -85,7 +86,7 @@ namespace ERNIE_Bot.SDK
 
             var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.ERNIEBotTurboEndpoint, request);
 
-            var response = await _client.SendAsync(webRequest);
+            var response = await _client.SendAsync(webRequest, cancellationToken);
 
             return await ParseResponseAsync<ChatResponse>(response);
         }
@@ -141,13 +142,14 @@ namespace ERNIE_Bot.SDK
             {
                 {"client_id",_clientId },
                 {"client_secret",_clientSecret },
-                {"grant_type","client_credentials" }
+                {"grant_type",OidcConstants.GrantTypes.ClientCredentials }
             });
 
             var requestToken = await _client.RequestTokenAsync(
                 new TokenRequest()
                 {
-                    Address = url
+                    Address = url,
+                    GrantType = OidcConstants.GrantTypes.ClientCredentials,
                 }) ?? throw new HttpRequestException($"Failed to get access token");
 
             if (requestToken.IsError || requestToken.AccessToken == null)

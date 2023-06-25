@@ -12,7 +12,7 @@ namespace ERNIE_BOT.SDK.Tests
     {
         internal static async Task<HttpResponseMessage> GetHttpResponseFormFileAsync(string fileName, HttpStatusCode code = HttpStatusCode.OK, bool isStream = false)
         {
-            var filePath = Path.Combine("./TestData", fileName);
+            var filePath = Path.Combine("./TestDatas", fileName);
 
             if (!File.Exists(filePath))
             {
@@ -53,12 +53,22 @@ namespace ERNIE_BOT.SDK.Tests
         internal static async Task<HttpClient> FakeHttpClient(string fileName, HttpStatusCode code = HttpStatusCode.OK, bool isStream = false)
         {
             var response = await GetHttpResponseFormFileAsync(fileName, code, isStream);
-            var client = Substitute.For<HttpClient>();
-
-            client.SendAsync(default)
-                .ReturnsForAnyArgs(response);
+            var client = new HttpClient(new MockHttpMessageHandler(response));
 
             return client;
+        }
+    }
+    public class MockHttpMessageHandler : HttpMessageHandler
+    {
+        private readonly HttpResponseMessage _response;
+
+        public MockHttpMessageHandler(HttpResponseMessage response)
+        {
+            this._response = response;
+        }
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(_response);
         }
     }
 }
