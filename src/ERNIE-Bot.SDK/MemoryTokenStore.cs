@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ERNIE_Bot.SDK
 {
-    internal class MemoryTokenStore : ITokenStore
+    public class MemoryTokenStore : ITokenStore
     {
         private readonly IMemoryCache _cache;
 
