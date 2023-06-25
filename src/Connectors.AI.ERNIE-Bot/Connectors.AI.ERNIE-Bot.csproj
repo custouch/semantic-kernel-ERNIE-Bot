@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
-		<RootNamespace>Connectors.AI.ERNIE_Bot</RootNamespace>
+		<RootNamespace>Connectors.AI.ERNIEBot</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>10</LangVersion>
@@ -10,6 +10,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SemanticKernel.Abstractions" Version="0.16.230615.1-preview" />
+		<PackageReference Include="Microsoft.SemanticKernel.Core" Version="0.16.230615.1-preview" />
 	</ItemGroup>
 
 	<ItemGroup>

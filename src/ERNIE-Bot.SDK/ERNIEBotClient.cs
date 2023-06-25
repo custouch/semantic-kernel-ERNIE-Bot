@@ -112,11 +112,11 @@ namespace ERNIE_Bot.SDK
         /// Embedding V1 Api for ERNIE-Bot
         /// </summary>
         /// <returns></returns>
-        public async Task<EmbeddingsResponse> EmbeddingsAsync(EmbeddingsRequest request)
+        public async Task<EmbeddingsResponse> EmbeddingsAsync(EmbeddingsRequest request,CancellationToken cancellationToken)
         {
             var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.EmbeddingV1Endpoint, request);
 
-            var response = await _client.SendAsync(webRequest);
+            var response = await _client.SendAsync(webRequest,cancellationToken);
 
             return await ParseResponseAsync<EmbeddingsResponse>(response);
         }
