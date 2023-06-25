@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Connectors.AI.ERNIE-Bot", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERNIE-Bot.SDK", "src\ERNIE-Bot.SDK\ERNIE-Bot.SDK.csproj", "{876A5DBE-75C2-4BE0-A5D3-45451AB180D8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4EE43261-6566-4D2D-BCC2-9D89A4BBEE84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A2822608-D4A3-4AE6-856C-484DC27CF18F} = {BB18CA42-C76C-44A3-9758-E77FCFE94353}
 		{876A5DBE-75C2-4BE0-A5D3-45451AB180D8} = {BB18CA42-C76C-44A3-9758-E77FCFE94353}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9277BACD-5820-497C-B2F1-F71532226D39}
 	EndGlobalSection
 EndGlobal

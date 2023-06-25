@@ -1,0 +1,17 @@
+﻿data: {"id":"as-ywwpgx4dt7","object":"chat.completion","created":1680166793,"sentence_id":0,"is_end":false,"result":"以下是一些适合自驾游的路线推荐：\n\n1.","need_clear_history":false,"usage":{"prompt_tokens":11,"completion_tokens":16,"total_tokens":27}}
+
+data: {"id":"as-ywwpgx4dt7","object":"chat.completion","created":1680166794,"sentence_id":1,"is_end":false,"result":" 中国大陆最美的景观大道：川藏线，从成都出发，沿着川藏公路一路向西，经过稻城亚丁、理塘、巴塘、芒康等美景，最终到达拉萨。","need_clear_history":false,"usage":{"prompt_tokens":11,"completion_tokens":50,"total_tokens":77}}
+
+data: {"id":"as-ywwpgx4dt7","object":"chat.completion","created":1680166795,"sentence_id":2,"is_end":false,"result":"\n2. 丝绸之路：这是一条贯穿中国东西部的公路，从上海出发，经过西安、兰州、乌鲁木齐等城市，最终到达喀什。","need_clear_history":false,"usage":{"prompt_tokens":11,"completion_tokens":43,"total_tokens":120}}
+
+data: {"id":"as-ywwpgx4dt7","object":"chat.completion","created":1680166796,"sentence_id":3,"is_end":false,"result":"沿途可以欣赏到中国北方和南方的不同景色。\n3. 西北大环线：从成都出发，经过都江堰、青城山、丹巴、塔公草原、新都桥等景点，最终到达西宁。","need_clear_history":false,"usage":{"prompt_tokens":11,"completion_tokens":56,"total_tokens":176}}
+
+data: {"id":"as-ywwpgx4dt7","object":"chat.completion","created":1680166799,"sentence_id":4,"is_end":false,"result":"这条路线可以领略到中国西北地区的壮美风光。\n4. 东北环线：从沈阳出发，经过长春、吉林、延吉等城市，最终到达哈尔滨。","need_clear_history":false,"usage":{"prompt_tokens":11,"completion_tokens":48,"total_tokens":224}}
+
+data: {"id":"as-ywwpgx4dt7","object":"chat.completion","created":1680166800,"sentence_id":5,"is_end":false,"result":"沿途可以欣赏到中国东北地区的广阔草原和森林。\n5. 西南环线：从成都出发，经过雅安、康定、理塘、稻城亚丁等景点，最终到达香格里拉。","need_clear_history":false,"usage":{"prompt_tokens":11,"completion_tokens":54,"total_tokens":278}}
+
+data: {"id":"as-ywwpgx4dt7","object":"chat.completion","created":1680166802,"sentence_id":6,"is_end":false,"result":"这条路线可以领略到中国西南地区的高山峡谷和民族文化。\n6. 海南环线：从三亚出发，经过海口、文昌、万宁等城市，最终到达三亚。","need_clear_history":false,"usage":{"prompt_tokens":11,"completion_tokens":52,"total_tokens":330}}
+
+data: {"id":"as-ywwpgx4dt7","object":"chat.completion","created":1680166803,"sentence_id":7,"is_end":false,"result":"这条路线可以欣赏到中国南方的海岸线和热带雨林。\n7. 滇藏线：从昆明出发，经过大理、丽江、香格里拉等景点，最终到达西藏拉萨。","need_clear_history":false,"usage":{"prompt_tokens":11,"completion_tokens":52,"total_tokens":382}}
+
+data: {"id":"as-ywwpgx4dt7","object":"chat.completion","created":1680166804,"sentence_id":8,"is_end":true,"result":"这条路线可以领略到中国西南地区和西藏地区的自然风光和人文景观。","need_clear_history":false,"usage":{"prompt_tokens":11,"completion_tokens":30,"total_tokens":412}}

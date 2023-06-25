@@ -121,9 +121,13 @@ namespace ERNIE_Bot.SDK
             return await ParseResponseAsync<EmbeddingsResponse>(response);
         }
 
-
-        #region ===== private methods =====
-        private async Task<string> GetAccessTokenAsync(CancellationToken cancellationToken = default)
+        /// <summary>
+        /// Get Access Token
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpRequestException"></exception>
+        public async Task<string> GetAccessTokenAsync(CancellationToken cancellationToken = default)
         {
             var token = await _tokenStore.GetTokenAsync(cancellationToken);
 
@@ -132,13 +136,19 @@ namespace ERNIE_Bot.SDK
                 return token;
             }
 
-            var requestToken = await _client.RequestTokenAsync(new TokenRequest()
+            var urlBuilder = new RequestUrl(Defaults.AccessTokenEndpoint);
+            var url = urlBuilder.Create(new Parameters
             {
-                Address = Defaults.AccessTokenEndpoint,
-                GrantType = "client_credentials",
-                ClientId = _clientId,
-                ClientSecret = _clientSecret,
-            }) ?? throw new HttpRequestException($"Failed to get access token");
+                {"client_id",_clientId },
+                {"client_secret",_clientSecret },
+                {"grant_type","client_credentials" }
+            });
+
+            var requestToken = await _client.RequestTokenAsync(
+                new TokenRequest()
+                {
+                    Address = url
+                }) ?? throw new HttpRequestException($"Failed to get access token");
 
             if (requestToken.IsError || requestToken.AccessToken == null)
             {
@@ -149,6 +159,9 @@ namespace ERNIE_Bot.SDK
 
             return requestToken.AccessToken;
         }
+
+        #region ===== private methods =====
+
 
         private async Task<HttpRequestMessage> CreateRequestAsync<TRequest>(HttpMethod method, string path, TRequest? body = null, CancellationToken cancellationToken = default) where TRequest : class
         {
