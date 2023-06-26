@@ -1,11 +1,21 @@
-﻿using Microsoft.SemanticKernel.AI.ChatCompletion;
+﻿using Connectors.AI.ERNIEBot;
+using ERNIE_Bot.SDK;
+using ERNIE_Bot.SDK.Models;
+using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.TextCompletion;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 {
+    protected readonly ERNIEBotClient _client;
+
+    public ERNIEBotChatCompletion(ERNIEBotClient client)
+    {
+        this._client = client;
+    }
     public ChatHistory CreateNewChat(string? instructions = null)
     {
         var history = new ChatHistory();
@@ -18,23 +28,111 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         return history;
     }
 
-    public Task<IReadOnlyList<IChatResult>> GetChatCompletionsAsync(ChatHistory chat, ChatRequestSettings? requestSettings = null, CancellationToken cancellationToken = default)
+
+    public async Task<IReadOnlyList<IChatResult>> GetChatCompletionsAsync(ChatHistory chat, ChatRequestSettings? requestSettings = null, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var messages = ChatHistoryToMessages(chat);
+        requestSettings ??= new ChatRequestSettings();
+
+        ChatResponse result = await InternalCompletionsAsync(messages,
+                                                             requestSettings.Temperature,
+                                                             requestSettings.TopP,
+                                                             requestSettings.PresencePenalty
+                                                             );
+        return new List<ERNIEBotChatResult>() { new ERNIEBotChatResult(result) };
     }
 
-    public Task<IReadOnlyList<ITextResult>> GetCompletionsAsync(string text, CompleteRequestSettings requestSettings, CancellationToken cancellationToken = default)
+
+
+    public async Task<IReadOnlyList<ITextResult>> GetCompletionsAsync(string text, CompleteRequestSettings requestSettings, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        requestSettings ??= new CompleteRequestSettings();
+        var messages = StringToMessages(text);
+
+        var result = await InternalCompletionsAsync(messages,
+                                                             requestSettings.Temperature,
+                                                             requestSettings.TopP,
+                                                             requestSettings.PresencePenalty
+                                                             );
+
+        return new List<ERNIEBotChatResult>() { new ERNIEBotChatResult(result) };
     }
 
-    public IAsyncEnumerable<IChatStreamingResult> GetStreamingChatCompletionsAsync(ChatHistory chat, ChatRequestSettings? requestSettings = null, CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<IChatStreamingResult> GetStreamingChatCompletionsAsync(ChatHistory chat, ChatRequestSettings? requestSettings = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var messages = ChatHistoryToMessages(chat);
+        requestSettings ??= new ChatRequestSettings();
+
+        var results = InternalCompletionsStreamAsync(messages,
+                                                    requestSettings.Temperature,
+                                                    requestSettings.TopP,
+                                                    requestSettings.PresencePenalty
+                                                    );
+
+        await foreach (var result in results)
+        {
+            yield return new ERNIEBotChatResult(result);
+        }
     }
 
-    public IAsyncEnumerable<ITextStreamingResult> GetStreamingCompletionsAsync(string text, CompleteRequestSettings requestSettings, CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<ITextStreamingResult> GetStreamingCompletionsAsync(string text, CompleteRequestSettings requestSettings, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var messages = StringToMessages(text);
+        requestSettings ??= new CompleteRequestSettings();
+
+        var results = InternalCompletionsStreamAsync(messages,
+                                                     requestSettings.Temperature,
+                                                     requestSettings.TopP,
+                                                     requestSettings.PresencePenalty
+                                                     );
+
+        await foreach (var result in results)
+        {
+            yield return new ERNIEBotChatResult(result);
+        }
     }
+
+    private List<Message> StringToMessages(string text)
+    {
+        return new List<Message>()
+        {
+            new Message()
+            {
+                 Role = MessageRole.User,
+                 Content = text
+            }
+        };
+    }
+
+    private List<Message> ChatHistoryToMessages(ChatHistory chatHistory)
+    {
+        return chatHistory.Select(m => new Message()
+        {
+            Role = m.Role.Label,
+            Content = m.Content
+        }).ToList();
+    }
+
+    protected virtual async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
+    {
+        return await _client.ChatCompletionsAsync(new ChatCompletionsRequest()
+        {
+            Messages = messages,
+            Temperature = (float)temperature,
+            TopP = (float)topP,
+            PenaltyScore = (float)presencePenalty,
+        });
+    }
+
+    protected virtual IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
+    {
+        return _client.ChatCompletionsStreamAsync(new ChatCompletionsRequest()
+        {
+            Messages = messages,
+            Temperature = (float)temperature,
+            TopP = (float)topP,
+            PenaltyScore = (float)presencePenalty,
+        });
+    }
+
 }

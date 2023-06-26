@@ -1,33 +1,26 @@
-﻿using Microsoft.SemanticKernel.AI.ChatCompletion;
-using Microsoft.SemanticKernel.AI.TextCompletion;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ERNIE_Bot.SDK;
+using ERNIE_Bot.SDK.Models;
 
-public class ERNIEBotTurboChatCompletion : IChatCompletion, ITextCompletion
+public class ERNIEBotTurboChatCompletion : ERNIEBotChatCompletion
 {
-    public ChatHistory CreateNewChat(string? instructions = null)
+    public ERNIEBotTurboChatCompletion(ERNIEBotClient client) : base(client)
     {
-        throw new NotImplementedException();
+
     }
 
-    public Task<IReadOnlyList<IChatResult>> GetChatCompletionsAsync(ChatHistory chat, ChatRequestSettings? requestSettings = null, CancellationToken cancellationToken = default)
+    protected override async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
     {
-        throw new NotImplementedException();
+        return await _client.ChatEBInstantAsync(new ChatRequest()
+        {
+            Messages = messages
+        });
     }
 
-    public Task<IReadOnlyList<ITextResult>> GetCompletionsAsync(string text, CompleteRequestSettings requestSettings, CancellationToken cancellationToken = default)
+    protected override IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
     {
-        throw new NotImplementedException();
-    }
-
-    public IAsyncEnumerable<IChatStreamingResult> GetStreamingChatCompletionsAsync(ChatHistory chat, ChatRequestSettings? requestSettings = null, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IAsyncEnumerable<ITextStreamingResult> GetStreamingCompletionsAsync(string text, CompleteRequestSettings requestSettings, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
+        return _client.ChatEBInstantStreamAsync(new ChatRequest()
+        {
+            Messages = messages
+        });
     }
 }

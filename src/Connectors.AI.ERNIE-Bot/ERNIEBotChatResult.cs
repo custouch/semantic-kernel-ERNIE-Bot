@@ -1,4 +1,5 @@
-﻿using Microsoft.SemanticKernel.AI.ChatCompletion;
+﻿using ERNIE_Bot.SDK.Models;
+using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.TextCompletion;
 using Microsoft.SemanticKernel.Orchestration;
 using System;
@@ -7,28 +8,40 @@ using System.Text;
 
 namespace Connectors.AI.ERNIEBot
 {
+    class ERNIEBotChatMessage : ChatMessageBase
+    {
+        public ERNIEBotChatMessage(string content)
+            : base(AuthorRole.Assistant, content)
+        {
+        }
+    }
     internal class ERNIEBotChatResult : IChatStreamingResult, ITextStreamingResult
     {
-        public ModelResult ModelResult => throw new NotImplementedException();
-
-        public Task<ChatMessageBase> GetChatMessageAsync(CancellationToken cancellationToken = default)
+        public ERNIEBotChatResult(ChatResponse response)
         {
-            throw new NotImplementedException();
+            this.ModelResult = new(response);
+        }
+        public ModelResult ModelResult { get; }
+        private ChatResponse _response => ModelResult.GetResult<ChatResponse>();
+
+        public async Task<ChatMessageBase> GetChatMessageAsync(CancellationToken cancellationToken = default)
+        {
+            return await Task.FromResult(new ERNIEBotChatMessage(this._response.Result));
         }
 
         public Task<string> GetCompletionAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(_response.Result);
         }
 
-        public IAsyncEnumerable<string> GetCompletionStreamingAsync(CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<string> GetCompletionStreamingAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            yield return _response.Result;
         }
 
-        public IAsyncEnumerable<ChatMessageBase> GetStreamingChatMessageAsync(CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<ChatMessageBase> GetStreamingChatMessageAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            yield return new ERNIEBotChatMessage(this._response.Result);
         }
     }
 }
