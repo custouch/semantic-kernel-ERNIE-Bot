@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERNIE-Bot.Sample", "samples
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connectors.AI.ERNIE-Bot.Tests", "tests\Connectors.AI.ERNIE-Bot.Tests\Connectors.AI.ERNIE-Bot.Tests.csproj", "{42992CFE-0E45-42DF-A2C7-07BAF0FC0001}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SK-ERNIE-Bot.Sample", "samples\SK-ERNIE-Bot.Sample\SK-ERNIE-Bot.Sample.csproj", "{4575E288-2ABA-49A8-BBBC-F146B2ED7E09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{42992CFE-0E45-42DF-A2C7-07BAF0FC0001}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42992CFE-0E45-42DF-A2C7-07BAF0FC0001}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42992CFE-0E45-42DF-A2C7-07BAF0FC0001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4575E288-2ABA-49A8-BBBC-F146B2ED7E09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4575E288-2ABA-49A8-BBBC-F146B2ED7E09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4575E288-2ABA-49A8-BBBC-F146B2ED7E09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4575E288-2ABA-49A8-BBBC-F146B2ED7E09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{78C62497-E3B9-41A0-BF4F-129FDB50D053} = {4EE43261-6566-4D2D-BCC2-9D89A4BBEE84}
 		{5CEE2488-705C-4AD9-A7F2-F37A886E4C62} = {8545A6B2-D942-4658-9413-278F1B33612D}
 		{42992CFE-0E45-42DF-A2C7-07BAF0FC0001} = {4EE43261-6566-4D2D-BCC2-9D89A4BBEE84}
+		{4575E288-2ABA-49A8-BBBC-F146B2ED7E09} = {8545A6B2-D942-4658-9413-278F1B33612D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9277BACD-5820-497C-B2F1-F71532226D39}

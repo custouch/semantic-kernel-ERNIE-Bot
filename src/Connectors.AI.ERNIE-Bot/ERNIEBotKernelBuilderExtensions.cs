@@ -1,15 +1,9 @@
 ﻿using ERNIE_Bot.SDK;
-using Microsoft;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.SemanticKernel;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 
-namespace Connectors.AI.ERNIEBot
+
+namespace Microsoft.SemanticKernel
 {
     public static class ERNIEBotKernelBuilderExtensions
     {
