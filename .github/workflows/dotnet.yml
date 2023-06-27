@@ -6,7 +6,6 @@ name: .NET-PR
 on:
   workflow_dispatch:
   pull_request:
-    types: ["auto_merge_enabled"]
     branches: [ "main" ]
     paths:
       - '**.cs'
