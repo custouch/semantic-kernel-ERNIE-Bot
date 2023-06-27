@@ -11,14 +11,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpClient();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<ITokenStore, MemoryTokenStore>();
 
 builder.Services.AddScoped(svc =>
 {
     var kernel = Kernel.Builder
-        .WithERNIEBotTurboChatCompletionService(svc, builder.Configuration)
-        .WithERNIEBotChatCompletionService(svc, builder.Configuration)
+        .WithERNIEBotTurboChatCompletionService(svc, builder.Configuration, "ernie_bot_turbo", true)
+        .WithERNIEBotChatCompletionService(svc, builder.Configuration, "ernie_bot")
         .WithERNIEBotEmbeddingGenerationService(svc, builder.Configuration)
         .WithMemoryStorage(new VolatileMemoryStore())
         .Build();

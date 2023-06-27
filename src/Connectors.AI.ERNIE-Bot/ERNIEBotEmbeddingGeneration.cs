@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class ERNIEBotEmbeddingGeneration : IEmbeddingGeneration<string, double>, IAIService
+public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
 {
     private readonly ERNIEBotClient _client;
 
@@ -15,12 +15,14 @@ public class ERNIEBotEmbeddingGeneration : IEmbeddingGeneration<string, double>,
         this._client = client;
     }
 
-    public async Task<IList<Embedding<double>>> GenerateEmbeddingsAsync(IList<string> data, CancellationToken cancellationToken)
+    public async Task<IList<Embedding<float>>> GenerateEmbeddingsAsync(IList<string> data, CancellationToken cancellationToken)
     {
         var embeddings = await _client.EmbeddingsAsync(new ERNIE_Bot.SDK.Models.EmbeddingsRequest()
         {
             Input = data.ToList()
         });
-        return embeddings.Data.Select(d => new Embedding<double>(d.Embedding)).ToList();
+
+        // TODO: ITextEmbeddingGeneration not support Embedding<double> 
+        return embeddings.Data.Select(d => new Embedding<float>(d.Embedding.Select(e=>(float)e))).ToList();
     }
 }

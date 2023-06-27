@@ -108,9 +108,16 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
     {
         return chatHistory.Select(m => new Message()
         {
-            Role = m.Role.Label,
+            Role = AuthorRoleToMessageRole(m.Role),
             Content = m.Content
         }).ToList();
+    }
+
+    private string AuthorRoleToMessageRole(AuthorRole role)
+    {
+        if (role == AuthorRole.User) return MessageRole.User;
+        if (role == AuthorRole.Assistant) return MessageRole.Assistant;
+        return MessageRole.User;
     }
 
     protected virtual async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, double temperature, double topP, double presencePenalty)

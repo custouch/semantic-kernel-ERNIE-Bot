@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Connectors.AI.ERNIE-Bot\Connectors.AI.ERNIE-Bot.csproj" />
   </ItemGroup>
 

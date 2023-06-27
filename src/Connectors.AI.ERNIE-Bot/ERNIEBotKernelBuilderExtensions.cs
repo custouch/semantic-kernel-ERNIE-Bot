@@ -1,7 +1,8 @@
 ﻿using ERNIE_Bot.SDK;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Microsoft.SemanticKernel.AI.ChatCompletion;
+using Microsoft.SemanticKernel.AI.Embeddings;
 
 namespace Microsoft.SemanticKernel
 {
@@ -13,7 +14,7 @@ namespace Microsoft.SemanticKernel
         {
             var client = CreateERNIEBotClient(service, configuration);
             var generation = new ERNIEBotChatCompletion(client);
-            builder.WithAIService(serviceId, generation, setAsDefault);
+            builder.WithAIService<IChatCompletion>(serviceId, generation, setAsDefault);
             return builder;
         }
 
@@ -23,7 +24,7 @@ namespace Microsoft.SemanticKernel
         {
             var client = CreateERNIEBotClient(service, configuration);
             var generation = new ERNIEBotTurboChatCompletion(client);
-            builder.WithAIService(serviceId, generation, setAsDefault);
+            builder.WithAIService<IChatCompletion>(serviceId, generation, setAsDefault);
             return builder;
         }
 
@@ -33,7 +34,7 @@ namespace Microsoft.SemanticKernel
         {
             var client = CreateERNIEBotClient(service, configuration);
             var generation = new ERNIEBotEmbeddingGeneration(client);
-            builder.WithAIService(serviceId, generation, setAsDefault);
+            builder.WithAIService<ITextEmbeddingGeneration>(serviceId, generation, setAsDefault);
             return builder;
         }
 
