@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.Embeddings;
+using Microsoft.SemanticKernel.AI.TextCompletion;
 
 namespace Microsoft.SemanticKernel
 {
@@ -10,21 +11,37 @@ namespace Microsoft.SemanticKernel
     {
         public static KernelBuilder WithERNIEBotChatCompletionService(this KernelBuilder builder,
             IServiceProvider service, IConfiguration configuration,
-            string? serviceId = null, bool setAsDefault = false)
+            string? serviceId = null,
+            bool alsoAsTextCompletion = true,
+            bool setAsDefault = false)
         {
             var client = CreateERNIEBotClient(service, configuration);
             var generation = new ERNIEBotChatCompletion(client);
             builder.WithAIService<IChatCompletion>(serviceId, generation, setAsDefault);
+
+            if (alsoAsTextCompletion)
+            {
+                builder.WithAIService<ITextCompletion>(serviceId, generation, setAsDefault);
+            }
+
             return builder;
         }
 
         public static KernelBuilder WithERNIEBotTurboChatCompletionService(this KernelBuilder builder,
             IServiceProvider service, IConfiguration configuration,
-            string? serviceId = null, bool setAsDefault = false)
+            string? serviceId = null,
+            bool alsoAsTextCompletion = true,
+            bool setAsDefault = false)
         {
             var client = CreateERNIEBotClient(service, configuration);
             var generation = new ERNIEBotTurboChatCompletion(client);
             builder.WithAIService<IChatCompletion>(serviceId, generation, setAsDefault);
+
+            if (alsoAsTextCompletion)
+            {
+                builder.WithAIService<ITextCompletion>(serviceId, generation, setAsDefault);
+            }
+
             return builder;
         }
 
