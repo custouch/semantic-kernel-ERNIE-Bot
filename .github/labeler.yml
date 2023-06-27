@@ -1,0 +1,16 @@
+sdk:
+  - src/ERNIE-BOT.SDK/**
+  - tests/ERNIE-Bot.SDK.Tests/**
+
+sk:
+  - src/Connectors.AI.ERNIE-Bot/**
+  - tests/Connectors.AI.ERNIE-Bot.Tests/**
+
+document:
+  - docs/**
+
+test:
+  - tests/**
+
+sample:
+  - samples/**
