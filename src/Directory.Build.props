@@ -1,0 +1,39 @@
+<Project>
+	<!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<PackageId>$(AssemblyName)</PackageId>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>10</LangVersion>
+		<Authors>Custouch</Authors>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		
+		<PackageProjectUrl>https://github.com/custouch/semantic-kernel-ERNIE-Bot</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/custouch/semantic-kernel-ERNIE-Bot</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<Version>0.2.0-preview</Version>
+		<PackageOutputPath>..\..\nupkgs</PackageOutputPath>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<None Include="readme.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<PropertyGroup Condition="$(Configuration) == 'Release'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+	
+</Project>

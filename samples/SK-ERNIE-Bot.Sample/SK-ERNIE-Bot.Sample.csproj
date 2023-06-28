@@ -1,19 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>SK_ERNIE_Bot.Sample</RootNamespace>
-	<UserSecretsId>84a2cf80-3689-4f7e-b25f-661eea20cf5d</UserSecretsId>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>SK_ERNIE_Bot.Sample</RootNamespace>
+		<UserSecretsId>84a2cf80-3689-4f7e-b25f-661eea20cf5d</UserSecretsId>
+		<LangVersion>11</LangVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Connectors.AI.ERNIE-Bot\Connectors.AI.ERNIE-Bot.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\ERNIE-Bot.SemanticKernel\ERNIE-Bot.SemanticKernel.csproj" />
+	</ItemGroup>
 
 </Project>

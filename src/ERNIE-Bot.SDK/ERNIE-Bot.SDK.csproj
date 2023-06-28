@@ -1,40 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
 		<RootNamespace>ERNIE_Bot.SDK</RootNamespace>
-		<Nullable>enable</Nullable>
-		<LangVersion>10</LangVersion>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>ERNIE-Bot.SDK</Title>
-		<PackageProjectUrl>https://github.com/custouch/semantic-kernel-ERNIE-Bot</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/custouch/semantic-kernel-ERNIE-Bot</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
 		<PackageTags>LLM,ERNIE-Bot,文心千帆</PackageTags>
-		<Authors>Custouch</Authors>
-		<Version>$(VersionPrefix)0.1.0-preview</Version>
 		<Description>ERNIE-Bot(百度文心千帆) C# SDK</Description>
-		<PackageReadmeFile>readme.md</PackageReadmeFile>
-		<PackageOutputPath>nupkgs</PackageOutputPath>
 	</PropertyGroup>
-	<ItemGroup>
-	  <None Include="..\..\LICENSE">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	</ItemGroup>
+
 
 	<ItemGroup>
-		<PackageReference Include="IdentityModel" Version="6.1.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.6.11" />
+		<PackageReference Include="IdentityModel"/>
+		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions"  />
+		<PackageReference Include="Microsoft.VisualStudio.Validation"/>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Update="readme.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	</ItemGroup>
+
 </Project>

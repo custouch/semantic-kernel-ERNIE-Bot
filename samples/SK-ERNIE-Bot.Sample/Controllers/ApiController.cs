@@ -92,5 +92,20 @@ namespace SK_ERNIE_Bot.Sample.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("skill")]
+        public async Task<IActionResult> SkillAsync([FromBody] UserInput input, CancellationToken cancellationToken)
+        {
+            const string prompt = """
+                翻译以下内容为英文：
+
+                {{$input}}
+
+                [ENGLISH]
+                """;
+            var func = _kernel.CreateSemanticFunction(prompt);
+            var result = await _kernel.RunAsync(input.Text, func);
+            return Ok(result.Result);
+        }
     }
 }
