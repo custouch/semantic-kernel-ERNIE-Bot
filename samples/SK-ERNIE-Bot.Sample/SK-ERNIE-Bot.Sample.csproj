@@ -10,11 +10,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Connectors.AI.ERNIE-Bot\Connectors.AI.ERNIE-Bot.csproj" />
+	  <ProjectReference Include="..\..\src\ERNIE-Bot.SemanticKernel\ERNIE-Bot.SemanticKernel.csproj" />
 	</ItemGroup>
 
 </Project>

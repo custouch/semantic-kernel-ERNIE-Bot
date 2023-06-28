@@ -23,6 +23,6 @@ public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
         });
 
         // TODO: ITextEmbeddingGeneration not support Embedding<double> 
-        return embeddings.Data.Select(d => new Embedding<float>(d.Embedding.Select(e=>(float)e))).ToList();
+        return embeddings.Data.Select(d => new Embedding<float>(d.Embedding.Select(e => (float)e))).ToList();
     }
 }

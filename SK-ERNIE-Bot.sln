@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BB18CA42-C76C-44A3-9758-E77FCFE94353}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Connectors.AI.ERNIE-Bot", "src\Connectors.AI.ERNIE-Bot\Connectors.AI.ERNIE-Bot.csproj", "{A2822608-D4A3-4AE6-856C-484DC27CF18F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERNIE-Bot.SemanticKernel", "src\ERNIE-Bot.SemanticKernel\ERNIE-Bot.SemanticKernel.csproj", "{A2822608-D4A3-4AE6-856C-484DC27CF18F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERNIE-Bot.SDK", "src\ERNIE-Bot.SDK\ERNIE-Bot.SDK.csproj", "{876A5DBE-75C2-4BE0-A5D3-45451AB180D8}"
 EndProject
@@ -17,9 +20,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{8545
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERNIE-Bot.Sample", "samples\ERNIE-Bot.Sample\ERNIE-Bot.Sample.csproj", "{5CEE2488-705C-4AD9-A7F2-F37A886E4C62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connectors.AI.ERNIE-Bot.Tests", "tests\Connectors.AI.ERNIE-Bot.Tests\Connectors.AI.ERNIE-Bot.Tests.csproj", "{42992CFE-0E45-42DF-A2C7-07BAF0FC0001}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERNIE-Bot.SemanticKernel.Tests", "tests\ERNIE-Bot.SemanticKernel.Tests\ERNIE-Bot.SemanticKernel.Tests.csproj", "{42992CFE-0E45-42DF-A2C7-07BAF0FC0001}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SK-ERNIE-Bot.Sample", "samples\SK-ERNIE-Bot.Sample\SK-ERNIE-Bot.Sample.csproj", "{4575E288-2ABA-49A8-BBBC-F146B2ED7E09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SK-ERNIE-Bot.Sample", "samples\SK-ERNIE-Bot.Sample\SK-ERNIE-Bot.Sample.csproj", "{4575E288-2ABA-49A8-BBBC-F146B2ED7E09}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1750E273-D16C-4C82-B473-48A8D7EFFEAA}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Packages.props = Directory.Packages.props
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

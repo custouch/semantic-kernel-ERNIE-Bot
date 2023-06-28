@@ -1,5 +1,7 @@
 # semantic-kernel-ERNIE-Bot
 
-![Nuget](https://img.shields.io/nuget/v/ERNIE-Bot.SDK?label=sdk)
+![NuGet](https://img.shields.io/nuget/v/ERNIE-Bot.SDK?label=sdk)
 
-Semantic Kernel 集成百度文心千帆
+
+Semantic Kernel 集成文心千帆
+
