@@ -1,7 +1,14 @@
 ﻿# ERNIE-Bot SDK
 
+[![NuGet](https://img.shields.io/nuget/v/ERNIE-Bot.SDK?label=sdk)](https://www.nuget.org/packages/ERNIE-Bot.SDK/)
+
 ERNIE-Bot(文心千帆) .NET SDK
 
+## 安装
+
+```
+dotnet add package ERNIE-Bot.SDK --version 0.2.0-preview
+```
 
 ## 使用 
 
