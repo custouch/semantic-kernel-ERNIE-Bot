@@ -12,6 +12,16 @@ namespace ERNIE_Bot.SDK.Tests
 {
     public class ERNIEBotClientTests
     {
+        [Fact]
+        public void ClientCreateTest()
+        {
+            var clientId = "test";
+            var clientSecret = "test";
+
+            var client = new ERNIEBotClient(clientId, clientSecret);
+
+            Assert.NotNull(client);
+        }
 
         [Fact()]
         public async Task ChatCompletionsAsyncTest()
