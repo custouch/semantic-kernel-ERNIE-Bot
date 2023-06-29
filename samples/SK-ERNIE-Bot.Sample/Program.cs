@@ -11,10 +11,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddHttpClient();
-builder.Services.AddMemoryCache();
-builder.Services.AddScoped<ITokenStore, MemoryTokenStore>();
-
 builder.Services.AddScoped(svc =>
 {
     var kernel = Kernel.Builder

@@ -14,12 +14,6 @@ dotnet add package ERNIE-Bot.SemanticKernel --version 0.2.0-preview
 ## 使用
 
 ```
-// 注册 HttpClient 
-builder.Services.AddHttpClient();
-
-// 注册 MemoryCache 并注册 ITokenStore, 用户亦可可自行实现 ITokenStore
-builder.Services.AddMemoryCache();
-builder.Services.AddScoped<ITokenStore, MemoryTokenStore>();
 
 builder.Services.AddScoped(svc =>
 {
