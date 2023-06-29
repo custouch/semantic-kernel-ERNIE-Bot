@@ -1,28 +1,26 @@
 <Project>
-	<PropertyGroup>
-		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-	</PropertyGroup>
-	<ItemGroup>
-		<!-- Microsoft -->
-		<PackageVersion Include="Microsoft.Extensions.Http" Version="7.0.0" />
-		<PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="0.16.230615.1-preview" />
-		<PackageVersion Include="Microsoft.SemanticKernel.Core" Version="0.16.230615.1-preview" />
-		<PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
-		<PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
-
-		<!-- Validation -->
-		<PackageVersion Include="Microsoft.VisualStudio.Validation" Version="17.6.11" />
-		
-		<!-- Tests -->
-		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Microsoft -->
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="0.16.230615.1-preview" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Core" Version="0.16.230615.1-preview" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+    <!-- Validation -->
+    <PackageVersion Include="Microsoft.VisualStudio.Validation" Version="17.6.11" />
+    <!-- Tests -->
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
 		<PackageVersion Include="NSubstitute" Version="5.0.0" />
 		<PackageVersion Include="xunit" Version="2.4.2" />
 		<PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5"/>
 		<PackageVersion Include="coverlet.collector" Version="6.0.0"/>
 		
-		<!-- Misc -->
-		<PackageVersion Include="IdentityModel" Version="6.1.0" />
-		<PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-		
-	</ItemGroup>
+    <!-- Misc -->
+    <PackageVersion Include="IdentityModel" Version="6.1.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
 </Project>

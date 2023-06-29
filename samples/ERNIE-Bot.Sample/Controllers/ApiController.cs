@@ -111,5 +111,28 @@ namespace ERNIE_Bot.Sample.Controllers
 
             return Ok(result.Data.FirstOrDefault()?.Embedding);
         }
+
+        [HttpPost("History")]
+        public async Task<IActionResult> HistoryAsync([FromBody] UserHistoryInput input)
+        {
+
+            if (!input.Messages.Any())
+            {
+                return NoContent();
+            }
+
+            var messages = input.Messages.Select(_ => new Message()
+            {
+                Role = _.Role,
+                Content = _.Text
+            });
+
+            var result = await _client.ChatEBInstantAsync(new ChatCompletionsRequest()
+            {
+                Messages = messages.ToList()
+            });
+
+            return Ok(result.Result);
+        }
     }
 }

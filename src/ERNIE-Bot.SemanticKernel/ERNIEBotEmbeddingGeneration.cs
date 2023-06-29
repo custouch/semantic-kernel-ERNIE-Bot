@@ -1,4 +1,6 @@
 ﻿using ERNIE_Bot.SDK;
+using ERNIE_Bot.SDK.Models;
+using Microsoft.SemanticKernel.AI;
 using Microsoft.SemanticKernel.AI.Embeddings;
 using Microsoft.SemanticKernel.Services;
 using System;
@@ -17,12 +19,19 @@ public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
 
     public async Task<IList<Embedding<float>>> GenerateEmbeddingsAsync(IList<string> data, CancellationToken cancellationToken)
     {
-        var embeddings = await _client.EmbeddingsAsync(new ERNIE_Bot.SDK.Models.EmbeddingsRequest()
+        try
         {
-            Input = data.ToList()
-        });
+            var embeddings = await _client.EmbeddingsAsync(new EmbeddingsRequest()
+            {
+                Input = data.ToList()
+            });
 
-        // TODO: ITextEmbeddingGeneration not support Embedding<double> 
-        return embeddings.Data.Select(d => new Embedding<float>(d.Embedding.Select(e => (float)e))).ToList();
+            // TODO: ITextEmbeddingGeneration not support Embedding<double> 
+            return embeddings.Data.Select(d => new Embedding<float>(d.Embedding.Select(e => (float)e))).ToList();
+        }
+        catch (ERNIEBotException ex)
+        {
+            throw new AIException(AIException.ErrorCodes.ServiceError, ex.Error.Message, ex);
+        }
     }
 }

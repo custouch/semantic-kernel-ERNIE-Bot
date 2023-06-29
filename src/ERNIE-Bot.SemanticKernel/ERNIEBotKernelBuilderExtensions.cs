@@ -1,6 +1,7 @@
 ﻿using ERNIE_Bot.SDK;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.Embeddings;
 using Microsoft.SemanticKernel.AI.TextCompletion;
@@ -60,6 +61,7 @@ namespace Microsoft.SemanticKernel
             var factory = service.GetRequiredService<IHttpClientFactory>();
             var client = factory.CreateClient();
             var tokenStore = service.GetRequiredService<ITokenStore>();
+            var logger = service.GetRequiredService<ILogger<ERNIEBotClient>>();
 
             var clientId = configuration["ClientId"]!;
             var secret = configuration["ClientSecret"]!;
@@ -67,7 +69,7 @@ namespace Microsoft.SemanticKernel
             Requires.NotNullOrWhiteSpace(clientId);
             Requires.NotNullOrWhiteSpace(secret);
 
-            return new ERNIEBotClient(clientId, secret, client, tokenStore);
+            return new ERNIEBotClient(clientId, secret, client, tokenStore, logger);
         }
     }
 }

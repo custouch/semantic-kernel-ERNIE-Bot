@@ -1,5 +1,6 @@
 ﻿using ERNIE_Bot.SDK;
 using ERNIE_Bot.SDK.Models;
+using Microsoft.SemanticKernel.AI;
 
 public class ERNIEBotTurboChatCompletion : ERNIEBotChatCompletion
 {
@@ -10,17 +11,31 @@ public class ERNIEBotTurboChatCompletion : ERNIEBotChatCompletion
 
     protected override async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
     {
-        return await _client.ChatEBInstantAsync(new ChatRequest()
+        try
         {
-            Messages = messages
-        });
+            return await _client.ChatEBInstantAsync(new ChatRequest()
+            {
+                Messages = messages
+            });
+        }
+        catch (ERNIEBotException ex)
+        {
+            throw new AIException(AIException.ErrorCodes.ServiceError, ex.Error.Message, ex);
+        }
     }
 
     protected override IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
     {
-        return _client.ChatEBInstantStreamAsync(new ChatRequest()
+        try
         {
-            Messages = messages
-        });
+            return _client.ChatEBInstantStreamAsync(new ChatRequest()
+            {
+                Messages = messages
+            });
+        }
+        catch (ERNIEBotException ex)
+        {
+            throw new AIException(AIException.ErrorCodes.ServiceError, ex.Error.Message, ex);
+        }
     }
 }

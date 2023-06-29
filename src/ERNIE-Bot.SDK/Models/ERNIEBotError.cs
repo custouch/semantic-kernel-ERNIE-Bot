@@ -17,18 +17,17 @@ namespace ERNIE_Bot.SDK.Models
     public class ERNIEBotException : Exception
     {
         public ERNIEBotError Error { get; }
-        public ERNIEBotException(ERNIEBotError? error)
+        public ERNIEBotException(ERNIEBotError? error) : base(error?.Message)
         {
             Error = error ?? new ERNIEBotError();
         }
         public ERNIEBotException(int code, string message)
-        {
-            this.Error = new ERNIEBotError()
+            : this(new ERNIEBotError()
             {
                 Code = code,
                 Message = message
-            };
-        }
+            })
+        { }
     }
 
 }

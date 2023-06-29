@@ -1,6 +1,7 @@
 ﻿using Connectors.AI.ERNIEBot;
 using ERNIE_Bot.SDK;
 using ERNIE_Bot.SDK.Models;
+using Microsoft.SemanticKernel.AI;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.TextCompletion;
 using System;
@@ -122,24 +123,38 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 
     protected virtual async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
     {
-        return await _client.ChatCompletionsAsync(new ChatCompletionsRequest()
+        try
         {
-            Messages = messages,
-            Temperature = (float)temperature,
-            TopP = (float)topP,
-            PenaltyScore = (float)presencePenalty,
-        });
+            return await _client.ChatCompletionsAsync(new ChatCompletionsRequest()
+            {
+                Messages = messages,
+                Temperature = (float)temperature,
+                TopP = (float)topP,
+                PenaltyScore = (float)presencePenalty,
+            });
+        }
+        catch (ERNIEBotException ex)
+        {
+            throw new AIException(AIException.ErrorCodes.ServiceError, ex.Error.Message, ex);
+        }
     }
 
     protected virtual IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
     {
-        return _client.ChatCompletionsStreamAsync(new ChatCompletionsRequest()
+        try
         {
-            Messages = messages,
-            Temperature = (float)temperature,
-            TopP = (float)topP,
-            PenaltyScore = (float)presencePenalty,
-        });
+            return _client.ChatCompletionsStreamAsync(new ChatCompletionsRequest()
+            {
+                Messages = messages,
+                Temperature = (float)temperature,
+                TopP = (float)topP,
+                PenaltyScore = (float)presencePenalty,
+            });
+        }
+        catch (ERNIEBotException ex)
+        {
+            throw new AIException(AIException.ErrorCodes.ServiceError, ex.Error.Message, ex);
+        }
     }
 
 }
