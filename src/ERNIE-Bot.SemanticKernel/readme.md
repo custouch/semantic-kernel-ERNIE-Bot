@@ -8,7 +8,7 @@ ERNIE-Bot(文心千帆) Semantic Kernel 集成
 ## 安装
 
 ```
-dotnet add package ERNIE-Bot.SemanticKernel --version 0.2.0-preview
+dotnet add package ERNIE-Bot.SemanticKernel --prerelease
 ```
 
 ## 使用

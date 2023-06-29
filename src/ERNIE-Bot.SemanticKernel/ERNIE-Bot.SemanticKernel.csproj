@@ -3,6 +3,8 @@
 	<PropertyGroup>
 		<RootNamespace>ERNIE_Bot.SemanticKernel</RootNamespace>
 		<Title>ERNIE-Bot.SemanticKernel</Title>
+		<PackageTags>LLM,ERNIE-Bot,Semantic Kernel,AI</PackageTags>
+		<Description>ERNIE-Bot(文心千帆) 集成 Semantic Kernel</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
