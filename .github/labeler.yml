@@ -3,8 +3,8 @@ sdk:
   - tests/ERNIE-Bot.SDK.Tests/**
 
 sk:
-  - src/ERNIE-Bot.SementicKernel/**
-  - tests/ERNIE-Bot.SementicKernel.Tests/**
+  - src/ERNIE-Bot.SemanticKernel/**
+  - tests/ERNIE-Bot.SemanticKernel.Tests/**
 
 document:
   - docs/**
