@@ -18,11 +18,12 @@ builder.Services.AddScoped(svc =>
     var factory = svc.GetRequiredService<IHttpClientFactory>();
     var client = factory.CreateClient();
     var tokenStore = svc.GetRequiredService<ITokenStore>();
+    var logger = svc.GetRequiredService<ILogger<ERNIEBotClient>>();
 
     var clientId = builder.Configuration["ClientId"];
     var secret = builder.Configuration["ClientSecret"];
 
-    return new ERNIEBotClient(clientId, secret, client, tokenStore);
+    return new ERNIEBotClient(clientId, secret, client, tokenStore, logger);
 });
 
 var app = builder.Build();

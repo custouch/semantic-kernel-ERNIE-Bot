@@ -3,6 +3,8 @@ using IdentityModel;
 using IdentityModel.Client;
 using Microsoft;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,14 +24,17 @@ namespace ERNIE_Bot.SDK
         private readonly string _clientSecret;
         private readonly HttpClient _client;
         private readonly ITokenStore _tokenStore;
+        private readonly ILogger _logger;
 
-        public ERNIEBotClient(string clientId, string clientSecret, HttpClient client, ITokenStore tokenStore)
+        public ERNIEBotClient(string clientId, string clientSecret, HttpClient client, ITokenStore tokenStore, ILogger<ERNIEBotClient>? logger = null)
         {
             Requires.NotNullOrWhiteSpace(clientId, nameof(clientId));
             Requires.NotNullOrWhiteSpace(clientSecret, nameof(clientSecret));
 
             Requires.NotNull(client, nameof(HttpClient));
             Requires.NotNull(tokenStore, nameof(ITokenStore));
+
+            this._logger = logger ?? NullLoggerFactory.Instance.CreateLogger(nameof(ERNIEBotClient));
 
             this._clientId = clientId;
             this._clientSecret = clientSecret;
@@ -49,6 +54,8 @@ namespace ERNIE_Bot.SDK
                 request.Stream = false;
             }
 
+            OrganizeChatMessages(request.Messages);
+
             var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.ERNIEBotEndpoint, request);
 
             var response = await _client.SendAsync(webRequest, cancellationToken);
@@ -63,6 +70,9 @@ namespace ERNIE_Bot.SDK
         public async IAsyncEnumerable<ChatResponse> ChatCompletionsStreamAsync(ChatCompletionsRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             request.Stream = true;
+
+            OrganizeChatMessages(request.Messages);
+
             var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.ERNIEBotEndpoint, request, cancellationToken);
 
             var response = await _client.SendAsync(webRequest, cancellationToken);
@@ -84,6 +94,8 @@ namespace ERNIE_Bot.SDK
                 request.Stream = false;
             }
 
+            OrganizeChatMessages(request.Messages);
+
             var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.ERNIEBotTurboEndpoint, request);
 
             var response = await _client.SendAsync(webRequest, cancellationToken);
@@ -98,6 +110,8 @@ namespace ERNIE_Bot.SDK
         public async IAsyncEnumerable<ChatResponse> ChatEBInstantStreamAsync(ChatRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             request.Stream = true;
+
+            OrganizeChatMessages(request.Messages);
 
             var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.ERNIEBotTurboEndpoint, request, cancellationToken);
 
@@ -260,6 +274,28 @@ namespace ERNIE_Bot.SDK
             else
             {
                 return text;
+            }
+        }
+
+        private void OrganizeChatMessages(List<Message> messages)
+        {
+            if (!messages.Any())
+            {
+                throw new ERNIEBotException(-1, "no messages");
+            }
+
+            if (messages.Count % 2 == 0)
+            {
+                if (messages.First().Role != MessageRole.User)
+                {
+                    messages.RemoveAt(0);
+                    _logger.LogWarning("Messages count must be odd, Remove the first message to ensure the API call is working properly.");
+                }
+                else if (messages.Last().Role != MessageRole.User)
+                {
+                    messages.RemoveAt(messages.Count - 1);
+                    _logger.LogWarning("Messages count must be odd, Remove the last message to ensure the API call is working properly.");
+                }
             }
         }
         #endregion
