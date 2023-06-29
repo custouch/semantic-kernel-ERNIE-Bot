@@ -3,7 +3,7 @@
 		<RootNamespace>ERNIE_Bot.SDK</RootNamespace>
 		<Title>ERNIE-Bot.SDK</Title>
 		<PackageTags>LLM,ERNIE-Bot,文心千帆</PackageTags>
-		<Description>ERNIE-Bot(百度文心千帆) C# SDK</Description>
+		<Description>ERNIE-Bot(文心千帆) .NET SDK</Description>
 	</PropertyGroup>
 
 

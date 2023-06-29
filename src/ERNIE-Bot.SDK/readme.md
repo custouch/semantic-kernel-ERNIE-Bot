@@ -7,7 +7,7 @@ ERNIE-Bot(文心千帆) .NET SDK
 ## 安装
 
 ```
-dotnet add package ERNIE-Bot.SDK --version 0.2.0-preview
+dotnet add package ERNIE-Bot.SDK --prerelease
 ```
 
 ## 使用 
