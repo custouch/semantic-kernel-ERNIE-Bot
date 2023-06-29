@@ -291,11 +291,6 @@ namespace ERNIE_Bot.SDK
                     messages.RemoveAt(0);
                     _logger.LogWarning("Messages count must be odd, Remove the first message to ensure the API call is working properly.");
                 }
-                else if (messages.Last().Role != MessageRole.User)
-                {
-                    messages.RemoveAt(messages.Count - 1);
-                    _logger.LogWarning("Messages count must be odd, Remove the last message to ensure the API call is working properly.");
-                }
             }
         }
         #endregion
