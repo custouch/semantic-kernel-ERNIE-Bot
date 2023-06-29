@@ -8,6 +8,7 @@ sk:
 
 document:
   - docs/**
+  - '**/*.md'
 
 test:
   - tests/**
