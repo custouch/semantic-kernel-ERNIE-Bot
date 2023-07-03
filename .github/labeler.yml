@@ -3,11 +3,12 @@ sdk:
   - tests/ERNIE-Bot.SDK.Tests/**
 
 sk:
-  - src/Connectors.AI.ERNIE-Bot/**
-  - tests/Connectors.AI.ERNIE-Bot.Tests/**
+  - src/ERNIE-Bot.SemanticKernel/**
+  - tests/ERNIE-Bot.SemanticKernel.Tests/**
 
 document:
   - docs/**
+  - '**/*.md'
 
 test:
   - tests/**

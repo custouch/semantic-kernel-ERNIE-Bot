@@ -58,16 +58,16 @@ namespace Microsoft.SemanticKernel
 
         private static ERNIEBotClient CreateERNIEBotClient(IServiceProvider service, IConfiguration configuration)
         {
-            var factory = service.GetRequiredService<IHttpClientFactory>();
-            var client = factory.CreateClient();
-            var tokenStore = service.GetRequiredService<ITokenStore>();
-            var logger = service.GetRequiredService<ILogger<ERNIEBotClient>>();
+            var client = service.GetService<IHttpClientFactory>()?.CreateClient();
+
+            var tokenStore = service.GetService<ITokenStore>();
+            var logger = service.GetService<ILogger<ERNIEBotClient>>();
 
             var clientId = configuration["ClientId"]!;
             var secret = configuration["ClientSecret"]!;
 
-            Requires.NotNullOrWhiteSpace(clientId);
-            Requires.NotNullOrWhiteSpace(secret);
+            Requires.NotNullOrWhiteSpace(clientId, "ClientId");
+            Requires.NotNullOrWhiteSpace(secret, "ClientSecret");
 
             return new ERNIEBotClient(clientId, secret, client, tokenStore, logger);
         }

@@ -14,7 +14,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ERNIE_Bot.SDK
 {
@@ -26,22 +25,18 @@ namespace ERNIE_Bot.SDK
         private readonly ITokenStore _tokenStore;
         private readonly ILogger _logger;
 
-        public ERNIEBotClient(string clientId, string clientSecret, HttpClient client, ITokenStore tokenStore, ILogger<ERNIEBotClient>? logger = null)
+        public ERNIEBotClient(string clientId, string clientSecret, HttpClient? client = null, ITokenStore? tokenStore = null, ILogger<ERNIEBotClient>? logger = null)
         {
             Requires.NotNullOrWhiteSpace(clientId, nameof(clientId));
             Requires.NotNullOrWhiteSpace(clientSecret, nameof(clientSecret));
-
-            Requires.NotNull(client, nameof(HttpClient));
-            Requires.NotNull(tokenStore, nameof(ITokenStore));
 
             this._logger = logger ?? NullLoggerFactory.Instance.CreateLogger(nameof(ERNIEBotClient));
 
             this._clientId = clientId;
             this._clientSecret = clientSecret;
-            this._client = client;
-            this._tokenStore = tokenStore;
+            this._client = client ?? HttpClientProvider.CreateClient();
+            this._tokenStore = tokenStore ?? new DefaultTokenStore();
         }
-
 
         /// <summary>
         /// Api for ERNIE-Bot
