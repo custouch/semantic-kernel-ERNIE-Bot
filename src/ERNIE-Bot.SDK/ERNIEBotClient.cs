@@ -119,6 +119,49 @@ namespace ERNIE_Bot.SDK
         }
 
         /// <summary>
+        /// Api for BLOOMZ-7B
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<ChatResponse> ChatBLOOMZAsync(ChatRequest request, CancellationToken cancellationToken = default)
+        {
+            if (request.Stream.HasValue && request.Stream.Value)
+            {
+                request.Stream = false;
+            }
+
+            OrganizeChatMessages(request.Messages);
+
+            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.BLOOMZ7BEndpoint, request);
+
+            var response = await _client.SendAsync(webRequest, cancellationToken);
+
+            return await ParseResponseAsync<ChatResponse>(response);
+        }
+
+        /// <summary>
+        /// Api for BLOOMZ-7B Stream
+        /// </summary>
+        /// <returns></returns>
+        public async IAsyncEnumerable<ChatResponse> ChatBLOOMZStreamAsync(ChatRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            request.Stream = true;
+
+            OrganizeChatMessages(request.Messages);
+
+            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.BLOOMZ7BEndpoint, request, cancellationToken);
+
+            var response = await _client.SendAsync(webRequest, cancellationToken);
+
+            await foreach (var item in ParseResponseStreamAsync(response, cancellationToken))
+            {
+                yield return item;
+            }
+        }
+
+
+        /// <summary>
         /// Embedding V1 Api for ERNIE-Bot
         /// </summary>
         /// <returns></returns>

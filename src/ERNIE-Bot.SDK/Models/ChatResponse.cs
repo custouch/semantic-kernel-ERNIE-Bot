@@ -15,6 +15,8 @@ namespace ERNIE_Bot.SDK.Models
         public int Created { get; set; }
         [JsonPropertyName("sentence_id")]
         public int? SentenceId { get; set; }
+        [JsonPropertyName("is_truncated")]
+        public bool? IsTruncated { get; set; }
         [JsonPropertyName("is_end")]
         public bool? IsEnd { get; set; }
         [JsonPropertyName("result")]
