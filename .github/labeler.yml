@@ -1,5 +1,5 @@
 sdk:
-  - src/ERNIE-BOT.SDK/**
+  - src/ERNIE-Bot.SDK/**
   - tests/ERNIE-Bot.SDK.Tests/**
 
 sk:
