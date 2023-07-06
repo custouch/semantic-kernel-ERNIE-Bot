@@ -8,11 +8,11 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="IdentityModel" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
 		<PackageReference Include="Microsoft.VisualStudio.Validation" />
+		<PackageReference Include="System.Text.Json" />
 	</ItemGroup>
 
 
