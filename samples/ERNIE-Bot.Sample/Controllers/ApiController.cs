@@ -64,6 +64,29 @@ namespace ERNIE_Bot.Sample.Controllers
             return Ok(result.Result);
         }
 
+        [HttpPost("ChatBLOOMZ")]
+        public async Task<IActionResult> ChatBLOOMZAsync([FromBody] UserInput input)
+        {
+            if (string.IsNullOrWhiteSpace(input.Text))
+            {
+                return NoContent();
+            }
+
+            var result = await _client.ChatBLOOMZAsync(new ChatCompletionsRequest()
+            {
+                Messages = new List<Message>
+                 {
+                      new Message()
+                      {
+                           Content = input.Text,
+                           Role = MessageRole.User
+                      }
+                 }
+            });
+
+            return Ok(result.Result);
+        }
+
         [HttpPost("ChatStream")]
         public async Task ChatStreamAsync([FromBody] UserInput input)
         {
