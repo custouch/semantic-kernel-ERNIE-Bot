@@ -1,6 +1,4 @@
 ﻿using ERNIE_Bot.SDK.Models;
-using IdentityModel;
-using IdentityModel.Client;
 using Microsoft;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -189,29 +187,20 @@ namespace ERNIE_Bot.SDK
                 return token;
             }
 
-            var urlBuilder = new RequestUrl(Defaults.AccessTokenEndpoint);
-            var url = urlBuilder.Create(new Parameters
-            {
-                {"client_id",_clientId },
-                {"client_secret",_clientSecret },
-                {"grant_type",OidcConstants.GrantTypes.ClientCredentials }
-            });
+            var url = $"{Defaults.AccessTokenEndpoint}?client_id={_clientId}&client_secret={_clientSecret}&grant_type=client_credentials";
 
-            var requestToken = await _client.RequestTokenAsync(
-                new TokenRequest()
-                {
-                    Address = url,
-                    GrantType = OidcConstants.GrantTypes.ClientCredentials,
-                }) ?? throw new HttpRequestException($"Failed to get access token");
+            var webRequest = new HttpRequestMessage(HttpMethod.Post, url);
+            var response = await _client.SendAsync(webRequest, cancellationToken);
+            var accessToken = await ParseResponseAsync<TokenResponse>(response);
 
-            if (requestToken.IsError || requestToken.AccessToken == null)
+            if (string.IsNullOrWhiteSpace(accessToken.AccessToken))
             {
-                throw new HttpRequestException($"Failed to get access token: {requestToken.Error}");
+                throw new HttpRequestException($"Failed to get access token");
             }
 
-            await _tokenStore.SaveTokenAsync(requestToken.AccessToken, TimeSpan.FromSeconds(requestToken.ExpiresIn), cancellationToken);
+            await _tokenStore.SaveTokenAsync(accessToken.AccessToken, TimeSpan.FromSeconds(accessToken.Expiration), cancellationToken);
 
-            return requestToken.AccessToken;
+            return accessToken.AccessToken;
         }
 
         #region ===== private methods =====
