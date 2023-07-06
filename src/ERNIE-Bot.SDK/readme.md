@@ -36,7 +36,7 @@ var client = new ERNIEBotClient(clientId, secret);
 - [x] ERNIE-Bot-turbo
 - [x] ERNIE-Bot-turbo (Stream)
 - [x] Embedding-V1
-- [ ] BLOOMZ-7B
+- [x] BLOOMZ-7B
 - [ ] Prompt模版
 
 
