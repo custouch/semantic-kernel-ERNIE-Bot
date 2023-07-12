@@ -6,7 +6,7 @@ sk:
   - src/ERNIE-Bot.SemanticKernel/**
   - tests/ERNIE-Bot.SemanticKernel.Tests/**
 
-document:
+documentation:
   - docs/**
   - '**/*.md'
 
