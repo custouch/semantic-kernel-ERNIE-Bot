@@ -9,14 +9,14 @@ public class ERNIEBotTurboChatCompletion : ERNIEBotChatCompletion
 
     }
 
-    protected override async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
+    protected override async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, double temperature, double topP, double presencePenalty, CancellationToken cancellationToken)
     {
         try
         {
             return await _client.ChatEBInstantAsync(new ChatRequest()
             {
                 Messages = messages
-            });
+            }, cancellationToken);
         }
         catch (ERNIEBotException ex)
         {
@@ -24,14 +24,14 @@ public class ERNIEBotTurboChatCompletion : ERNIEBotChatCompletion
         }
     }
 
-    protected override IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
+    protected override IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, double temperature, double topP, double presencePenalty, CancellationToken cancellationToken)
     {
         try
         {
             return _client.ChatEBInstantStreamAsync(new ChatRequest()
             {
                 Messages = messages
-            });
+            }, cancellationToken);
         }
         catch (ERNIEBotException ex)
         {

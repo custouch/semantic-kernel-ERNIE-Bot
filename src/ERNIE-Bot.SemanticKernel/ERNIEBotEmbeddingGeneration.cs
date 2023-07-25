@@ -24,7 +24,7 @@ public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
             var embeddings = await _client.EmbeddingsAsync(new EmbeddingsRequest()
             {
                 Input = data.ToList()
-            });
+            }, cancellationToken);
 
             // TODO: ITextEmbeddingGeneration not support Embedding<double> 
             return embeddings.Data.Select(d => new Embedding<float>(d.Embedding.Select(e => (float)e))).ToList();

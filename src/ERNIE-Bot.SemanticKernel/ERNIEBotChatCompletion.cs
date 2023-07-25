@@ -38,7 +38,8 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         ChatResponse result = await InternalCompletionsAsync(messages,
                                                              requestSettings.Temperature,
                                                              requestSettings.TopP,
-                                                             requestSettings.PresencePenalty
+                                                             requestSettings.PresencePenalty,
+                                                             cancellationToken
                                                              );
         return new List<ERNIEBotChatResult>() { new ERNIEBotChatResult(result) };
     }
@@ -53,7 +54,8 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         var result = await InternalCompletionsAsync(messages,
                                                              requestSettings.Temperature,
                                                              requestSettings.TopP,
-                                                             requestSettings.PresencePenalty
+                                                             requestSettings.PresencePenalty,
+                                                             cancellationToken
                                                              );
 
         return new List<ERNIEBotChatResult>() { new ERNIEBotChatResult(result) };
@@ -67,7 +69,8 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         var results = InternalCompletionsStreamAsync(messages,
                                                     requestSettings.Temperature,
                                                     requestSettings.TopP,
-                                                    requestSettings.PresencePenalty
+                                                    requestSettings.PresencePenalty,
+                                                    cancellationToken
                                                     );
 
         await foreach (var result in results)
@@ -84,7 +87,8 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         var results = InternalCompletionsStreamAsync(messages,
                                                      requestSettings.Temperature,
                                                      requestSettings.TopP,
-                                                     requestSettings.PresencePenalty
+                                                     requestSettings.PresencePenalty,
+                                                     cancellationToken
                                                      );
 
         await foreach (var result in results)
@@ -121,7 +125,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         return MessageRole.User;
     }
 
-    protected virtual async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
+    protected virtual async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, double temperature, double topP, double presencePenalty, CancellationToken cancellationToken)
     {
         try
         {
@@ -131,7 +135,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                 Temperature = (float)temperature,
                 TopP = (float)topP,
                 PenaltyScore = (float)presencePenalty,
-            });
+            }, cancellationToken);
         }
         catch (ERNIEBotException ex)
         {
@@ -139,7 +143,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         }
     }
 
-    protected virtual IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, double temperature, double topP, double presencePenalty)
+    protected virtual IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, double temperature, double topP, double presencePenalty, CancellationToken cancellationToken)
     {
         try
         {
@@ -149,7 +153,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                 Temperature = (float)temperature,
                 TopP = (float)topP,
                 PenaltyScore = (float)presencePenalty,
-            });
+            }, cancellationToken);
         }
         catch (ERNIEBotException ex)
         {
