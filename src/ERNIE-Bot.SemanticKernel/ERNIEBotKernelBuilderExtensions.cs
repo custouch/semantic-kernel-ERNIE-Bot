@@ -28,6 +28,24 @@ namespace Microsoft.SemanticKernel
             return builder;
         }
 
+        public static KernelBuilder WithERNIEBotChatCompletionService(this KernelBuilder builder,
+            string clientId, string secret,
+            string? serviceId = null,
+            bool alsoAsTextCompletion = true,
+            bool setAsDefault = false)
+        {
+            var client = CreateERNIEBotClient(clientId, secret);
+            var generation = new ERNIEBotChatCompletion(client);
+            builder.WithAIService<IChatCompletion>(serviceId, generation, setAsDefault);
+
+            if (alsoAsTextCompletion)
+            {
+                builder.WithAIService<ITextCompletion>(serviceId, generation, setAsDefault);
+            }
+
+            return builder;
+        }
+
         public static KernelBuilder WithERNIEBotTurboChatCompletionService(this KernelBuilder builder,
             IServiceProvider service, IConfiguration configuration,
             string? serviceId = null,
@@ -35,6 +53,24 @@ namespace Microsoft.SemanticKernel
             bool setAsDefault = false)
         {
             var client = CreateERNIEBotClient(service, configuration);
+            var generation = new ERNIEBotTurboChatCompletion(client);
+            builder.WithAIService<IChatCompletion>(serviceId, generation, setAsDefault);
+
+            if (alsoAsTextCompletion)
+            {
+                builder.WithAIService<ITextCompletion>(serviceId, generation, setAsDefault);
+            }
+
+            return builder;
+        }
+
+        public static KernelBuilder WithERNIEBotTurboChatCompletionService(this KernelBuilder builder,
+            string clientId, string secret,
+            string? serviceId = null,
+            bool alsoAsTextCompletion = true,
+            bool setAsDefault = false)
+        {
+            var client = CreateERNIEBotClient(clientId, secret);
             var generation = new ERNIEBotTurboChatCompletion(client);
             builder.WithAIService<IChatCompletion>(serviceId, generation, setAsDefault);
 
@@ -54,6 +90,24 @@ namespace Microsoft.SemanticKernel
             var generation = new ERNIEBotEmbeddingGeneration(client);
             builder.WithAIService<ITextEmbeddingGeneration>(serviceId, generation, setAsDefault);
             return builder;
+        }
+
+        public static KernelBuilder WithERNIEBotEmbeddingGenerationService(this KernelBuilder builder,
+            string clientId, string secret,
+            string? serviceId = null, bool setAsDefault = false)
+        {
+            var client = CreateERNIEBotClient(clientId, secret);
+            var generation = new ERNIEBotEmbeddingGeneration(client);
+            builder.WithAIService<ITextEmbeddingGeneration>(serviceId, generation, setAsDefault);
+            return builder;
+        }
+
+        private static ERNIEBotClient CreateERNIEBotClient(string clientId, string secret)
+        {
+            Requires.NotNullOrWhiteSpace(clientId, "ClientId");
+            Requires.NotNullOrWhiteSpace(secret, "ClientSecret");
+
+            return new ERNIEBotClient(clientId, secret, null, null, null);
         }
 
         private static ERNIEBotClient CreateERNIEBotClient(IServiceProvider service, IConfiguration configuration)
