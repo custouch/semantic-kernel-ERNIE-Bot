@@ -5,6 +5,7 @@ using Microsoft.SemanticKernel.Orchestration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Connectors.AI.ERNIEBot
@@ -35,14 +36,16 @@ namespace Connectors.AI.ERNIEBot
             return Task.FromResult(_response.Result);
         }
 
-        public async IAsyncEnumerable<string> GetCompletionStreamingAsync(CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<string> GetCompletionStreamingAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             yield return _response.Result;
+            await Task.CompletedTask;
         }
 
-        public async IAsyncEnumerable<ChatMessageBase> GetStreamingChatMessageAsync(CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<ChatMessageBase> GetStreamingChatMessageAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             yield return new ERNIEBotChatMessage(this._response.Result);
+            await Task.CompletedTask;
         }
     }
 }

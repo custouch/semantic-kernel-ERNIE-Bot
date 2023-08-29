@@ -17,7 +17,7 @@ public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
         this._client = client;
     }
 
-    public async Task<IList<Embedding<float>>> GenerateEmbeddingsAsync(IList<string> data, CancellationToken cancellationToken)
+    public async Task<IList<ReadOnlyMemory<float>>> GenerateEmbeddingsAsync(IList<string> data, CancellationToken cancellationToken)
     {
         try
         {
@@ -27,7 +27,7 @@ public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
             }, cancellationToken);
 
             // TODO: ITextEmbeddingGeneration not support Embedding<double> 
-            return embeddings.Data.Select(d => new Embedding<float>(d.Embedding.Select(e => (float)e))).ToList();
+            return embeddings.Data.Select(d => new ReadOnlyMemory<float>(d.Embedding.Select(e => (float)e).ToArray())).ToList();
         }
         catch (ERNIEBotException ex)
         {
