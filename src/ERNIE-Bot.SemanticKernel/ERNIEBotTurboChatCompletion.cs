@@ -2,6 +2,7 @@
 using ERNIE_Bot.SDK.Models;
 using Microsoft.SemanticKernel.AI;
 
+[Obsolete("Please use ERNIEBotChatCompletion instead")]
 public class ERNIEBotTurboChatCompletion : ERNIEBotChatCompletion
 {
     public ERNIEBotTurboChatCompletion(ERNIEBotClient client) : base(client)

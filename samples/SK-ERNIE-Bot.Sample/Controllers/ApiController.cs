@@ -101,7 +101,6 @@ namespace SK_ERNIE_Bot.Sample.Controllers
 
                 {{$input}}
 
-                [ENGLISH]
                 """;
             var func = _kernel.CreateSemanticFunction(prompt);
             var result = await _kernel.RunAsync(input.Text, func);

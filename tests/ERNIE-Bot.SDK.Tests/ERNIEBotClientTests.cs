@@ -30,7 +30,7 @@ namespace ERNIE_Bot.SDK.Tests
             var fakeTokenStore = new TokenStoreHelper("test_token");
             var client = new ERNIEBotClient("test", "test", httpClient, fakeTokenStore);
 
-            var result = await client.ChatCompletionsAsync(new ChatCompletionsRequest()
+            var result = await client.ChatAsync(new ChatCompletionsRequest()
             {
                 Messages =
                 {
@@ -40,7 +40,7 @@ namespace ERNIE_Bot.SDK.Tests
                          Content = "Hello?"
                     }
                 }
-            });
+            }, ModelEndpoints.ERNIE_Bot);
 
             Assert.NotEmpty(result.Result);
         }
@@ -52,7 +52,7 @@ namespace ERNIE_Bot.SDK.Tests
             var fakeTokenStore = new TokenStoreHelper("test_token");
             var client = new ERNIEBotClient("test", "test", httpClient, fakeTokenStore);
 
-            var results = client.ChatCompletionsStreamAsync(new ChatCompletionsRequest()
+            var results = client.ChatStreamAsync(new ChatCompletionsRequest()
             {
                 Messages =
                 {
@@ -62,7 +62,7 @@ namespace ERNIE_Bot.SDK.Tests
                          Content = "Hello?"
                     }
                 }
-            });
+            }, ModelEndpoints.ERNIE_Bot);
 
             await foreach (var result in results)
             {
@@ -77,7 +77,7 @@ namespace ERNIE_Bot.SDK.Tests
             var fakeTokenStore = new TokenStoreHelper("test_token");
             var client = new ERNIEBotClient("test", "test", httpClient, fakeTokenStore);
 
-            var result = await client.ChatEBInstantAsync(new ChatRequest()
+            var result = await client.ChatAsync(new ChatRequest()
             {
                 Messages =
                 {
@@ -87,7 +87,7 @@ namespace ERNIE_Bot.SDK.Tests
                          Content = "Hello?"
                     }
                 }
-            });
+            }, ModelEndpoints.ERNIE_Bot_Turbo);
 
             Assert.NotEmpty(result.Result);
         }
@@ -99,7 +99,7 @@ namespace ERNIE_Bot.SDK.Tests
             var fakeTokenStore = new TokenStoreHelper("test_token");
             var client = new ERNIEBotClient("test", "test", httpClient, fakeTokenStore);
 
-            var results = client.ChatEBInstantStreamAsync(new ChatRequest()
+            var results = client.ChatStreamAsync(new ChatRequest()
             {
                 Messages =
                 {
@@ -109,7 +109,7 @@ namespace ERNIE_Bot.SDK.Tests
                          Content = "Hello?"
                     }
                 }
-            });
+            }, ModelEndpoints.ERNIE_Bot_Turbo);
 
             await foreach (var result in results)
             {

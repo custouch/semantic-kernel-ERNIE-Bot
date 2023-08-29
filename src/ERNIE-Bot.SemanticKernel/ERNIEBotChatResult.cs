@@ -17,35 +17,66 @@ namespace Connectors.AI.ERNIEBot
         {
         }
     }
+
     internal class ERNIEBotChatResult : IChatStreamingResult, ITextStreamingResult
     {
+        private readonly ChatResponse? _response;
+        private readonly IAsyncEnumerable<ChatResponse>? _responses;
+        public ERNIEBotChatResult(IAsyncEnumerable<ChatResponse> responses)
+        {
+            this.ModelResult = new ModelResult(responses);
+            this._responses = responses;
+        }
         public ERNIEBotChatResult(ChatResponse response)
         {
-            this.ModelResult = new(response);
+            this.ModelResult = new ModelResult(response);
+            this._response = response;
         }
-        public ModelResult ModelResult { get; }
-        private ChatResponse _response => ModelResult.GetResult<ChatResponse>();
+
+        public ModelResult ModelResult { get; private set; }
+
+
 
         public async Task<ChatMessageBase> GetChatMessageAsync(CancellationToken cancellationToken = default)
         {
-            return await Task.FromResult(new ERNIEBotChatMessage(this._response.Result));
+            var result = await GetCompletionAsync(cancellationToken);
+            return new ERNIEBotChatMessage(result);
         }
 
-        public Task<string> GetCompletionAsync(CancellationToken cancellationToken = default)
+        public async Task<string> GetCompletionAsync(CancellationToken cancellationToken = default)
         {
-            return Task.FromResult(_response.Result);
+            if (this._response != null)
+            {
+                return this._response.Result;
+            }
+            else
+            {
+                var result = new StringBuilder();
+                await foreach (var response in _responses.WithCancellation(cancellationToken))
+                {
+                    result.Append(response.Result);
+                }
+
+                return result.ToString();
+            }
         }
 
+        #region Streaming
         public async IAsyncEnumerable<string> GetCompletionStreamingAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
-            yield return _response.Result;
-            await Task.CompletedTask;
+            await foreach (var response in _responses.WithCancellation(cancellationToken).ConfigureAwait(false))
+            {
+                yield return response.Result;
+            }
         }
 
         public async IAsyncEnumerable<ChatMessageBase> GetStreamingChatMessageAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
-            yield return new ERNIEBotChatMessage(this._response.Result);
-            await Task.CompletedTask;
+            await foreach (var response in _responses.WithCancellation(cancellationToken))
+            {
+                yield return new ERNIEBotChatMessage(response.Result);
+            }
         }
+        #endregion
     }
 }

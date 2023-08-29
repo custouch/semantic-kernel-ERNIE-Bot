@@ -13,11 +13,12 @@ namespace Microsoft.SemanticKernel
         public static KernelBuilder WithERNIEBotChatCompletionService(this KernelBuilder builder,
             IServiceProvider service, IConfiguration configuration,
             string? serviceId = null,
+            string modelEndpoint = ModelEndpoints.ERNIE_Bot,
             bool alsoAsTextCompletion = true,
             bool setAsDefault = false)
         {
             var client = CreateERNIEBotClient(service, configuration);
-            var generation = new ERNIEBotChatCompletion(client);
+            var generation = new ERNIEBotChatCompletion(client, modelEndpoint);
             builder.WithAIService<IChatCompletion>(serviceId, generation, setAsDefault);
 
             if (alsoAsTextCompletion)
@@ -31,11 +32,12 @@ namespace Microsoft.SemanticKernel
         public static KernelBuilder WithERNIEBotChatCompletionService(this KernelBuilder builder,
             string clientId, string secret,
             string? serviceId = null,
+            string modelEndpoint = ModelEndpoints.ERNIE_Bot,
             bool alsoAsTextCompletion = true,
             bool setAsDefault = false)
         {
             var client = CreateERNIEBotClient(clientId, secret);
-            var generation = new ERNIEBotChatCompletion(client);
+            var generation = new ERNIEBotChatCompletion(client, modelEndpoint);
             builder.WithAIService<IChatCompletion>(serviceId, generation, setAsDefault);
 
             if (alsoAsTextCompletion)
@@ -46,6 +48,7 @@ namespace Microsoft.SemanticKernel
             return builder;
         }
 
+        [Obsolete("Use WithERNIEBotChatCompletionService instead, and using modelEndpoint = ModelEndpoints.ERNIE_Bot_turbo")]
         public static KernelBuilder WithERNIEBotTurboChatCompletionService(this KernelBuilder builder,
             IServiceProvider service, IConfiguration configuration,
             string? serviceId = null,
@@ -64,6 +67,7 @@ namespace Microsoft.SemanticKernel
             return builder;
         }
 
+        [Obsolete("Use WithERNIEBotChatCompletionService instead, and using modelEndpoint = ModelEndpoints.ERNIE_Bot_turbo")]
         public static KernelBuilder WithERNIEBotTurboChatCompletionService(this KernelBuilder builder,
             string clientId, string secret,
             string? serviceId = null,
