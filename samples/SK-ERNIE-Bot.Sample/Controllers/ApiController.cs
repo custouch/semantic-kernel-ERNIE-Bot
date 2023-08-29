@@ -90,7 +90,7 @@ namespace SK_ERNIE_Bot.Sample.Controllers
 
             var result = await embedding.GenerateEmbeddingAsync(input.Text, cancellationToken);
 
-            return Ok(result);
+            return Ok(result.ToArray());
         }
 
         [HttpPost("skill")]
