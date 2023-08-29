@@ -18,10 +18,8 @@ dotnet add package ERNIE-Bot.SemanticKernel --prerelease
 builder.Services.AddScoped(svc =>
 {
     var kernel = Kernel.Builder
-        // 使用 ERNIE Bot Turbo
-        .WithERNIEBotTurboChatCompletionService(svc, builder.Configuration, "ernie_bot_turbo", true)
         // 使用 ERNIE Bot
-        .WithERNIEBotChatCompletionService(svc, builder.Configuration, "ernie_bot")
+        .WithERNIEBotChatCompletionService(svc, builder.Configuration, "ernie_bot", ModelEndpoints.ERNIE_Bot)
         // 使用 Embedding
         .WithERNIEBotEmbeddingGenerationService(svc, builder.Configuration)
         .WithMemoryStorage(new VolatileMemoryStore())

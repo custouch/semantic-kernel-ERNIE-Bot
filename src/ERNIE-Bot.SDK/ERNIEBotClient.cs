@@ -37,9 +37,57 @@ namespace ERNIE_Bot.SDK
         }
 
         /// <summary>
+        ///  API for Chat Completion
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="modelEndpoint"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<ChatResponse> ChatAsync(ChatRequest request, string modelEndpoint, CancellationToken cancellationToken = default)
+        {
+            if (request.Stream.HasValue && request.Stream.Value)
+            {
+                request.Stream = false;
+            }
+
+            OrganizeChatMessages(request.Messages);
+
+            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(modelEndpoint), request);
+
+            var response = await _client.SendAsync(webRequest, cancellationToken);
+
+            return await ParseResponseAsync<ChatResponse>(response);
+        }
+
+        /// <summary>
+        /// Stream API for Chat Completion
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="modelEndpoint"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async IAsyncEnumerable<ChatResponse> ChatStreamAsync(ChatRequest request, string modelEndpoint, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            request.Stream = true;
+
+            OrganizeChatMessages(request.Messages);
+
+            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(modelEndpoint), request, cancellationToken);
+
+            var response = await _client.SendAsync(webRequest, cancellationToken);
+
+            await foreach (var item in ParseResponseStreamAsync(response, cancellationToken))
+            {
+                yield return item;
+            }
+        }
+
+        #region Obsolete 
+        /// <summary>
         /// Api for ERNIE-Bot
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Use ChatAsync and ModelEndpoints.ERNIE_Bot")]
         public async Task<ChatResponse> ChatCompletionsAsync(ChatCompletionsRequest request, CancellationToken cancellationToken = default)
         {
             if (request.Stream.HasValue && request.Stream.Value)
@@ -60,6 +108,7 @@ namespace ERNIE_Bot.SDK
         /// Api for ERNIE-Bot Stream
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Use ChatStreamAsync and ModelEndpoints.ERNIE_Bot")]
         public async IAsyncEnumerable<ChatResponse> ChatCompletionsStreamAsync(ChatCompletionsRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             request.Stream = true;
@@ -76,10 +125,14 @@ namespace ERNIE_Bot.SDK
             }
         }
 
+
+
+
         /// <summary>
         /// Api for ERNIE-Bot-turbo 
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Use ChatAsync and ModelEndpoints.ERNIE_Bot_Turbo")]
         public async Task<ChatResponse> ChatEBInstantAsync(ChatRequest request, CancellationToken cancellationToken = default)
         {
             if (request.Stream.HasValue && request.Stream.Value)
@@ -100,6 +153,7 @@ namespace ERNIE_Bot.SDK
         /// Api for ERNIE-Bot-turbo Stream
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Use ChatStreamAsync and ModelEndpoints.ERNIE_Bot_Turbo")]
         public async IAsyncEnumerable<ChatResponse> ChatEBInstantStreamAsync(ChatRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             request.Stream = true;
@@ -122,6 +176,7 @@ namespace ERNIE_Bot.SDK
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
+        [Obsolete("Use ChatAsync and ModelEndpoints.BLOOMZ")]
         public async Task<ChatResponse> ChatBLOOMZAsync(ChatRequest request, CancellationToken cancellationToken = default)
         {
             if (request.Stream.HasValue && request.Stream.Value)
@@ -142,6 +197,7 @@ namespace ERNIE_Bot.SDK
         /// Api for BLOOMZ-7B Stream
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Use ChatStreamAsync and ModelEndpoints.BLOOMZ")]
         public async IAsyncEnumerable<ChatResponse> ChatBLOOMZStreamAsync(ChatRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             request.Stream = true;
@@ -157,7 +213,7 @@ namespace ERNIE_Bot.SDK
                 yield return item;
             }
         }
-
+        #endregion
 
         /// <summary>
         /// Embedding V1 Api for ERNIE-Bot

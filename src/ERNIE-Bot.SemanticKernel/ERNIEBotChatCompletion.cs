@@ -12,10 +12,12 @@ using System.Text;
 public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 {
     protected readonly ERNIEBotClient _client;
+    private readonly string _modelEndpoint;
 
-    public ERNIEBotChatCompletion(ERNIEBotClient client)
+    public ERNIEBotChatCompletion(ERNIEBotClient client, string modelEndpoint = ModelEndpoints.ERNIE_Bot)
     {
         this._client = client;
+        this._modelEndpoint = modelEndpoint;
     }
     public ChatHistory CreateNewChat(string? instructions = null)
     {
@@ -73,10 +75,8 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                                                     cancellationToken
                                                     );
 
-        await foreach (var result in results)
-        {
-            yield return new ERNIEBotChatResult(result);
-        }
+        yield return new ERNIEBotChatResult(results);
+        await Task.CompletedTask;
     }
 
     public async IAsyncEnumerable<ITextStreamingResult> GetStreamingCompletionsAsync(string text, CompleteRequestSettings requestSettings, [EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -91,10 +91,8 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                                                      cancellationToken
                                                      );
 
-        await foreach (var result in results)
-        {
-            yield return new ERNIEBotChatResult(result);
-        }
+        yield return new ERNIEBotChatResult(results);
+        await Task.CompletedTask;
     }
 
     private List<Message> StringToMessages(string text)
@@ -129,13 +127,13 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
     {
         try
         {
-            return await _client.ChatCompletionsAsync(new ChatCompletionsRequest()
+            return await _client.ChatAsync(new ChatCompletionsRequest()
             {
                 Messages = messages,
                 Temperature = (float)temperature,
                 TopP = (float)topP,
                 PenaltyScore = (float)presencePenalty,
-            }, cancellationToken);
+            }, _modelEndpoint, cancellationToken);
         }
         catch (ERNIEBotException ex)
         {
@@ -147,13 +145,13 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
     {
         try
         {
-            return _client.ChatCompletionsStreamAsync(new ChatCompletionsRequest()
+            return _client.ChatStreamAsync(new ChatCompletionsRequest()
             {
                 Messages = messages,
                 Temperature = (float)temperature,
                 TopP = (float)topP,
                 PenaltyScore = (float)presencePenalty,
-            }, cancellationToken);
+            }, _modelEndpoint, cancellationToken);
         }
         catch (ERNIEBotException ex)
         {

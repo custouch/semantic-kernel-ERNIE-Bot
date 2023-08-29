@@ -26,7 +26,7 @@ namespace ERNIE_Bot.Sample.Controllers
                 return NoContent();
             }
 
-            var result = await _client.ChatCompletionsAsync(new ChatCompletionsRequest()
+            var result = await _client.ChatAsync(new ChatCompletionsRequest()
             {
                 Messages = new List<Message>
                  {
@@ -36,7 +36,7 @@ namespace ERNIE_Bot.Sample.Controllers
                            Role = MessageRole.User
                       }
                  }
-            });
+            }, ModelEndpoints.ERNIE_Bot);
 
             return Ok(result.Result);
         }
@@ -49,7 +49,7 @@ namespace ERNIE_Bot.Sample.Controllers
                 return NoContent();
             }
 
-            var result = await _client.ChatEBInstantAsync(new ChatCompletionsRequest()
+            var result = await _client.ChatAsync(new ChatCompletionsRequest()
             {
                 Messages = new List<Message>
                  {
@@ -59,7 +59,7 @@ namespace ERNIE_Bot.Sample.Controllers
                            Role = MessageRole.User
                       }
                  }
-            });
+            }, ModelEndpoints.ERNIE_Bot_Turbo);
 
             return Ok(result.Result);
         }
@@ -72,7 +72,7 @@ namespace ERNIE_Bot.Sample.Controllers
                 return NoContent();
             }
 
-            var result = await _client.ChatBLOOMZAsync(new ChatCompletionsRequest()
+            var result = await _client.ChatAsync(new ChatCompletionsRequest()
             {
                 Messages = new List<Message>
                  {
@@ -82,7 +82,7 @@ namespace ERNIE_Bot.Sample.Controllers
                            Role = MessageRole.User
                       }
                  }
-            });
+            }, ModelEndpoints.BLOOMZ_7B);
 
             return Ok(result.Result);
         }
@@ -95,7 +95,7 @@ namespace ERNIE_Bot.Sample.Controllers
                 await Response.CompleteAsync();
             }
 
-            var results = _client.ChatCompletionsStreamAsync(new ChatCompletionsRequest()
+            var results = _client.ChatStreamAsync(new ChatCompletionsRequest()
             {
                 Messages = new List<Message>
                  {
@@ -105,7 +105,7 @@ namespace ERNIE_Bot.Sample.Controllers
                            Role = MessageRole.User
                       }
                  }
-            });
+            }, ModelEndpoints.ERNIE_Bot);
 
             await foreach (var result in results)
             {
@@ -150,10 +150,10 @@ namespace ERNIE_Bot.Sample.Controllers
                 Content = _.Text
             });
 
-            var result = await _client.ChatEBInstantAsync(new ChatCompletionsRequest()
+            var result = await _client.ChatAsync(new ChatCompletionsRequest()
             {
                 Messages = messages.ToList()
-            });
+            }, ModelEndpoints.ERNIE_Bot);
 
             return Ok(result.Result);
         }

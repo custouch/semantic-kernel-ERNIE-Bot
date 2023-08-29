@@ -14,8 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped(svc =>
 {
     var kernel = Kernel.Builder
-        .WithERNIEBotTurboChatCompletionService(svc, builder.Configuration, "ernie_bot_turbo", true)
-        .WithERNIEBotChatCompletionService(svc, builder.Configuration, "ernie_bot")
+        .WithERNIEBotChatCompletionService(svc, builder.Configuration, "ernie_bot", ModelEndpoints.ERNIE_Bot)
         .WithERNIEBotEmbeddingGenerationService(svc, builder.Configuration)
         .WithMemoryStorage(new VolatileMemoryStore())
         .Build();
