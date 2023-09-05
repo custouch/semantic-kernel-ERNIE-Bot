@@ -37,6 +37,16 @@ namespace ERNIE_Bot.SDK
         }
 
         /// <summary>
+        /// API for Chat Completion
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="endpoint"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<ChatResponse> ChatAsync(ChatRequest request, ModelEndpoint endpoint, CancellationToken cancellationToken = default)
+        => this.ChatAsync(request, endpoint.Endpoint, cancellationToken);
+
+        /// <summary>
         ///  API for Chat Completion
         /// </summary>
         /// <param name="request"></param>
@@ -66,6 +76,16 @@ namespace ERNIE_Bot.SDK
         /// <param name="modelEndpoint"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
+        public IAsyncEnumerable<ChatResponse> ChatStreamAsync(ChatRequest request, ModelEndpoint modelEndpoint, CancellationToken cancellationToken = default)
+        => this.ChatStreamAsync(request, modelEndpoint.Endpoint, cancellationToken);
+
+        /// <summary>
+        /// Stream API for Chat Completion
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="modelEndpoint"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async IAsyncEnumerable<ChatResponse> ChatStreamAsync(ChatRequest request, string modelEndpoint, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             request.Stream = true;
@@ -82,146 +102,29 @@ namespace ERNIE_Bot.SDK
             }
         }
 
-        #region Obsolete 
         /// <summary>
-        /// Api for ERNIE-Bot
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("Use ChatAsync and ModelEndpoints.ERNIE_Bot")]
-        public async Task<ChatResponse> ChatCompletionsAsync(ChatCompletionsRequest request, CancellationToken cancellationToken = default)
-        {
-            if (request.Stream.HasValue && request.Stream.Value)
-            {
-                request.Stream = false;
-            }
-
-            OrganizeChatMessages(request.Messages);
-
-            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.ERNIEBotEndpoint, request);
-
-            var response = await _client.SendAsync(webRequest, cancellationToken);
-
-            return await ParseResponseAsync<ChatResponse>(response);
-        }
-
-        /// <summary>
-        /// Api for ERNIE-Bot Stream
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("Use ChatStreamAsync and ModelEndpoints.ERNIE_Bot")]
-        public async IAsyncEnumerable<ChatResponse> ChatCompletionsStreamAsync(ChatCompletionsRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
-        {
-            request.Stream = true;
-
-            OrganizeChatMessages(request.Messages);
-
-            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.ERNIEBotEndpoint, request, cancellationToken);
-
-            var response = await _client.SendAsync(webRequest, cancellationToken);
-
-            await foreach (var item in ParseResponseStreamAsync(response, cancellationToken))
-            {
-                yield return item;
-            }
-        }
-
-
-
-
-        /// <summary>
-        /// Api for ERNIE-Bot-turbo 
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("Use ChatAsync and ModelEndpoints.ERNIE_Bot_Turbo")]
-        public async Task<ChatResponse> ChatEBInstantAsync(ChatRequest request, CancellationToken cancellationToken = default)
-        {
-            if (request.Stream.HasValue && request.Stream.Value)
-            {
-                request.Stream = false;
-            }
-
-            OrganizeChatMessages(request.Messages);
-
-            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.ERNIEBotTurboEndpoint, request);
-
-            var response = await _client.SendAsync(webRequest, cancellationToken);
-
-            return await ParseResponseAsync<ChatResponse>(response);
-        }
-
-        /// <summary>
-        /// Api for ERNIE-Bot-turbo Stream
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("Use ChatStreamAsync and ModelEndpoints.ERNIE_Bot_Turbo")]
-        public async IAsyncEnumerable<ChatResponse> ChatEBInstantStreamAsync(ChatRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
-        {
-            request.Stream = true;
-
-            OrganizeChatMessages(request.Messages);
-
-            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.ERNIEBotTurboEndpoint, request, cancellationToken);
-
-            var response = await _client.SendAsync(webRequest, cancellationToken);
-
-            await foreach (var item in ParseResponseStreamAsync(response, cancellationToken))
-            {
-                yield return item;
-            }
-        }
-
-        /// <summary>
-        /// Api for BLOOMZ-7B
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [Obsolete("Use ChatAsync and ModelEndpoints.BLOOMZ")]
-        public async Task<ChatResponse> ChatBLOOMZAsync(ChatRequest request, CancellationToken cancellationToken = default)
-        {
-            if (request.Stream.HasValue && request.Stream.Value)
-            {
-                request.Stream = false;
-            }
-
-            OrganizeChatMessages(request.Messages);
-
-            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.BLOOMZ7BEndpoint, request);
-
-            var response = await _client.SendAsync(webRequest, cancellationToken);
-
-            return await ParseResponseAsync<ChatResponse>(response);
-        }
-
-        /// <summary>
-        /// Api for BLOOMZ-7B Stream
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("Use ChatStreamAsync and ModelEndpoints.BLOOMZ")]
-        public async IAsyncEnumerable<ChatResponse> ChatBLOOMZStreamAsync(ChatRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
-        {
-            request.Stream = true;
-
-            OrganizeChatMessages(request.Messages);
-
-            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.BLOOMZ7BEndpoint, request, cancellationToken);
-
-            var response = await _client.SendAsync(webRequest, cancellationToken);
-
-            await foreach (var item in ParseResponseStreamAsync(response, cancellationToken))
-            {
-                yield return item;
-            }
-        }
-        #endregion
-
-        /// <summary>
-        /// Embedding V1 Api for ERNIE-Bot
+        /// Embedding Api For ERNIE-Bot
         /// </summary>
         /// <returns></returns>
         public async Task<EmbeddingsResponse> EmbeddingsAsync(EmbeddingsRequest request, CancellationToken cancellationToken = default)
         {
-            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.EmbeddingV1Endpoint, request);
+            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(ModelEndpoints.Embedding_v1), request);
+
+            var response = await _client.SendAsync(webRequest, cancellationToken);
+
+            return await ParseResponseAsync<EmbeddingsResponse>(response);
+        }
+
+        /// <summary>
+        /// Embedding Api for custom Embedding Model
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="modelEndpoint"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<EmbeddingsResponse> EmbeddingsAsync(EmbeddingsRequest request, ModelEndpoint modelEndpoint, CancellationToken cancellationToken = default)
+        {
+            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(modelEndpoint), request);
 
             var response = await _client.SendAsync(webRequest, cancellationToken);
 
