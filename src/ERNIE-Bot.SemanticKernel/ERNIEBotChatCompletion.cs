@@ -12,12 +12,14 @@ using System.Text;
 public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 {
     protected readonly ERNIEBotClient _client;
-    private readonly string _modelEndpoint;
+    private readonly ModelEndpoint _modelEndpoint;
 
-    public ERNIEBotChatCompletion(ERNIEBotClient client, string modelEndpoint = ModelEndpoints.ERNIE_Bot)
+
+    public ERNIEBotChatCompletion(ERNIEBotClient client, ModelEndpoint? modelEndpoint = null)
     {
         this._client = client;
-        this._modelEndpoint = modelEndpoint;
+
+        this._modelEndpoint = modelEndpoint ?? ModelEndpoints.ERNIE_Bot;
     }
     public ChatHistory CreateNewChat(string? instructions = null)
     {
