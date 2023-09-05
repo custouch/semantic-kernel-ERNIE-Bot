@@ -30,4 +30,9 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: |
+        export UT_PROJECTS=$(find ./tests -type f -name "*.Tests.csproj" | tr '\n' ' ')
+        for project in $UT_PROJECTS; do
+        dotnet test $project --no-build -v Normal --logger trx
+        done
+        
