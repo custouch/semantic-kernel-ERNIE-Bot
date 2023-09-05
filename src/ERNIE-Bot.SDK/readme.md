@@ -43,7 +43,7 @@ await client.ChatAsync(new ChatCompletionsRequest()
 
 ### ChatCompletionStream
 
-使用 ChatCompletionStreamAsync 方法可以获取一个流，该流会不断的返回对话结果。
+使用 ChatStreamAsync 方法可以获取一个流，该流会不断的返回对话结果。
 
 ```csharp
 var results = client.ChatStreamAsync(new ChatCompletionsRequest()
