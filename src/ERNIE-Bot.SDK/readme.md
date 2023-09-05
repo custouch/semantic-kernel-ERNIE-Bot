@@ -23,13 +23,74 @@ var client = new ERNIEBotClient(clientId, secret);
 
 ### ChatCompletion 
 
+直接使用ChatAsync方法可以完成对话。
+
+其中 ModelEndpoint 是预置的模型地址，可以使用 ModelEndpoints 类来获取所有支持的模型地址。
+
+```csharp
+await client.ChatAsync(new ChatCompletionsRequest()
+{
+    Messages = new List<Message>
+        {
+            new Message()
+            {
+                Content = input.Text,
+                Role = MessageRole.User
+            }
+        }
+}, ModelEndpoints.ERNIE_Bot);
+```
 
 ### ChatCompletionStream
 
+使用 ChatCompletionStreamAsync 方法可以获取一个流，该流会不断的返回对话结果。
+
+```csharp
+var results = client.ChatStreamAsync(new ChatCompletionsRequest()
+{
+    Messages = new List<Message>
+        {
+            new Message()
+            {
+                Content = input.Text,
+                Role = MessageRole.User
+            }
+        }
+}, ModelEndpoints.ERNIE_Bot);
+
+```
+
+可以使用一下方法获取流中的数据。
+
+```csharp
+await foreach (var result in results)
+{
+    // do something with result
+}
+```
 
 ### Embedding
 
+使用 EmbeddingAsync 方法可以获取文本的 Embedding。
+同样可以使用 ModelEndpoints 类来获取所支持的Embedding模型的地址。
 
+```csharp
+var result = await _client.EmbeddingsAsync(new EmbeddingsRequest()
+{
+    Input = new List<string>()
+        {
+            input.Text
+        }
+},ModelEndpoints.Embedding_v1);
+```
+
+### 自定义模型
+
+如果您使用了自定义的模型服务，可以通过以下方法声明自定义模型的地址。
+
+```csharp
+var endpoint = new ModelEndpoint("{申请发布时填写的API地址}");
+```
 
 
 #### API 鉴权令牌的存储和管理
@@ -55,6 +116,7 @@ var client = new ERNIEBotClient(clientId, secret);
 - [x] AquilaChat_7b
 - [x] bge_large_zh
 - [x] bge_large_en
+- [x] 自定义chat模型
 - [ ] Prompt模版
 
 

@@ -23,7 +23,7 @@ namespace ERNIE_Bot.SDK
         /// <summary>
         /// Use <see cref="ModelEndpoints">ModelEndpoints</see> to get the Model Endpoint
         /// </summary>
-        public static string Endpoint(ModelEndpoint endpoint) => $"https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/{endpoint.Task}/{endpoint.Endpoint}";
+        public static string Endpoint(Endpoint endpoint) => $"https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/{endpoint.Task}/{endpoint.Model}";
 
     }
 }

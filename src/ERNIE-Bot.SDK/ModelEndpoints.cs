@@ -55,16 +55,16 @@
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/alj562vvu">Embedding-V1 Embedding Model</see>
         /// </summary>
-        public static readonly ModelEndpoint Embedding_v1 = new("embedding-v1", "embeddings");
+        public static readonly EmbeddingModelEndpoint Embedding_v1 = new("embedding-v1");
 
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/dllz04sro">bge-large-zh Embedding Model</see>
         /// </summary>
-        public static readonly ModelEndpoint bge_large_zh = new("bge_large_zh", "embeddings");
+        public static readonly EmbeddingModelEndpoint bge_large_zh = new("bge_large_zh");
 
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/mllz05nzk">bge-large-en Embedding Model</see>
         /// </summary>
-        public static readonly ModelEndpoint bge_large_en = new("bge_large_en", "embeddings");
+        public static readonly EmbeddingModelEndpoint bge_large_en = new("bge_large_en");
     }
 }

@@ -3,20 +3,37 @@
     /// <summary>
     /// Use ModelEndpoints to get the model name
     /// </summary>
-    public class ModelEndpoint
+    public abstract class Endpoint
     {
-        public string Endpoint { get; set; }
+        public string Model { get; set; }
         public string Task { get; set; }
 
-        internal ModelEndpoint(string endpoint, string task = "chat")
+        internal Endpoint(string model, string task)
         {
-            Endpoint = endpoint;
+            Model = model;
             Task = task;
         }
 
-        public static implicit operator string(ModelEndpoint endpoint)
+        public static implicit operator string(Endpoint endpoint)
         {
-            return endpoint.Endpoint;
+            return endpoint.Model;
+        }
+    }
+
+
+    /// <inheritdoc/>
+    public class ModelEndpoint : Endpoint
+    {
+        public ModelEndpoint(string model) : base(model, "chat")
+        {
+        }
+    }
+
+    /// <inheritdoc/>
+    public class EmbeddingModelEndpoint : Endpoint
+    {
+        public EmbeddingModelEndpoint(string endpoint) : base(endpoint, "embeddings")
+        {
         }
     }
 }

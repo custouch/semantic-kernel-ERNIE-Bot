@@ -29,7 +29,7 @@ namespace IntegrationTests.SDK
         }
 
         #region Embedding
-        private async Task<List<double>> InternalEmbeddingAsync(ModelEndpoint endpoint)
+        private async Task<List<double>> InternalEmbeddingAsync(EmbeddingModelEndpoint endpoint)
         {
             var response = await _client.EmbeddingsAsync(new ERNIE_Bot.SDK.Models.EmbeddingsRequest()
             {

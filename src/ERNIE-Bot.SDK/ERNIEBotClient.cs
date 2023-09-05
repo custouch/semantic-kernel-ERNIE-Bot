@@ -43,8 +43,8 @@ namespace ERNIE_Bot.SDK
         /// <param name="endpoint"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<ChatResponse> ChatAsync(ChatRequest request, ModelEndpoint endpoint, CancellationToken cancellationToken = default)
-        => this.ChatAsync(request, endpoint.Endpoint, cancellationToken);
+        public Task<ChatResponse> ChatAsync(ChatRequest request, string endpoint, CancellationToken cancellationToken = default)
+        => this.ChatAsync(request, new ModelEndpoint(endpoint), cancellationToken);
 
         /// <summary>
         ///  API for Chat Completion
@@ -53,7 +53,7 @@ namespace ERNIE_Bot.SDK
         /// <param name="modelEndpoint"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<ChatResponse> ChatAsync(ChatRequest request, string modelEndpoint, CancellationToken cancellationToken = default)
+        public async Task<ChatResponse> ChatAsync(ChatRequest request, ModelEndpoint modelEndpoint, CancellationToken cancellationToken = default)
         {
             if (request.Stream.HasValue && request.Stream.Value)
             {
@@ -76,8 +76,8 @@ namespace ERNIE_Bot.SDK
         /// <param name="modelEndpoint"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public IAsyncEnumerable<ChatResponse> ChatStreamAsync(ChatRequest request, ModelEndpoint modelEndpoint, CancellationToken cancellationToken = default)
-        => this.ChatStreamAsync(request, modelEndpoint.Endpoint, cancellationToken);
+        public IAsyncEnumerable<ChatResponse> ChatStreamAsync(ChatRequest request, string modelEndpoint, CancellationToken cancellationToken = default)
+        => this.ChatStreamAsync(request, new ModelEndpoint(modelEndpoint), cancellationToken);
 
         /// <summary>
         /// Stream API for Chat Completion
@@ -86,7 +86,7 @@ namespace ERNIE_Bot.SDK
         /// <param name="modelEndpoint"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async IAsyncEnumerable<ChatResponse> ChatStreamAsync(ChatRequest request, string modelEndpoint, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<ChatResponse> ChatStreamAsync(ChatRequest request, ModelEndpoint modelEndpoint, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             request.Stream = true;
 
@@ -122,7 +122,7 @@ namespace ERNIE_Bot.SDK
         /// <param name="modelEndpoint"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<EmbeddingsResponse> EmbeddingsAsync(EmbeddingsRequest request, ModelEndpoint modelEndpoint, CancellationToken cancellationToken = default)
+        public async Task<EmbeddingsResponse> EmbeddingsAsync(EmbeddingsRequest request, EmbeddingModelEndpoint modelEndpoint, CancellationToken cancellationToken = default)
         {
             var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(modelEndpoint), request);
 
