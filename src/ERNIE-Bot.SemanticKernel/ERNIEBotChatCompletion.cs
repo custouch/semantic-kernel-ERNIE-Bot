@@ -4,6 +4,7 @@ using ERNIE_Bot.SDK.Models;
 using Microsoft.SemanticKernel.AI;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.TextCompletion;
+using Microsoft.SemanticKernel.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -139,7 +140,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         }
         catch (ERNIEBotException ex)
         {
-            throw new AIException(AIException.ErrorCodes.ServiceError, ex.Error.Message, ex);
+            throw new SKException(ex.Error.Message, ex);
         }
     }
 
@@ -157,7 +158,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         }
         catch (ERNIEBotException ex)
         {
-            throw new AIException(AIException.ErrorCodes.ServiceError, ex.Error.Message, ex);
+            throw new SKException(ex.Error.Message, ex);
         }
     }
 
