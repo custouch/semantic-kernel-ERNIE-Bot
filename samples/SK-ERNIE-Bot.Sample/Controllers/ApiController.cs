@@ -48,7 +48,7 @@ namespace SK_ERNIE_Bot.Sample.Controllers
 
             var completion = _kernel.GetService<ITextCompletion>();
 
-            var result = await completion.GetCompletionsAsync(input.Text, new CompleteRequestSettings(), cancellationToken: cancellationToken);
+            var result = await completion.GetCompletionsAsync(input.Text, null, cancellationToken: cancellationToken);
 
             var text = await result.First().GetCompletionAsync();
             return Ok(text);
@@ -104,7 +104,7 @@ namespace SK_ERNIE_Bot.Sample.Controllers
                 """;
             var func = _kernel.CreateSemanticFunction(prompt);
             var result = await _kernel.RunAsync(input.Text, func);
-            return Ok(result.Result);
+            return Ok(result.GetValue<string>());
         }
     }
 }

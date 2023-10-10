@@ -7,10 +7,12 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="0.22.230905.3-preview" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Core" Version="0.22.230905.3-preview" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="1.0.0-beta1" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Core" Version="1.0.0-beta1" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.0.0-beta1" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.0.0-beta1" />
     <!-- Validation -->
     <PackageVersion Include="Microsoft.VisualStudio.Validation" Version="17.6.11" />
     <!-- Tests -->

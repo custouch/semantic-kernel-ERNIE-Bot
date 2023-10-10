@@ -15,7 +15,6 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
     protected readonly ERNIEBotClient _client;
     private readonly ModelEndpoint _modelEndpoint;
 
-
     public ERNIEBotChatCompletion(ERNIEBotClient client, ModelEndpoint? modelEndpoint = null)
     {
         this._client = client;
@@ -35,15 +34,17 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
     }
 
 
-    public async Task<IReadOnlyList<IChatResult>> GetChatCompletionsAsync(ChatHistory chat, ChatRequestSettings? requestSettings = null, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<IChatResult>> GetChatCompletionsAsync(ChatHistory chat, AIRequestSettings? requestSettings = null, CancellationToken cancellationToken = default)
     {
         var messages = ChatHistoryToMessages(chat);
-        requestSettings ??= new ChatRequestSettings();
+        requestSettings ??= new AIRequestSettings();
+
+        var (temperature, topP, penaltyScore) = ParseRequestSettings(requestSettings.ExtensionData);
 
         ChatResponse result = await InternalCompletionsAsync(messages,
-                                                             requestSettings.Temperature,
-                                                             requestSettings.TopP,
-                                                             requestSettings.PresencePenalty,
+                                                             temperature,
+                                                             topP,
+                                                             penaltyScore,
                                                              cancellationToken
                                                              );
         return new List<ERNIEBotChatResult>() { new ERNIEBotChatResult(result) };
@@ -51,51 +52,76 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 
 
 
-    public async Task<IReadOnlyList<ITextResult>> GetCompletionsAsync(string text, CompleteRequestSettings requestSettings, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<ITextResult>> GetCompletionsAsync(string text, AIRequestSettings? requestSettings, CancellationToken cancellationToken = default)
     {
-        requestSettings ??= new CompleteRequestSettings();
+        requestSettings ??= new AIRequestSettings();
         var messages = StringToMessages(text);
 
+        var (temperature, topP, penaltyScore) = ParseRequestSettings(requestSettings.ExtensionData);
+
         var result = await InternalCompletionsAsync(messages,
-                                                             requestSettings.Temperature,
-                                                             requestSettings.TopP,
-                                                             requestSettings.PresencePenalty,
-                                                             cancellationToken
-                                                             );
+                                                    temperature,
+                                                    topP,
+                                                    penaltyScore,
+                                                    cancellationToken
+                                                    );
 
         return new List<ERNIEBotChatResult>() { new ERNIEBotChatResult(result) };
     }
 
-    public async IAsyncEnumerable<IChatStreamingResult> GetStreamingChatCompletionsAsync(ChatHistory chat, ChatRequestSettings? requestSettings = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<IChatStreamingResult> GetStreamingChatCompletionsAsync(ChatHistory chat, AIRequestSettings? requestSettings = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var messages = ChatHistoryToMessages(chat);
-        requestSettings ??= new ChatRequestSettings();
+        requestSettings ??= new AIRequestSettings();
+
+        var (temperature, topP, penaltyScore) = ParseRequestSettings(requestSettings.ExtensionData);
 
         var results = InternalCompletionsStreamAsync(messages,
-                                                    requestSettings.Temperature,
-                                                    requestSettings.TopP,
-                                                    requestSettings.PresencePenalty,
-                                                    cancellationToken
+                                                     temperature,
+                                                     topP,
+                                                     penaltyScore,
+                                                     cancellationToken
                                                     );
 
         yield return new ERNIEBotChatResult(results);
         await Task.CompletedTask;
     }
 
-    public async IAsyncEnumerable<ITextStreamingResult> GetStreamingCompletionsAsync(string text, CompleteRequestSettings requestSettings, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<ITextStreamingResult> GetStreamingCompletionsAsync(string text, AIRequestSettings? requestSettings, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var messages = StringToMessages(text);
-        requestSettings ??= new CompleteRequestSettings();
+        requestSettings ??= new AIRequestSettings();
+
+        var (temperature, topP, penaltyScore) = ParseRequestSettings(requestSettings.ExtensionData);
 
         var results = InternalCompletionsStreamAsync(messages,
-                                                     requestSettings.Temperature,
-                                                     requestSettings.TopP,
-                                                     requestSettings.PresencePenalty,
+                                                     temperature,
+                                                     topP,
+                                                     penaltyScore,
                                                      cancellationToken
                                                      );
 
         yield return new ERNIEBotChatResult(results);
         await Task.CompletedTask;
+    }
+
+    private (float? temperature, float? TopP, float? penaltyScore) ParseRequestSettings(Dictionary<string, object> extensionData)
+    {
+        float? TryGetValue(string key, float? defaultValue = null)
+        {
+            if (extensionData.TryGetValue(key, out var value) && value is float t)
+            {
+                return t;
+            }
+
+            return defaultValue;
+        }
+
+        float? temperature = TryGetValue("temperature");
+        float? topP = TryGetValue("top_p");
+        float? penaltyScore = TryGetValue("penalty_score");
+
+        return (temperature, topP, penaltyScore);
     }
 
     private List<Message> StringToMessages(string text)
@@ -126,16 +152,16 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         return MessageRole.User;
     }
 
-    protected virtual async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, double temperature, double topP, double presencePenalty, CancellationToken cancellationToken)
+    protected virtual async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, float? temperature, float? topP, float? penaltyScore, CancellationToken cancellationToken)
     {
         try
         {
             return await _client.ChatAsync(new ChatCompletionsRequest()
             {
                 Messages = messages,
-                Temperature = (float)temperature,
-                TopP = (float)topP,
-                PenaltyScore = (float)presencePenalty,
+                Temperature = temperature,
+                TopP = topP,
+                PenaltyScore = penaltyScore,
             }, _modelEndpoint, cancellationToken);
         }
         catch (ERNIEBotException ex)
@@ -144,16 +170,16 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         }
     }
 
-    protected virtual IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, double temperature, double topP, double presencePenalty, CancellationToken cancellationToken)
+    protected virtual IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, float? temperature, float? topP, float? penaltyScore, CancellationToken cancellationToken)
     {
         try
         {
             return _client.ChatStreamAsync(new ChatCompletionsRequest()
             {
                 Messages = messages,
-                Temperature = (float)temperature,
-                TopP = (float)topP,
-                PenaltyScore = (float)presencePenalty,
+                Temperature = temperature,
+                TopP = topP,
+                PenaltyScore = penaltyScore,
             }, _modelEndpoint, cancellationToken);
         }
         catch (ERNIEBotException ex)
@@ -161,5 +187,4 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
             throw new SKException(ex.Error.Message, ex);
         }
     }
-
 }
