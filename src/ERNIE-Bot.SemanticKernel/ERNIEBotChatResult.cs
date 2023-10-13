@@ -35,8 +35,6 @@ namespace Connectors.AI.ERNIEBot
 
         public ModelResult ModelResult { get; private set; }
 
-
-
         public async Task<ChatMessageBase> GetChatMessageAsync(CancellationToken cancellationToken = default)
         {
             var result = await GetCompletionAsync(cancellationToken);

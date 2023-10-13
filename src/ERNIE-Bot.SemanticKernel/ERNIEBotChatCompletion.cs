@@ -39,12 +39,12 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         var messages = ChatHistoryToMessages(chat);
         requestSettings ??= new AIRequestSettings();
 
-        var (temperature, topP, penaltyScore) = ParseRequestSettings(requestSettings.ExtensionData);
+        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(requestSettings);
 
         ChatResponse result = await InternalCompletionsAsync(messages,
-                                                             temperature,
-                                                             topP,
-                                                             penaltyScore,
+                                                             settings.Temperature,
+                                                             settings.TopP,
+                                                             settings.PenaltyScore,
                                                              cancellationToken
                                                              );
         return new List<ERNIEBotChatResult>() { new ERNIEBotChatResult(result) };
@@ -57,12 +57,12 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         requestSettings ??= new AIRequestSettings();
         var messages = StringToMessages(text);
 
-        var (temperature, topP, penaltyScore) = ParseRequestSettings(requestSettings.ExtensionData);
+        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(requestSettings);
 
         var result = await InternalCompletionsAsync(messages,
-                                                    temperature,
-                                                    topP,
-                                                    penaltyScore,
+                                                    settings.Temperature,
+                                                    settings.TopP,
+                                                    settings.PenaltyScore,
                                                     cancellationToken
                                                     );
 
@@ -74,12 +74,12 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         var messages = ChatHistoryToMessages(chat);
         requestSettings ??= new AIRequestSettings();
 
-        var (temperature, topP, penaltyScore) = ParseRequestSettings(requestSettings.ExtensionData);
+        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(requestSettings);
 
         var results = InternalCompletionsStreamAsync(messages,
-                                                     temperature,
-                                                     topP,
-                                                     penaltyScore,
+                                                     settings.Temperature,
+                                                     settings.TopP,
+                                                     settings.PenaltyScore,
                                                      cancellationToken
                                                     );
 
@@ -92,36 +92,17 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         var messages = StringToMessages(text);
         requestSettings ??= new AIRequestSettings();
 
-        var (temperature, topP, penaltyScore) = ParseRequestSettings(requestSettings.ExtensionData);
+        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(requestSettings);
 
         var results = InternalCompletionsStreamAsync(messages,
-                                                     temperature,
-                                                     topP,
-                                                     penaltyScore,
+                                                     settings.Temperature,
+                                                     settings.TopP,
+                                                     settings.PenaltyScore,
                                                      cancellationToken
                                                      );
 
         yield return new ERNIEBotChatResult(results);
         await Task.CompletedTask;
-    }
-
-    private (float? temperature, float? TopP, float? penaltyScore) ParseRequestSettings(Dictionary<string, object> extensionData)
-    {
-        float? TryGetValue(string key, float? defaultValue = null)
-        {
-            if (extensionData.TryGetValue(key, out var value) && value is float t)
-            {
-                return t;
-            }
-
-            return defaultValue;
-        }
-
-        float? temperature = TryGetValue("temperature");
-        float? topP = TryGetValue("top_p");
-        float? penaltyScore = TryGetValue("penalty_score");
-
-        return (temperature, topP, penaltyScore);
     }
 
     private List<Message> StringToMessages(string text)

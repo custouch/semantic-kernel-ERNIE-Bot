@@ -13,6 +13,7 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.0.0-beta1" />
     <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.0.0-beta1" />
+    <PackageVersion Include="Microsoft.SemanticKernel.TemplateEngine.Basic" Version="1.0.0-beta1" />
     <!-- Validation -->
     <PackageVersion Include="Microsoft.VisualStudio.Validation" Version="17.6.11" />
     <!-- Tests -->

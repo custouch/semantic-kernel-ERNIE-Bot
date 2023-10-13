@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "type": "completion",
+  "description": "",
+  "completion": {
+
+  },
+  "default_services": [],
+  "input": {
+    "parameters": []
+  }
+}

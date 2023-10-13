@@ -1,6 +1,8 @@
 using ERNIE_Bot.SDK;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Plugins.Memory;
+using Microsoft.SemanticKernel.TemplateEngine;
+using Microsoft.SemanticKernel.TemplateEngine.Basic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddScoped(svc =>
 {
     var kernel = Kernel.Builder
         .WithERNIEBotChatCompletionService(svc, builder.Configuration, "ernie_bot", ModelEndpoints.ERNIE_Bot)
+        .WithPromptTemplateEngine(new BasicPromptTemplateEngine())
         .Build();
     return kernel;
 });

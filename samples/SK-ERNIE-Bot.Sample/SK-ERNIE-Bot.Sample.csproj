@@ -12,11 +12,18 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" />
 		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Memory" />
+		<PackageReference Include="Microsoft.SemanticKernel.TemplateEngine.Basic" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\src\ERNIE-Bot.SemanticKernel\ERNIE-Bot.SemanticKernel.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Plugins\Demo\Translate\skprompt.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

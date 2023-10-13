@@ -130,7 +130,7 @@ namespace ERNIE_Bot.Sample.Controllers
                  {
                       input.Text
                  }
-            },ModelEndpoints.bge_large_en);
+            }, ModelEndpoints.bge_large_en);
 
             return Ok(result.Data.FirstOrDefault()?.Embedding);
         }
