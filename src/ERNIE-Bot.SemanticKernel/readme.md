@@ -20,13 +20,20 @@ builder.Services.AddScoped(svc =>
     var kernel = Kernel.Builder
         // 使用 ERNIE Bot
         .WithERNIEBotChatCompletionService(svc, builder.Configuration, "ernie_bot", ModelEndpoints.ERNIE_Bot)
-        // 使用 Embedding
-        .WithERNIEBotEmbeddingGenerationService(svc, builder.Configuration)
-        .WithMemoryStorage(new VolatileMemoryStore())
         .Build();
     return kernel;
 });
+
+builder.Services.AddScoped(svc =>
+{
+    var memory = new MemoryBuilder()
+    .WithERNIEBotEmbeddingGenerationService(svc, builder.Configuration)
+    .WithMemoryStore(new VolatileMemoryStore())
+    .Build();
+    return memory;
+});
 ```
+
 
 ## 功能
 

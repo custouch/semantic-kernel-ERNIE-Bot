@@ -4,6 +4,7 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.Embeddings;
 using Microsoft.SemanticKernel.AI.TextCompletion;
+using Microsoft.SemanticKernel.SemanticFunctions;
 using SK_ERNIE_Bot.Sample.Controllers.Models;
 using System.Text;
 
@@ -48,7 +49,7 @@ namespace SK_ERNIE_Bot.Sample.Controllers
 
             var completion = _kernel.GetService<ITextCompletion>();
 
-            var result = await completion.GetCompletionsAsync(input.Text, new CompleteRequestSettings(), cancellationToken: cancellationToken);
+            var result = await completion.GetCompletionsAsync(input.Text, null, cancellationToken: cancellationToken);
 
             var text = await result.First().GetCompletionAsync();
             return Ok(text);
@@ -93,8 +94,8 @@ namespace SK_ERNIE_Bot.Sample.Controllers
             return Ok(result.ToArray());
         }
 
-        [HttpPost("skill")]
-        public async Task<IActionResult> SkillAsync([FromBody] UserInput input, CancellationToken cancellationToken)
+        [HttpPost("function")]
+        public async Task<IActionResult> FuncAsync([FromBody] UserInput input, CancellationToken cancellationToken)
         {
             const string prompt = """
                 翻译以下内容为英文：
@@ -104,7 +105,18 @@ namespace SK_ERNIE_Bot.Sample.Controllers
                 """;
             var func = _kernel.CreateSemanticFunction(prompt);
             var result = await _kernel.RunAsync(input.Text, func);
-            return Ok(result.Result);
+            return Ok(result.GetValue<string>());
+        }
+
+        [HttpPost("semanticPlugin")]
+        public async Task<IActionResult> SemanticPlugin([FromBody] UserInput input)
+        {
+            var plugin = _kernel.ImportSemanticFunctionsFromDirectory("Plugins", "Demo");
+
+            var translateFunc = plugin["Translate"];
+
+            var result = await _kernel.RunAsync(input.Text, translateFunc);
+            return Ok(result.GetValue<string>());
         }
     }
 }

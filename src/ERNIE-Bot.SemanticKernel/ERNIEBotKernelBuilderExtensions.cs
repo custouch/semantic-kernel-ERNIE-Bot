@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.Embeddings;
 using Microsoft.SemanticKernel.AI.TextCompletion;
+using Microsoft.SemanticKernel.Plugins.Memory;
 
 namespace Microsoft.SemanticKernel
 {
@@ -77,16 +78,13 @@ namespace Microsoft.SemanticKernel
         /// <param name="builder"></param>
         /// <param name="service"></param>
         /// <param name="configuration"></param>
-        /// <param name="serviceId"></param>
-        /// <param name="setAsDefault"></param>
         /// <returns></returns>
-        public static KernelBuilder WithERNIEBotEmbeddingGenerationService(this KernelBuilder builder,
-            IServiceProvider service, IConfiguration configuration,
-            string? serviceId = null, bool setAsDefault = false)
+        public static MemoryBuilder WithERNIEBotEmbeddingGenerationService(this MemoryBuilder builder,
+            IServiceProvider service, IConfiguration configuration)
         {
             var client = CreateERNIEBotClient(service, configuration);
             var generation = new ERNIEBotEmbeddingGeneration(client);
-            builder.WithAIService<ITextEmbeddingGeneration>(serviceId, generation, setAsDefault);
+            builder.WithTextEmbeddingGeneration(generation);
             return builder;
         }
 
@@ -96,16 +94,13 @@ namespace Microsoft.SemanticKernel
         /// <param name="builder"></param>
         /// <param name="clientId"></param>
         /// <param name="secret"></param>
-        /// <param name="serviceId"></param>
-        /// <param name="setAsDefault"></param>
         /// <returns></returns>
-        public static KernelBuilder WithERNIEBotEmbeddingGenerationService(this KernelBuilder builder,
-            string clientId, string secret,
-            string? serviceId = null, bool setAsDefault = false)
+        public static MemoryBuilder WithERNIEBotEmbeddingGenerationService(this MemoryBuilder builder,
+            string clientId, string secret)
         {
             var client = CreateERNIEBotClient(clientId, secret);
             var generation = new ERNIEBotEmbeddingGeneration(client);
-            builder.WithAIService<ITextEmbeddingGeneration>(serviceId, generation, setAsDefault);
+            builder.WithTextEmbeddingGeneration(generation);
             return builder;
         }
 
