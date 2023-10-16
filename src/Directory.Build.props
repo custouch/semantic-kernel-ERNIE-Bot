@@ -12,7 +12,7 @@
 		<PackageProjectUrl>https://github.com/custouch/semantic-kernel-ERNIE-Bot</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/custouch/semantic-kernel-ERNIE-Bot</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<Version>0.6.1-preview</Version>
+		<Version>0.7.0-preview</Version>
 		<PackageOutputPath>..\..\nupkgs</PackageOutputPath>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		
