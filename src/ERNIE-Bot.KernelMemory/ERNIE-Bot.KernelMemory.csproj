@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>ERNIE_Bot.KernelMemory</RootNamespace>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SemanticMemory.Core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ERNIE-Bot.SDK\ERNIE-Bot.SDK.csproj" />
+  </ItemGroup>
+
+</Project>

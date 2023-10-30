@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>ERNIE_Bot_Kernel_Memoy.Sample</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>84a2cf80-3689-4f7e-b25f-661eea20cf5d</UserSecretsId>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\ERNIE-Bot.KernelMemory\ERNIE-Bot.KernelMemory.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="sample-SK-Readme.pdf">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+</Project>
