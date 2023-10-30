@@ -1,5 +1,5 @@
 ﻿using ERNIE_Bot.SDK;
-using Microsoft.SemanticMemory.AI;
+using Microsoft.KernelMemory.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;

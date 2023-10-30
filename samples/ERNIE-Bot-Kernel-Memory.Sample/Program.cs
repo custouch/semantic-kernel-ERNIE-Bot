@@ -1,15 +1,15 @@
 ﻿
 using ERNIE_Bot.KernelMemory;
 using Microsoft.Extensions.Configuration;
-using Microsoft.SemanticMemory;
-using Microsoft.SemanticMemory.Handlers;
+using Microsoft.KernelMemory;
+using Microsoft.KernelMemory.Handlers;
 using System;
 
 var config = new ConfigurationBuilder()
             .AddUserSecrets<Program>()
             .Build();
 
-var memory = new MemoryClientBuilder()
+var memory = new KernelMemoryBuilder()
         .WithERNIEBotDefaults(config["ClientId"]!, config["ClientSecret"]!)
         .With(new TextPartitioningOptions
         {

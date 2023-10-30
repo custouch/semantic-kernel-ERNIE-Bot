@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SemanticMemory.Core" />
+    <PackageReference Include="Microsoft.KernelMemory.Core" />
   </ItemGroup>
 
   <ItemGroup>
