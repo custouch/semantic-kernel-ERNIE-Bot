@@ -1,5 +1,7 @@
 ﻿
 using ERNIE_Bot.KernelMemory;
+using ERNIE_Bot.SDK;
+using ERNIE_Bot_Kernel_Memory.Sample;
 using Microsoft.Extensions.Configuration;
 using Microsoft.KernelMemory;
 using Microsoft.KernelMemory.Handlers;
@@ -9,8 +11,12 @@ var config = new ConfigurationBuilder()
             .AddUserSecrets<Program>()
             .Build();
 
+
+var client = new ERNIEBotClient(config["ClientId"]!, config["ClientSecret"]!,
+                                new HttpClient(new DelayHttpHandler(200)));
+
 var memory = new KernelMemoryBuilder()
-        .WithERNIEBotDefaults(config["ClientId"]!, config["ClientSecret"]!)
+        .WithERNIEBotDefaults(client)
         .With(new TextPartitioningOptions
         {
             MaxTokensPerParagraph = 300,
@@ -19,7 +25,6 @@ var memory = new KernelMemoryBuilder()
         })
         .BuildServerlessClient();
 
-//TODO: "Open api qps request limit reached" issue
 await memory.ImportDocumentAsync("sample-SK-Readme.pdf");
 
 var question = "What's Semantic Kernel?";
