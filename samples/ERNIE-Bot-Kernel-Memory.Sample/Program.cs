@@ -9,6 +9,8 @@ var config = new ConfigurationBuilder()
             .AddUserSecrets<Program>()
             .Build();
 
+var httpClient = new HttpClient();
+
 var memory = new MemoryClientBuilder()
         .WithERNIEBotDefaults(config["ClientId"]!, config["ClientSecret"]!)
         .With(new TextPartitioningOptions
