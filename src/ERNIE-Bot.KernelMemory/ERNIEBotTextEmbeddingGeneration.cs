@@ -35,9 +35,9 @@ namespace ERNIE_Bot.KernelMemory
                 //给pipeline添加一个重试策略
                 .AddRetry(new RetryStrategyOptions<EmbeddingsResponse>()
                 {
-                    //这个pipeline的作用是在遇到qps异常时进行重试
+                    //这个pipeline的作用是在遇到qps异常和 Embeddings internal error 时进行重试
                     ShouldHandle = new PredicateBuilder<EmbeddingsResponse>()
-                        .Handle<ERNIEBotException>(ex => ex.Error.Code == 18),
+                        .Handle<ERNIEBotException>(ex => ex.Error.Code is 18 or 336200),
                     //重试3次，每次间隔1秒
                     MaxRetryAttempts = 3,
                     Delay = TimeSpan.FromSeconds(1),
@@ -57,11 +57,18 @@ namespace ERNIE_Bot.KernelMemory
         public async Task<IList<ReadOnlyMemory<float>>> GenerateEmbeddingsAsync(IList<string> data,
             CancellationToken cancellationToken = default)
         {
+            //kernel-memory会把一个document分成多个paragraph，以\r\n分割
+            //每个paragraph里有多个line
+            //每个line分成多个token
+            //API要求，最多有16个paragraph，每个paragraph最多有384个token
+            //这里的data是一个document的所有token
+            //所以先把它分成paragraph，因为API的限制，只取前16个paragraph
+            List<string> input = new(data[0].Split("\r\n", StringSplitOptions.RemoveEmptyEntries).Take(16));
             //执行pipeline，返回值为EmbeddingsResponse，重试策略在pipeline中执行
             var embeddings = await _embeddingsPipeline.ExecuteAsync(async _ =>
                     await _client.EmbeddingsAsync(new EmbeddingsRequest()
                     {
-                        Input = data.ToList()
+                        Input = input
                     }, _endpoint, cancellationToken)
                 , cancellationToken);//这里的cancellationToken是用来取消任务的，如果不需要取消任务，可以不传
 
