@@ -3,6 +3,11 @@
     public static class ModelEndpoints
     {
         /// <summary>
+        /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/clntwmv7t">ERNIE Bot 4 Chat Model</see>
+        /// </summary>
+        public static readonly ModelEndpoint ERNIE_Bot_4 = new("completions_pro");
+
+        /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/jlil56u11">ERNIE Bot Chat Model</see>
         /// </summary>
         public static readonly ModelEndpoint ERNIE_Bot = new("completions");
