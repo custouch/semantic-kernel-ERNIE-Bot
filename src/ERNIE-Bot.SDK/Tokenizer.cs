@@ -12,28 +12,12 @@ namespace ERNIE_Bot.SDK
     {
         public static int ApproxNumTokens(string text)
         {
-            var hanCount = 0;
-            var res = new StringBuilder(text.Length);
+            int chinese = Regex.Matches(text, @"\p{IsCJKUnifiedIdeographs}").Count;
+            int english = Regex.Replace(text, @"[^\p{IsBasicLatin}-]", " ")
+                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .Count(w => !string.IsNullOrWhiteSpace(w) && w != "-" && w != "_");
 
-            foreach (var c in text)
-            {
-                if (char.IsWhiteSpace(c))
-                {
-                    res.Append(' ');
-                }
-                else if (char.GetUnicodeCategory(c) == System.Globalization.UnicodeCategory.OtherLetter)
-                {
-                    hanCount++;
-                    res.Append(' ');
-                }
-                else
-                {
-                    res.Append(c);
-                }
-            }
-
-            var wordCount = res.ToString().Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
-            return hanCount + (int)Math.Floor(wordCount * 1.3);
+            return chinese + (int)Math.Floor(english * 1.3);
         }
     }
 }
