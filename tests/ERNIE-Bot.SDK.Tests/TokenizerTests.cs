@@ -1,4 +1,4 @@
-using ERNIE_Bot.SDK;
+ï»¿using ERNIE_Bot.SDK;
 
 namespace ERNIE_Bot.SDK.Tests
 {
@@ -7,7 +7,7 @@ namespace ERNIE_Bot.SDK.Tests
         [Fact]
         public void TestApproxNumTokens()
         {
-            string text = "ÕâÊÇÒ»¶Î²âÊÔÎÄ×ÖThis is a test string.";
+            string text = "è¿™æ˜¯ä¸€æ®µæµ‹è¯•æ–‡å­—This is a test string.";
             int expected = 14;
             int actual = Tokenizer.ApproxNumTokens(text);
             Assert.Equal(expected, actual);
