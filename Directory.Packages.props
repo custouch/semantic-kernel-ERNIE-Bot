@@ -12,7 +12,7 @@
     <PackageVersion Include="Microsoft.SemanticKernel.Core" Version="1.0.0-beta1" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.0.0-beta1" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.0.0-beta6" />
     <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.0.0-beta1" />
     <PackageVersion Include="Microsoft.SemanticKernel.TemplateEngine.Basic" Version="1.0.0-beta4" />
     <!-- Validation -->
