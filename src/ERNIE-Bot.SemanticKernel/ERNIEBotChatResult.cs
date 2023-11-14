@@ -18,7 +18,7 @@ namespace Connectors.AI.ERNIEBot
         }
     }
 
-    internal class ERNIEBotChatResult : IChatStreamingResult, ITextStreamingResult
+    internal class ERNIEBotChatResult : IChatResult, ITextResult, IChatStreamingResult, ITextStreamingResult
     {
         private readonly ChatResponse? _response;
         private readonly IAsyncEnumerable<ChatResponse>? _responses;

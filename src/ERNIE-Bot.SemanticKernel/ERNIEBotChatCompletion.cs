@@ -47,7 +47,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                                                              settings.PenaltyScore,
                                                              cancellationToken
                                                              );
-        return new List<ERNIEBotChatResult>() { new ERNIEBotChatResult(result) };
+        return new List<IChatResult>() { new ERNIEBotChatResult(result) };
     }
 
 
@@ -66,7 +66,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                                                     cancellationToken
                                                     );
 
-        return new List<ERNIEBotChatResult>() { new ERNIEBotChatResult(result) };
+        return new List<ITextResult>() { new ERNIEBotChatResult(result) }.AsReadOnly();
     }
 
     public async IAsyncEnumerable<IChatStreamingResult> GetStreamingChatCompletionsAsync(ChatHistory chat, AIRequestSettings? requestSettings = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
