@@ -13,6 +13,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
 		<PackageReference Include="Microsoft.VisualStudio.Validation" />
 		<PackageReference Include="System.Text.Json" />
+		<PackageReference Include="System.Threading.RateLimiting" />
 	</ItemGroup>
 
 
