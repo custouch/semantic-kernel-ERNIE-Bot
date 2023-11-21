@@ -1,11 +1,11 @@
 ﻿
 using ERNIE_Bot.KernelMemory;
 using ERNIE_Bot.SDK;
-using ERNIE_Bot_Kernel_Memory.Sample;
 using Microsoft.Extensions.Configuration;
 using Microsoft.KernelMemory;
 using Microsoft.KernelMemory.Handlers;
 using System;
+using System.Threading.RateLimiting;
 
 var config = new ConfigurationBuilder()
             .AddUserSecrets<Program>()
@@ -13,7 +13,12 @@ var config = new ConfigurationBuilder()
 
 
 var client = new ERNIEBotClient(config["ClientId"]!, config["ClientSecret"]!,
-                                new HttpClient(new DelayHttpHandler(200)));
+                                HttpClientProvider.CreateFixedWindowRateLimitedClient(new FixedWindowRateLimiterOptions()
+                                {
+                                    Window = TimeSpan.FromSeconds(1),
+                                    PermitLimit = 4,
+                                    QueueLimit = 100
+                                }));
 
 var memory = new KernelMemoryBuilder()
         .WithERNIEBotDefaults(client)

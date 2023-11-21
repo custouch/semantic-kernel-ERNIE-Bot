@@ -14,6 +14,9 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 {
     protected readonly ERNIEBotClient _client;
     private readonly ModelEndpoint _modelEndpoint;
+    private readonly Dictionary<string, string> _attributes = new();
+
+    public IReadOnlyDictionary<string, string> Attributes => this._attributes;
 
     public ERNIEBotChatCompletion(ERNIEBotClient client, ModelEndpoint? modelEndpoint = null)
     {

@@ -12,6 +12,8 @@ using System.Text;
 public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
 {
     private readonly ERNIEBotClient _client;
+    private readonly Dictionary<string, string> _attributes = new();
+    public IReadOnlyDictionary<string, string> Attributes => this._attributes;
 
     public ERNIEBotEmbeddingGeneration(ERNIEBotClient client)
     {

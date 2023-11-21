@@ -18,6 +18,11 @@ namespace ERNIE_Bot.SDK
         {
             return new HttpClient(new ClientSideRateLimitedHandler(limiter));
         }
+
+        public static HttpClient CreateFixedWindowRateLimitedClient(FixedWindowRateLimiterOptions fixedWindowRateLimiterOptions)
+        {
+            return CreateRateLimitedClient(new FixedWindowRateLimiter(fixedWindowRateLimiterOptions));
+        }
     }
     /// <summary>
     /// ref: https://learn.microsoft.com/dotnet/core/extensions/http-ratelimiter
