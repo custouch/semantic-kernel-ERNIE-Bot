@@ -17,6 +17,8 @@ namespace ERNIE_Bot.KernelMemory
         private readonly ERNIEBotClient _client;
         private readonly EmbeddingModelEndpoint _endpoint;
 
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ERNIEBotTextEmbeddingGeneration"/> class.
         /// </summary>
@@ -27,6 +29,9 @@ namespace ERNIE_Bot.KernelMemory
             this._client = client;
             _endpoint = endpoint ?? ModelEndpoints.Embedding_v1;
         }
+
+        private readonly Dictionary<string, string> _attributes = new();
+        public IReadOnlyDictionary<string, string> Attributes => _attributes;
 
         /// <inheritdoc/>
         public async Task<IList<ReadOnlyMemory<float>>> GenerateEmbeddingsAsync(IList<string> data, CancellationToken cancellationToken = default)

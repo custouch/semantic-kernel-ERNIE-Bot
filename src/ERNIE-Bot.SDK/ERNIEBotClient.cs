@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
+using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 
 namespace ERNIE_Bot.SDK
@@ -36,6 +37,16 @@ namespace ERNIE_Bot.SDK
             this._tokenStore = tokenStore ?? new DefaultTokenStore();
         }
 
+        public ERNIEBotClient(string clientId, string clientSecret, int rateLimit, ITokenStore? tokenStore = null, ILogger<ERNIEBotClient>? logger = null)
+            : this(clientId, clientSecret, HttpClientProvider.CreateFixedWindowRateLimitedClient(new FixedWindowRateLimiterOptions()
+            {
+                PermitLimit = rateLimit,
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                Window = TimeSpan.FromSeconds(1),
+            }), tokenStore, logger)
+        {
+
+        }
         /// <summary>
         /// API for Chat Completion
         /// </summary>

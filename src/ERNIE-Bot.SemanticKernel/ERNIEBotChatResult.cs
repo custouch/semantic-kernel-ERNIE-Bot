@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Connectors.AI.ERNIEBot
 {
-    class ERNIEBotChatMessage : ChatMessageBase
+    class ERNIEBotChatMessage : ChatMessage
     {
         public ERNIEBotChatMessage(string content)
             : base(AuthorRole.Assistant, content)
@@ -35,7 +35,7 @@ namespace Connectors.AI.ERNIEBot
 
         public ModelResult ModelResult { get; private set; }
 
-        public async Task<ChatMessageBase> GetChatMessageAsync(CancellationToken cancellationToken = default)
+        public async Task<ChatMessage> GetChatMessageAsync(CancellationToken cancellationToken = default)
         {
             var result = await GetCompletionAsync(cancellationToken);
             return new ERNIEBotChatMessage(result);
@@ -68,7 +68,7 @@ namespace Connectors.AI.ERNIEBot
             }
         }
 
-        public async IAsyncEnumerable<ChatMessageBase> GetStreamingChatMessageAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<ChatMessage> GetStreamingChatMessageAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             await foreach (var response in _responses.WithCancellation(cancellationToken))
             {
