@@ -10,7 +10,7 @@
     <PackageVersion Include="Microsoft.KernelMemory.Core" Version="0.10.231119.1-preview" />
     <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="1.0.0-beta8" />
     <PackageVersion Include="Microsoft.SemanticKernel.Core" Version="1.0.0-beta8" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.0.0-beta6" />
     <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.0.0-beta8" />
