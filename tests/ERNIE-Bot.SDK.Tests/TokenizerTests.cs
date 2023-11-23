@@ -1,6 +1,4 @@
-﻿using ERNIE_Bot.SDK;
-
-namespace ERNIE_Bot.SDK.Tests
+﻿namespace ERNIE_Bot.SDK.Tests
 {
     public class TokenizerTests
     {

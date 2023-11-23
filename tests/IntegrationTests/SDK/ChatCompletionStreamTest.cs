@@ -1,11 +1,6 @@
 ﻿using ERNIE_Bot.SDK;
-using Microsoft.Extensions.Configuration;
 using Microsoft;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace IntegrationTests.SDK
 {
@@ -27,7 +22,9 @@ namespace IntegrationTests.SDK
 
             _client = new ERNIEBotClient(clientId, clientSecret);
         }
+
         #region StreamChatCompletion
+
         private async IAsyncEnumerable<string> InternalStreamChatAsync(ModelEndpoint endpoint)
         {
             var response = _client.ChatStreamAsync(new ERNIE_Bot.SDK.Models.ChatRequest()
@@ -47,7 +44,6 @@ namespace IntegrationTests.SDK
                 yield return r.Result;
             }
         }
-
 
         [Fact]
         public async Task ERNIEBotStreamChatAsync()
@@ -148,6 +144,7 @@ namespace IntegrationTests.SDK
                 break;
             }
         }
-        #endregion
+
+        #endregion StreamChatCompletion
     }
 }

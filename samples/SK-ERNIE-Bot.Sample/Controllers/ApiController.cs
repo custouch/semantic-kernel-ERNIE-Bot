@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.Embeddings;
@@ -35,7 +34,6 @@ namespace SK_ERNIE_Bot.Sample.Controllers
             var result = await chat.GenerateMessageAsync(history, cancellationToken: cancellationToken);
 
             return Ok(result);
-
         }
 
         [HttpPost("text")]
@@ -52,7 +50,6 @@ namespace SK_ERNIE_Bot.Sample.Controllers
 
             var text = await result.First().GetCompletionAsync();
             return Ok(text);
-
         }
 
         [HttpPost("stream")]

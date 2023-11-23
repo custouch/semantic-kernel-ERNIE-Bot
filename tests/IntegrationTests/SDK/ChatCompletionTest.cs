@@ -1,11 +1,6 @@
 ﻿using ERNIE_Bot.SDK;
 using Microsoft;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IntegrationTests.SDK
 {
@@ -28,7 +23,6 @@ namespace IntegrationTests.SDK
             _client = new ERNIEBotClient(clientId, clientSecret);
         }
 
-
         #region ChatCompletion
 
         private async Task<string> InternalChatAsync(ModelEndpoint endpoint)
@@ -46,7 +40,6 @@ namespace IntegrationTests.SDK
             }, endpoint);
             return response.Result;
         }
-
 
         [Fact]
         public async Task ERNIEBotChatAsync()
@@ -127,9 +120,7 @@ namespace IntegrationTests.SDK
 
             Assert.NotNull(result);
         }
-        #endregion
 
-
-
+        #endregion ChatCompletion
     }
 }

@@ -28,7 +28,6 @@ builder.Services.AddScoped(svc =>
     return memory;
 });
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

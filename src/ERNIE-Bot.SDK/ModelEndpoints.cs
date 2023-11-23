@@ -28,7 +28,7 @@
         public static readonly ModelEndpoint Llama_2_7b_chat = new("llama_2_7b");
 
         /// <summary>
-        /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/2lki2us1e">Llama2 13b Chat Model</see> 
+        /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/2lki2us1e">Llama2 13b Chat Model</see>
         /// </summary>
         public static readonly ModelEndpoint Llama_2_13b_chat = new("llama_2_13b");
 

@@ -1,18 +1,11 @@
 ﻿using ERNIE_Bot.SDK.Models;
 using Microsoft;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.RateLimiting;
-using System.Threading.Tasks;
 
 namespace ERNIE_Bot.SDK
 {
@@ -45,8 +38,8 @@ namespace ERNIE_Bot.SDK
                 Window = TimeSpan.FromSeconds(1),
             }), tokenStore, logger)
         {
-
         }
+
         /// <summary>
         /// API for Chat Completion
         /// </summary>
@@ -175,7 +168,6 @@ namespace ERNIE_Bot.SDK
 
         #region ===== private methods =====
 
-
         private async Task<HttpRequestMessage> CreateRequestAsync<TRequest>(HttpMethod method, string path, TRequest? body = null, CancellationToken cancellationToken = default) where TRequest : class
         {
             var accessToken = await GetAccessTokenAsync(cancellationToken);
@@ -290,7 +282,7 @@ namespace ERNIE_Bot.SDK
                 }
             }
         }
-        #endregion
 
+        #endregion ===== private methods =====
     }
 }

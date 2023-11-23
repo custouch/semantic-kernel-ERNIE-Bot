@@ -1,14 +1,8 @@
 ﻿using ERNIE_Bot.SDK;
 using Microsoft.SemanticKernel.AI.Embeddings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ERNIE_Bot.KernelMemory
 {
-
     /// <summary>
     /// Generating text embeddings using ERNIEBotClient.
     /// </summary>
@@ -16,8 +10,6 @@ namespace ERNIE_Bot.KernelMemory
     {
         private readonly ERNIEBotClient _client;
         private readonly EmbeddingModelEndpoint _endpoint;
-
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ERNIEBotTextEmbeddingGeneration"/> class.

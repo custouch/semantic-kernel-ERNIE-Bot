@@ -2,15 +2,12 @@
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.TextCompletion;
 using Microsoft.SemanticKernel.Orchestration;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Connectors.AI.ERNIEBot
 {
-    class ERNIEBotChatMessage : ChatMessage
+    internal class ERNIEBotChatMessage : ChatMessage
     {
         public ERNIEBotChatMessage(string content)
             : base(AuthorRole.Assistant, content)
@@ -22,11 +19,13 @@ namespace Connectors.AI.ERNIEBot
     {
         private readonly ChatResponse? _response;
         private readonly IAsyncEnumerable<ChatResponse>? _responses;
+
         public ERNIEBotChatResult(IAsyncEnumerable<ChatResponse> responses)
         {
             this.ModelResult = new ModelResult(responses);
             this._responses = responses;
         }
+
         public ERNIEBotChatResult(ChatResponse response)
         {
             this.ModelResult = new ModelResult(response);
@@ -60,6 +59,7 @@ namespace Connectors.AI.ERNIEBot
         }
 
         #region Streaming
+
         public async IAsyncEnumerable<string> GetCompletionStreamingAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             await foreach (var response in _responses.WithCancellation(cancellationToken).ConfigureAwait(false))
@@ -75,6 +75,7 @@ namespace Connectors.AI.ERNIEBot
                 yield return new ERNIEBotChatMessage(response.Result);
             }
         }
-        #endregion
+
+        #endregion Streaming
     }
 }

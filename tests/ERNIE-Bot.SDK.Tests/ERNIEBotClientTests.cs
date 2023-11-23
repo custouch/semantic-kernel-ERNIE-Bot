@@ -1,12 +1,5 @@
-﻿using Xunit;
-using ERNIE_Bot.SDK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ERNIE_Bot.SDK.Models;
 using ERNIE_BOT.SDK.Tests;
-using ERNIE_Bot.SDK.Models;
 
 namespace ERNIE_Bot.SDK.Tests
 {

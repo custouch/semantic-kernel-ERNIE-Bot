@@ -1,7 +1,6 @@
 ﻿using ERNIE_Bot.Sample.Controllers.Models;
 using ERNIE_Bot.SDK;
 using ERNIE_Bot.SDK.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
@@ -161,7 +160,6 @@ namespace ERNIE_Bot.Sample.Controllers
         [HttpPost("History")]
         public async Task<IActionResult> HistoryAsync([FromBody] UserHistoryInput input)
         {
-
             if (!input.Messages.Any())
             {
                 return NoContent();

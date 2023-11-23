@@ -1,13 +1,7 @@
 ﻿using ERNIE_Bot.SDK;
 using ERNIE_Bot.SDK.Models;
-using Microsoft.SemanticKernel.AI;
 using Microsoft.SemanticKernel.AI.Embeddings;
 using Microsoft.SemanticKernel.Diagnostics;
-using Microsoft.SemanticKernel.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
 {
@@ -29,7 +23,7 @@ public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
                 Input = data.ToList()
             }, cancellationToken);
 
-            // TODO: ITextEmbeddingGeneration not support ReadOnlyMemory<double> 
+            // TODO: ITextEmbeddingGeneration not support ReadOnlyMemory<double>
             return embeddings.Data.Select(d => new ReadOnlyMemory<float>(d.Embedding.Select(e => (float)e).ToArray())).ToList();
         }
         catch (ERNIEBotException ex)

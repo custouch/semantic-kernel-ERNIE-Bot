@@ -11,7 +11,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped(svc =>
 {
-
     var logger = svc.GetRequiredService<ILogger<ERNIEBotClient>>();
 
     var clientId = builder.Configuration["ClientId"];

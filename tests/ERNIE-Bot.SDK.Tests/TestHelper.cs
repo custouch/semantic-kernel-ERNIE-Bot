@@ -1,10 +1,4 @@
-﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace ERNIE_BOT.SDK.Tests
 {
@@ -45,9 +39,6 @@ namespace ERNIE_BOT.SDK.Tests
                     Content = streamContent
                 };
             }
-
-
-
         }
 
         internal static async Task<HttpClient> FakeHttpClient(string fileName, bool isStream = false)
@@ -58,6 +49,7 @@ namespace ERNIE_BOT.SDK.Tests
             return client;
         }
     }
+
     public class MockHttpMessageHandler : HttpMessageHandler
     {
         private readonly HttpResponseMessage _response;
@@ -66,6 +58,7 @@ namespace ERNIE_BOT.SDK.Tests
         {
             this._response = response;
         }
+
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             return Task.FromResult(_response);

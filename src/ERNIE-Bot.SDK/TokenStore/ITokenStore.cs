@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace ERNIE_Bot.SDK
+﻿namespace ERNIE_Bot.SDK
 {
     public interface ITokenStore
     {
