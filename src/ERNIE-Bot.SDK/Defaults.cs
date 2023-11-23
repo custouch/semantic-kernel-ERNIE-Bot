@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-
-namespace ERNIE_Bot.SDK
+﻿namespace ERNIE_Bot.SDK
 {
     public static class Defaults
     {
@@ -24,6 +19,5 @@ namespace ERNIE_Bot.SDK
         /// Use <see cref="ModelEndpoints">ModelEndpoints</see> to get the Model Endpoint
         /// </summary>
         public static string Endpoint(Endpoint endpoint) => $"https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/{endpoint.Task}/{endpoint.Model}";
-
     }
 }

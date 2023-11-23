@@ -20,7 +20,6 @@
         }
     }
 
-
     /// <inheritdoc/>
     public class ModelEndpoint : Endpoint
     {

@@ -1,10 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ERNIE_Bot.SDK
 {
@@ -16,13 +11,13 @@ namespace ERNIE_Bot.SDK
         {
             this._cache = cache;
         }
+
         public Task<string?> GetTokenAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             _cache.TryGetValue(Defaults.TokenCacheName, out string? accessToken);
             return Task.FromResult(accessToken);
-
         }
 
         public Task SaveTokenAsync(string accessToken, TimeSpan expiration, CancellationToken cancellationToken)

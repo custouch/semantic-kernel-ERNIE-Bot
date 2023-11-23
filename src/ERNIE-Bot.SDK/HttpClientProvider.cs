@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Net;
-using System.Text;
 using System.Threading.RateLimiting;
 
 namespace ERNIE_Bot.SDK
@@ -24,6 +21,7 @@ namespace ERNIE_Bot.SDK
             return CreateRateLimitedClient(new FixedWindowRateLimiter(fixedWindowRateLimiterOptions));
         }
     }
+
     /// <summary>
     /// ref: https://learn.microsoft.com/dotnet/core/extensions/http-ratelimiter
     /// </summary>

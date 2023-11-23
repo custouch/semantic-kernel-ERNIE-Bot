@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace ERNIE_Bot.SDK.Models
 {
@@ -17,10 +14,12 @@ namespace ERNIE_Bot.SDK.Models
     public class ERNIEBotException : Exception
     {
         public ERNIEBotError Error { get; }
+
         public ERNIEBotException(ERNIEBotError? error) : base(error?.Message)
         {
             Error = error ?? new ERNIEBotError();
         }
+
         public ERNIEBotException(int code, string message)
             : this(new ERNIEBotError()
             {
@@ -29,5 +28,4 @@ namespace ERNIE_Bot.SDK.Models
             })
         { }
     }
-
 }

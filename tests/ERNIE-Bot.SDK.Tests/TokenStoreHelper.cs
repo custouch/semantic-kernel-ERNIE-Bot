@@ -1,9 +1,4 @@
 ﻿using ERNIE_Bot.SDK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ERNIE_BOT.SDK.Tests
 {

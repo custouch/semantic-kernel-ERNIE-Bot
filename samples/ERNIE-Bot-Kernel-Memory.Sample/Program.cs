@@ -1,16 +1,13 @@
-﻿
-using ERNIE_Bot.KernelMemory;
+﻿using ERNIE_Bot.KernelMemory;
 using ERNIE_Bot.SDK;
 using Microsoft.Extensions.Configuration;
 using Microsoft.KernelMemory;
 using Microsoft.KernelMemory.Handlers;
-using System;
 using System.Threading.RateLimiting;
 
 var config = new ConfigurationBuilder()
             .AddUserSecrets<Program>()
             .Build();
-
 
 var client = new ERNIEBotClient(config["ClientId"]!, config["ClientSecret"]!,
                                 HttpClientProvider.CreateFixedWindowRateLimitedClient(new FixedWindowRateLimiterOptions()

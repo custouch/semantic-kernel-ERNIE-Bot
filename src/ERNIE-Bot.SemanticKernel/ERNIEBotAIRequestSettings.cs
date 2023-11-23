@@ -13,7 +13,6 @@ public class ERNIEBotAIRequestSettings : AIRequestSettings
     [JsonPropertyName("penalty_score")]
     public float? PenaltyScore { get; set; }
 
-
     public static ERNIEBotAIRequestSettings FromRequestSettings(AIRequestSettings? requestSettings, int? defaultMaxTokens = null)
     {
         if (requestSettings is null)

@@ -10,6 +10,7 @@ namespace ERNIE_Bot.SDK
         {
             this._cache = cache;
         }
+
         public async Task<string?> GetTokenAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();

@@ -5,10 +5,7 @@ using Microsoft.SemanticKernel.AI;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.TextCompletion;
 using Microsoft.SemanticKernel.Diagnostics;
-using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 {
@@ -24,6 +21,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 
         this._modelEndpoint = modelEndpoint ?? ModelEndpoints.ERNIE_Bot;
     }
+
     public ChatHistory CreateNewChat(string? instructions = null)
     {
         var history = new ChatHistory();
@@ -35,7 +33,6 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 
         return history;
     }
-
 
     public async Task<IReadOnlyList<IChatResult>> GetChatCompletionsAsync(ChatHistory chat, AIRequestSettings? requestSettings = null, CancellationToken cancellationToken = default)
     {
@@ -52,8 +49,6 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                                                              );
         return new List<IChatResult>() { new ERNIEBotChatResult(result) };
     }
-
-
 
     public async Task<IReadOnlyList<ITextResult>> GetCompletionsAsync(string text, AIRequestSettings? requestSettings, CancellationToken cancellationToken = default)
     {

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ERNIE_Bot.SDK
+﻿namespace ERNIE_Bot.SDK
 {
     public class DefaultTokenStore : ITokenStore
     {
-        static string? _access_token = null;
-        static DateTime? _expires_at = null;
+        private static string? _access_token = null;
+        private static DateTime? _expires_at = null;
+
         public Task<string?> GetTokenAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();

@@ -1,11 +1,6 @@
 ﻿using ERNIE_Bot.SDK;
-using Microsoft.Extensions.Configuration;
 using Microsoft;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace IntegrationTests.SDK
 {
@@ -29,6 +24,7 @@ namespace IntegrationTests.SDK
         }
 
         #region Embedding
+
         private async Task<List<double>> InternalEmbeddingAsync(EmbeddingModelEndpoint endpoint)
         {
             var response = await _client.EmbeddingsAsync(new ERNIE_Bot.SDK.Models.EmbeddingsRequest()
@@ -61,6 +57,7 @@ namespace IntegrationTests.SDK
 
             Assert.NotEmpty(result);
         }
-        #endregion
+
+        #endregion Embedding
     }
 }

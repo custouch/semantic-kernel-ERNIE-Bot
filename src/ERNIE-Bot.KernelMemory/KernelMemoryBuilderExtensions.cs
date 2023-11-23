@@ -1,10 +1,5 @@
 ﻿using ERNIE_Bot.SDK;
 using Microsoft.KernelMemory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ERNIE_Bot.KernelMemory
 {
