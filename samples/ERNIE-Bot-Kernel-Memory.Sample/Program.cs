@@ -16,7 +16,7 @@ var client = new ERNIEBotClient(config["ClientId"]!, config["ClientSecret"]!,
                                 HttpClientProvider.CreateFixedWindowRateLimitedClient(new FixedWindowRateLimiterOptions()
                                 {
                                     Window = TimeSpan.FromSeconds(1),
-                                    PermitLimit = 4,
+                                    PermitLimit = 5,
                                     QueueLimit = 100
                                 }));
 
