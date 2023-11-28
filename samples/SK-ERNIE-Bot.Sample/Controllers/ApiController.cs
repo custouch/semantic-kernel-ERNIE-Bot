@@ -114,5 +114,25 @@ namespace SK_ERNIE_Bot.Sample.Controllers
             var result = await _kernel.RunAsync(input.Text, translateFunc);
             return Ok(result.GetValue<string>());
         }
+
+        [HttpPost("chat_with_system")]
+        public async Task<IActionResult> ChatWithSystemAsync([FromBody] UserInput input, CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrWhiteSpace(input.Text))
+            {
+                return NoContent();
+            }
+
+            var chat = _kernel.GetService<IChatCompletion>();
+
+            var history = chat.CreateNewChat($"你是一个友善的AI助手。你的名字叫做Alice，今天是{DateTime.Today}.");
+
+            history.AddUserMessage(input.Text);
+
+            var result = await chat.GetChatCompletionsAsync(history, null, cancellationToken);
+
+            var text = await result.First().GetChatMessageAsync();
+            return Ok(text.Content);
+        }
     }
 }
