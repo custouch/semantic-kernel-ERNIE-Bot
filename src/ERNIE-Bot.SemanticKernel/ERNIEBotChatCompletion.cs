@@ -28,7 +28,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 
         if (instructions != null)
         {
-            history.AddAssistantMessage(instructions);
+            history.AddSystemMessage(instructions);
         }
 
         return history;
@@ -36,7 +36,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 
     public async Task<IReadOnlyList<IChatResult>> GetChatCompletionsAsync(ChatHistory chat, AIRequestSettings? requestSettings = null, CancellationToken cancellationToken = default)
     {
-        var messages = ChatHistoryToMessages(chat);
+        var messages = ChatHistoryToMessages(chat, out var system);
         requestSettings ??= new AIRequestSettings();
 
         var settings = ERNIEBotAIRequestSettings.FromRequestSettings(requestSettings);
@@ -45,6 +45,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                                                              settings.Temperature,
                                                              settings.TopP,
                                                              settings.PenaltyScore,
+                                                             system,
                                                              cancellationToken
                                                              );
         return new List<IChatResult>() { new ERNIEBotChatResult(result) };
@@ -61,6 +62,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                                                     settings.Temperature,
                                                     settings.TopP,
                                                     settings.PenaltyScore,
+                                                    null,
                                                     cancellationToken
                                                     );
 
@@ -69,7 +71,8 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 
     public async IAsyncEnumerable<IChatStreamingResult> GetStreamingChatCompletionsAsync(ChatHistory chat, AIRequestSettings? requestSettings = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var messages = ChatHistoryToMessages(chat);
+        var messages = ChatHistoryToMessages(chat, out var system);
+
         requestSettings ??= new AIRequestSettings();
 
         var settings = ERNIEBotAIRequestSettings.FromRequestSettings(requestSettings);
@@ -78,6 +81,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                                                      settings.Temperature,
                                                      settings.TopP,
                                                      settings.PenaltyScore,
+                                                     system,
                                                      cancellationToken
                                                     );
 
@@ -96,6 +100,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                                                      settings.Temperature,
                                                      settings.TopP,
                                                      settings.PenaltyScore,
+                                                     null,
                                                      cancellationToken
                                                      );
 
@@ -115,13 +120,23 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         };
     }
 
-    private List<Message> ChatHistoryToMessages(ChatHistory chatHistory)
+    private List<Message> ChatHistoryToMessages(ChatHistory chatHistory, out string? system)
     {
-        return chatHistory.Select(m => new Message()
+        if (chatHistory.First().Role == AuthorRole.System)
         {
-            Role = AuthorRoleToMessageRole(m.Role),
-            Content = m.Content
-        }).ToList();
+            system = chatHistory.First().Content;
+        }
+        else
+        {
+            system = null;
+        }
+        return chatHistory
+            .Where(_ => _.Role != AuthorRole.System)
+            .Select(m => new Message()
+            {
+                Role = AuthorRoleToMessageRole(m.Role),
+                Content = m.Content
+            }).ToList();
     }
 
     private string AuthorRoleToMessageRole(AuthorRole role)
@@ -131,7 +146,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         return MessageRole.User;
     }
 
-    protected virtual async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, float? temperature, float? topP, float? penaltyScore, CancellationToken cancellationToken)
+    protected virtual async Task<ChatResponse> InternalCompletionsAsync(List<Message> messages, float? temperature, float? topP, float? penaltyScore, string? system, CancellationToken cancellationToken)
     {
         try
         {
@@ -141,6 +156,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                 Temperature = temperature,
                 TopP = topP,
                 PenaltyScore = penaltyScore,
+                System = system,
             }, _modelEndpoint, cancellationToken);
         }
         catch (ERNIEBotException ex)
@@ -149,7 +165,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         }
     }
 
-    protected virtual IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, float? temperature, float? topP, float? penaltyScore, CancellationToken cancellationToken)
+    protected virtual IAsyncEnumerable<ChatResponse> InternalCompletionsStreamAsync(List<Message> messages, float? temperature, float? topP, float? penaltyScore, string? system, CancellationToken cancellationToken)
     {
         try
         {
@@ -159,6 +175,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
                 Temperature = temperature,
                 TopP = topP,
                 PenaltyScore = penaltyScore,
+                System = system,
             }, _modelEndpoint, cancellationToken);
         }
         catch (ERNIEBotException ex)

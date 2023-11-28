@@ -4,6 +4,9 @@ namespace ERNIE_Bot.SDK.Models
 {
     public class ChatRequest
     {
+        [JsonPropertyName("system")]
+        public string? System { get; set; }
+
         [JsonPropertyName("messages")]
         public List<Message> Messages { get; set; } = new List<Message>();
 
