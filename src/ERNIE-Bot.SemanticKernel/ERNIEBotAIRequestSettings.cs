@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-public class ERNIEBotAIRequestSettings : AIRequestSettings
+public class ERNIEBotAIRequestSettings : PromptExecutionSettings
 {
     [JsonPropertyName("temperature")]
     public float? Temperature { get; set; }
@@ -13,7 +13,7 @@ public class ERNIEBotAIRequestSettings : AIRequestSettings
     [JsonPropertyName("penalty_score")]
     public float? PenaltyScore { get; set; }
 
-    public static ERNIEBotAIRequestSettings FromRequestSettings(AIRequestSettings? requestSettings, int? defaultMaxTokens = null)
+    public static ERNIEBotAIRequestSettings FromRequestSettings(PromptExecutionSettings? requestSettings, int? defaultMaxTokens = null)
     {
         if (requestSettings is null)
         {

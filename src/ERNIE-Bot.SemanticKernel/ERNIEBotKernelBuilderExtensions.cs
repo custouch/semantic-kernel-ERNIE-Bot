@@ -3,8 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
-using Microsoft.SemanticKernel.AI.TextCompletion;
+using Microsoft.SemanticKernel.AI.TextGeneration;
 using Microsoft.SemanticKernel.Plugins.Memory;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.SemanticKernel
 {
@@ -19,24 +20,19 @@ namespace Microsoft.SemanticKernel
         /// <param name="configuration">The configuration provider.</param>
         /// <param name="serviceId">The service identifier.</param>
         /// <param name="modelEndpoint">The model endpoint.</param>
-        /// <param name="alsoAsTextCompletion">Also adds the service as a text completion service, true by default.</param>
-        /// <param name="setAsDefault">Sets the service as the default service, false by default.</param>
         /// <returns>The updated kernel builder.</returns>
         public static KernelBuilder WithERNIEBotChatCompletionService(this KernelBuilder builder,
             IServiceProvider service, IConfiguration configuration,
             string? serviceId = null,
-            ModelEndpoint? modelEndpoint = null,
-            bool alsoAsTextCompletion = true,
-            bool setAsDefault = false)
+            ModelEndpoint? modelEndpoint = null)
         {
-            var client = CreateERNIEBotClient(service, configuration);
-            var generation = new ERNIEBotChatCompletion(client, modelEndpoint);
-            builder.WithAIService<IChatCompletion>(serviceId, generation, setAsDefault);
-
-            if (alsoAsTextCompletion)
+            builder.WithServices(c =>
             {
-                builder.WithAIService<ITextCompletion>(serviceId, generation, setAsDefault);
-            }
+                var client = CreateERNIEBotClient(service, configuration);
+                var generation = new ERNIEBotChatCompletion(client, modelEndpoint);
+                c.AddKeyedSingleton<IChatCompletionService>(serviceId, generation);
+                c.AddKeyedSingleton<ITextGenerationService>(serviceId, generation);
+            });
 
             return builder;
         }
@@ -55,18 +51,16 @@ namespace Microsoft.SemanticKernel
         public static KernelBuilder WithERNIEBotChatCompletionService(this KernelBuilder builder,
             string clientId, string secret,
             string? serviceId = null,
-            ModelEndpoint? modelEndpoint = null,
-            bool alsoAsTextCompletion = true,
-            bool setAsDefault = false)
+            ModelEndpoint? modelEndpoint = null)
         {
-            var client = CreateERNIEBotClient(clientId, secret);
-            var generation = new ERNIEBotChatCompletion(client, modelEndpoint);
-            builder.WithAIService<IChatCompletion>(serviceId, generation, setAsDefault);
 
-            if (alsoAsTextCompletion)
+            builder.WithServices(c =>
             {
-                builder.WithAIService<ITextCompletion>(serviceId, generation, setAsDefault);
-            }
+                var client = CreateERNIEBotClient(clientId, secret);
+                var generation = new ERNIEBotChatCompletion(client, modelEndpoint);
+                c.AddKeyedSingleton<IChatCompletionService>(serviceId, generation);
+                c.AddKeyedSingleton<ITextGenerationService>(serviceId, generation);
+            });
 
             return builder;
         }
@@ -78,6 +72,8 @@ namespace Microsoft.SemanticKernel
         /// <param name="service"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
+
+        [Experimental("SKEXP0052")]
         public static MemoryBuilder WithERNIEBotEmbeddingGenerationService(this MemoryBuilder builder,
             IServiceProvider service, IConfiguration configuration)
         {
@@ -86,7 +82,6 @@ namespace Microsoft.SemanticKernel
             builder.WithTextEmbeddingGeneration(generation);
             return builder;
         }
-
         /// <summary>
         ///
         /// </summary>
@@ -94,6 +89,7 @@ namespace Microsoft.SemanticKernel
         /// <param name="clientId"></param>
         /// <param name="secret"></param>
         /// <returns></returns>
+        [Experimental("SKEXP0052")]
         public static MemoryBuilder WithERNIEBotEmbeddingGenerationService(this MemoryBuilder builder,
             string clientId, string secret)
         {

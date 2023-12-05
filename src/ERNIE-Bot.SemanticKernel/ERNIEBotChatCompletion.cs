@@ -1,13 +1,15 @@
 ﻿using Connectors.AI.ERNIEBot;
 using ERNIE_Bot.SDK;
 using ERNIE_Bot.SDK.Models;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AI;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
-using Microsoft.SemanticKernel.AI.TextCompletion;
-using Microsoft.SemanticKernel.Diagnostics;
+using Microsoft.SemanticKernel.AI.TextGeneration;
+using Microsoft.SemanticKernel.Services;
+using System;
 using System.Runtime.CompilerServices;
 
-public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
+public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationService
 {
     protected readonly ERNIEBotClient _client;
     private readonly ModelEndpoint _modelEndpoint;
@@ -15,12 +17,92 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 
     public IReadOnlyDictionary<string, string> Attributes => this._attributes;
 
+    IReadOnlyDictionary<string, object?> IAIService.Attributes => throw new NotImplementedException();
+
     public ERNIEBotChatCompletion(ERNIEBotClient client, ModelEndpoint? modelEndpoint = null)
     {
         this._client = client;
 
         this._modelEndpoint = modelEndpoint ?? ModelEndpoints.ERNIE_Bot;
     }
+
+    public async Task<IReadOnlyList<ChatMessageContent>> GetChatMessageContentsAsync(ChatHistory chat, PromptExecutionSettings? executionSettings = null, Kernel? kernel = null, CancellationToken cancellationToken = default)
+    {
+        var messages = ChatHistoryToMessages(chat, out var system);
+        executionSettings ??= new PromptExecutionSettings();
+
+        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(executionSettings);
+
+        ChatResponse result = await InternalCompletionsAsync(messages,
+                                                             settings.Temperature,
+                                                             settings.TopP,
+                                                             settings.PenaltyScore,
+                                                             system,
+                                                             cancellationToken
+                                                             );
+
+        return new List<ChatMessageContent>() { new ERNIEBotChatMessage(result) };
+    }
+
+    public async IAsyncEnumerable<StreamingChatMessageContent> GetStreamingChatMessageContentsAsync(ChatHistory chatHistory, PromptExecutionSettings? executionSettings = null, Kernel? kernel = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var messages = ChatHistoryToMessages(chatHistory, out var system);
+
+        executionSettings ??= new PromptExecutionSettings();
+
+        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(executionSettings);
+
+        var results = InternalCompletionsStreamAsync(messages,
+                                                     settings.Temperature,
+                                                     settings.TopP,
+                                                     settings.PenaltyScore,
+                                                     system,
+                                                     cancellationToken
+                                                    );
+        await foreach (var result in results)
+        {
+            yield return new ERNIEBotStreamingChatMessage(result);
+        }
+    }
+
+    public async Task<IReadOnlyList<TextContent>> GetTextContentsAsync(string prompt, PromptExecutionSettings? executionSettings = null, Kernel? kernel = null, CancellationToken cancellationToken = default)
+    {
+        executionSettings ??= new PromptExecutionSettings();
+        var messages = StringToMessages(prompt);
+
+        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(executionSettings);
+
+        var result = await InternalCompletionsAsync(messages,
+                                                    settings.Temperature,
+                                                    settings.TopP,
+                                                    settings.PenaltyScore,
+                                                    null,
+                                                    cancellationToken
+                                                    );
+
+        return new List<TextContent>() { new(result.Result) }.AsReadOnly();
+    }
+
+    public async IAsyncEnumerable<StreamingTextContent> GetStreamingTextContentsAsync(string prompt, PromptExecutionSettings? executionSettings = null, Kernel? kernel = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var messages = StringToMessages(prompt);
+        executionSettings ??= new PromptExecutionSettings();
+
+        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(executionSettings);
+
+        var results = InternalCompletionsStreamAsync(messages,
+                                                     settings.Temperature,
+                                                     settings.TopP,
+                                                     settings.PenaltyScore,
+                                                     null,
+                                                     cancellationToken
+                                                     );
+        await foreach (var result in results)
+        {
+            yield return new StreamingTextContent(result.Result);
+        }
+    }
+
 
     public ChatHistory CreateNewChat(string? instructions = null)
     {
@@ -33,81 +115,6 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
 
         return history;
     }
-
-    public async Task<IReadOnlyList<IChatResult>> GetChatCompletionsAsync(ChatHistory chat, AIRequestSettings? requestSettings = null, CancellationToken cancellationToken = default)
-    {
-        var messages = ChatHistoryToMessages(chat, out var system);
-        requestSettings ??= new AIRequestSettings();
-
-        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(requestSettings);
-
-        ChatResponse result = await InternalCompletionsAsync(messages,
-                                                             settings.Temperature,
-                                                             settings.TopP,
-                                                             settings.PenaltyScore,
-                                                             system,
-                                                             cancellationToken
-                                                             );
-        return new List<IChatResult>() { new ERNIEBotChatResult(result) };
-    }
-
-    public async Task<IReadOnlyList<ITextResult>> GetCompletionsAsync(string text, AIRequestSettings? requestSettings, CancellationToken cancellationToken = default)
-    {
-        requestSettings ??= new AIRequestSettings();
-        var messages = StringToMessages(text);
-
-        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(requestSettings);
-
-        var result = await InternalCompletionsAsync(messages,
-                                                    settings.Temperature,
-                                                    settings.TopP,
-                                                    settings.PenaltyScore,
-                                                    null,
-                                                    cancellationToken
-                                                    );
-
-        return new List<ITextResult>() { new ERNIEBotChatResult(result) }.AsReadOnly();
-    }
-
-    public async IAsyncEnumerable<IChatStreamingResult> GetStreamingChatCompletionsAsync(ChatHistory chat, AIRequestSettings? requestSettings = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
-    {
-        var messages = ChatHistoryToMessages(chat, out var system);
-
-        requestSettings ??= new AIRequestSettings();
-
-        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(requestSettings);
-
-        var results = InternalCompletionsStreamAsync(messages,
-                                                     settings.Temperature,
-                                                     settings.TopP,
-                                                     settings.PenaltyScore,
-                                                     system,
-                                                     cancellationToken
-                                                    );
-
-        yield return new ERNIEBotChatResult(results);
-        await Task.CompletedTask;
-    }
-
-    public async IAsyncEnumerable<ITextStreamingResult> GetStreamingCompletionsAsync(string text, AIRequestSettings? requestSettings, [EnumeratorCancellation] CancellationToken cancellationToken = default)
-    {
-        var messages = StringToMessages(text);
-        requestSettings ??= new AIRequestSettings();
-
-        var settings = ERNIEBotAIRequestSettings.FromRequestSettings(requestSettings);
-
-        var results = InternalCompletionsStreamAsync(messages,
-                                                     settings.Temperature,
-                                                     settings.TopP,
-                                                     settings.PenaltyScore,
-                                                     null,
-                                                     cancellationToken
-                                                     );
-
-        yield return new ERNIEBotChatResult(results);
-        await Task.CompletedTask;
-    }
-
     private List<Message> StringToMessages(string text)
     {
         return new List<Message>()
@@ -161,7 +168,7 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         }
         catch (ERNIEBotException ex)
         {
-            throw new SKException(ex.Error.Message, ex);
+            throw new KernelException(ex.Error.Message, ex);
         }
     }
 
@@ -180,7 +187,8 @@ public class ERNIEBotChatCompletion : IChatCompletion, ITextCompletion
         }
         catch (ERNIEBotException ex)
         {
-            throw new SKException(ex.Error.Message, ex);
+            throw new KernelException(ex.Error.Message, ex);
         }
     }
+
 }
