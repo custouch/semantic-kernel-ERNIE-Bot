@@ -25,7 +25,7 @@ var memory = new KernelMemoryBuilder()
             MaxTokensPerLine = 100,
             OverlappingTokens = 50
         })
-        .BuildServerlessClient();
+        .Build();
 
 await memory.ImportDocumentAsync("sample-SK-Readme.pdf");
 

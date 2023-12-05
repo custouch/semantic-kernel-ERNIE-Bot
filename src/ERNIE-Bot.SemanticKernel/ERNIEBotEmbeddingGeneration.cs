@@ -1,20 +1,24 @@
 ﻿using ERNIE_Bot.SDK;
 using ERNIE_Bot.SDK.Models;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AI.Embeddings;
-using Microsoft.SemanticKernel.Diagnostics;
+using Microsoft.SemanticKernel.Services;
+using System.Diagnostics.CodeAnalysis;
 
+
+[Experimental("SKEXP0001")]
 public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
 {
     private readonly ERNIEBotClient _client;
-    private readonly Dictionary<string, string> _attributes = new();
-    public IReadOnlyDictionary<string, string> Attributes => this._attributes;
+    private readonly Dictionary<string, object?> _attributes = new();
+    public IReadOnlyDictionary<string, object?> Attributes => this._attributes;
 
     public ERNIEBotEmbeddingGeneration(ERNIEBotClient client)
     {
         this._client = client;
     }
 
-    public async Task<IList<ReadOnlyMemory<float>>> GenerateEmbeddingsAsync(IList<string> data, CancellationToken cancellationToken)
+    public async Task<IList<ReadOnlyMemory<float>>> GenerateEmbeddingsAsync(IList<string> data, Kernel? kernel = null, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -28,7 +32,7 @@ public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
         }
         catch (ERNIEBotException ex)
         {
-            throw new SKException(ex.Error.Message, ex);
+            throw new KernelException(ex.Error.Message, ex);
         }
     }
 }

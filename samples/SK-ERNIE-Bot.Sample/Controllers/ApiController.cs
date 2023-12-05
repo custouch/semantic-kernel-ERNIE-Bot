@@ -2,7 +2,8 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.AI.ChatCompletion;
 using Microsoft.SemanticKernel.AI.Embeddings;
-using Microsoft.SemanticKernel.AI.TextCompletion;
+using Microsoft.SemanticKernel.AI.TextGeneration;
+using Microsoft.SemanticKernel.Memory;
 using SK_ERNIE_Bot.Sample.Controllers.Models;
 using System.Text;
 
@@ -12,9 +13,9 @@ namespace SK_ERNIE_Bot.Sample.Controllers
     [ApiController]
     public class ApiController : ControllerBase
     {
-        private readonly IKernel _kernel;
+        private readonly Kernel _kernel;
 
-        public ApiController(IKernel kernel)
+        public ApiController(Kernel kernel)
         {
             this._kernel = kernel;
         }
@@ -27,11 +28,11 @@ namespace SK_ERNIE_Bot.Sample.Controllers
                 return NoContent();
             }
 
-            var chat = _kernel.GetService<IChatCompletion>();
-            var history = chat.CreateNewChat();
+            var chat = _kernel.GetService<IChatCompletionService>();
+            var history = new ChatHistory();
             history.AddUserMessage(input.Text);
 
-            var result = await chat.GenerateMessageAsync(history, cancellationToken: cancellationToken);
+            var result = await chat.GetChatMessageContentAsync(history, cancellationToken: cancellationToken);
 
             return Ok(result);
         }
@@ -44,11 +45,11 @@ namespace SK_ERNIE_Bot.Sample.Controllers
                 return NoContent();
             }
 
-            var completion = _kernel.GetService<ITextCompletion>();
+            var completion = _kernel.GetService<ITextGenerationService>();
 
-            var result = await completion.GetCompletionsAsync(input.Text, null, cancellationToken: cancellationToken);
+            var result = await completion.GetTextContentAsync(input.Text, null, cancellationToken: cancellationToken);
 
-            var text = await result.First().GetCompletionAsync();
+            var text = result.Text;
             return Ok(text);
         }
 
@@ -60,11 +61,10 @@ namespace SK_ERNIE_Bot.Sample.Controllers
                 await Response.CompleteAsync();
             }
 
-            var chat = _kernel.GetService<IChatCompletion>();
-            var history = chat.CreateNewChat();
+            var chat = _kernel.GetService<IChatCompletionService>();
+            var history = new ChatHistory();
             history.AddUserMessage(input.Text);
-
-            var results = chat.GenerateMessageStreamAsync(history, cancellationToken: cancellationToken);
+            var results = chat.GetStreamingChatMessageContentsAsync(history, cancellationToken: cancellationToken);
 
             await foreach (var result in results)
             {
@@ -76,18 +76,22 @@ namespace SK_ERNIE_Bot.Sample.Controllers
         }
 
         [HttpPost("embedding")]
-        public async Task<IActionResult> EmbeddingAsync([FromBody] UserInput input, CancellationToken cancellationToken)
+#pragma warning disable SKEXP0003 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+        public async Task<IActionResult> EmbeddingAsync([FromBody] UserInput input, [FromServices] ISemanticTextMemory memory, CancellationToken cancellationToken)
+#pragma warning restore SKEXP0003 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         {
+            const string collection = "demo";
             if (string.IsNullOrWhiteSpace(input.Text))
             {
                 return NoContent();
             }
 
-            var embedding = _kernel.GetService<ITextEmbeddingGeneration>();
+            var id = await memory.SaveInformationAsync(collection, input.Text, "1", cancellationToken: cancellationToken);
+            var embedding = await memory.GetAsync(collection, id, true, cancellationToken: cancellationToken);
 
-            var result = await embedding.GenerateEmbeddingAsync(input.Text, cancellationToken);
+            var result = embedding!.Embedding;
 
-            return Ok(result.ToArray());
+            return Ok(result!.Value.ToArray());
         }
 
         [HttpPost("function")]
@@ -99,19 +103,19 @@ namespace SK_ERNIE_Bot.Sample.Controllers
                 {{$input}}
 
                 """;
-            var func = _kernel.CreateSemanticFunction(prompt);
-            var result = await _kernel.RunAsync(input.Text, func);
+            var func = _kernel.CreateFunctionFromPrompt(prompt);
+            var result = await _kernel.InvokeAsync(func, input.Text);
             return Ok(result.GetValue<string>());
         }
 
         [HttpPost("semanticPlugin")]
         public async Task<IActionResult> SemanticPlugin([FromBody] UserInput input)
         {
-            var plugin = _kernel.ImportSemanticFunctionsFromDirectory("Plugins", "Demo");
+            var plugin = _kernel.ImportPluginFromPromptDirectory("Plugins/Demo", "Demo");
 
             var translateFunc = plugin["Translate"];
 
-            var result = await _kernel.RunAsync(input.Text, translateFunc);
+            var result = await _kernel.InvokeAsync(translateFunc, input.Text);
             return Ok(result.GetValue<string>());
         }
 
@@ -123,16 +127,16 @@ namespace SK_ERNIE_Bot.Sample.Controllers
                 return NoContent();
             }
 
-            var chat = _kernel.GetService<IChatCompletion>();
+            var chat = _kernel.GetService<IChatCompletionService>();
 
-            var history = chat.CreateNewChat($"你是一个友善的AI助手。你的名字叫做Alice，今天是{DateTime.Today}.");
+            var history = new ChatHistory($"你是一个友善的AI助手。你的名字叫做Alice，今天是{DateTime.Today}.");
 
             history.AddUserMessage(input.Text);
 
-            var result = await chat.GetChatCompletionsAsync(history, null, cancellationToken);
+            var result = await chat.GetChatMessageContentsAsync(history, null, cancellationToken: cancellationToken);
 
-            var text = await result.First().GetChatMessageAsync();
-            return Ok(text.Content);
+            var text = result[0].Content;
+            return Ok(text);
         }
     }
 }
