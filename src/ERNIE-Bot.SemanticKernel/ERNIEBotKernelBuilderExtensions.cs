@@ -26,13 +26,10 @@ namespace Microsoft.SemanticKernel
             string? serviceId = null,
             ModelEndpoint? modelEndpoint = null)
         {
-            builder.WithServices(c =>
-            {
-                var client = CreateERNIEBotClient(service, configuration);
-                var generation = new ERNIEBotChatCompletion(client, modelEndpoint);
-                c.AddKeyedSingleton<IChatCompletionService>(serviceId, generation);
-                c.AddKeyedSingleton<ITextGenerationService>(serviceId, generation);
-            });
+            var client = CreateERNIEBotClient(service, configuration);
+            var generation = new ERNIEBotChatCompletion(client, modelEndpoint);
+            builder.Services.AddKeyedSingleton<IChatCompletionService>(serviceId, generation);
+            builder.Services.AddKeyedSingleton<ITextGenerationService>(serviceId, generation);
 
             return builder;
         }
@@ -54,13 +51,10 @@ namespace Microsoft.SemanticKernel
             ModelEndpoint? modelEndpoint = null)
         {
 
-            builder.WithServices(c =>
-            {
-                var client = CreateERNIEBotClient(clientId, secret);
-                var generation = new ERNIEBotChatCompletion(client, modelEndpoint);
-                c.AddKeyedSingleton<IChatCompletionService>(serviceId, generation);
-                c.AddKeyedSingleton<ITextGenerationService>(serviceId, generation);
-            });
+            var client = CreateERNIEBotClient(clientId, secret);
+            var generation = new ERNIEBotChatCompletion(client, modelEndpoint);
+            builder.Services.AddKeyedSingleton<IChatCompletionService>(serviceId, generation);
+            builder.Services.AddKeyedSingleton<ITextGenerationService>(serviceId, generation);
 
             return builder;
         }

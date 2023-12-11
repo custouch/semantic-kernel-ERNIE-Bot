@@ -8,13 +8,13 @@
     <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
     <PackageVersion Include="Microsoft.KernelMemory.Abstractions" Version="0.11.231121.2-preview+ea157ef" />
-    <PackageVersion Include="Microsoft.KernelMemory.Core" Version="0.15.231203.1-preview" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="1.0.0-rc1" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Core" Version="1.0.0-rc1" />
+    <PackageVersion Include="Microsoft.KernelMemory.Core" Version="0.18.231209.1-preview" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="1.0.0-rc3" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Core" Version="1.0.0-rc3" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.0.0-beta8" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.0.0-rc1" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.0.0-rc3" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.0.0-rc3" />
     <PackageVersion Include="Microsoft.SemanticKernel.TemplateEngine.Basic" Version="1.0.0-beta8" />
     <!-- Validation -->
     <PackageVersion Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
