@@ -15,9 +15,9 @@ namespace ERNIE_Bot.KernelMemory
         /// <param name="client">The ERNIEBotClient instance to use for text generation.</param>
         /// <param name="endpoint">The endpoint to use for the text generation model. Defaults to ModelEndpoints.ERNIE_Bot_Turbo.</param>
         /// <returns>The configured KernelMemoryBuilder instance.</returns>
-        public static KernelMemoryBuilder WithERNIEBotTextGeneration(this KernelMemoryBuilder builder, ERNIEBotClient client, ModelEndpoint? endpoint = null)
+        public static KernelMemoryBuilder WithERNIEBotTextGenerator(this KernelMemoryBuilder builder, ERNIEBotClient client, ModelEndpoint? endpoint = null)
         {
-            builder.WithCustomTextGeneration(new ERNIEBotTextGeneration(client, endpoint));
+            builder.WithCustomTextGenerator(new ERNIEBotTextGenerator(client, endpoint));
             return builder;
         }
 
@@ -28,9 +28,9 @@ namespace ERNIE_Bot.KernelMemory
         /// <param name="client">The ERNIEBotClient instance to use for embedding generation.</param>
         /// <param name="endpoint">The endpoint to use for the embedding generation model. Defaults to ModelEndpoints.Embedding_v1.</param>
         /// <returns>The configured KernelMemoryBuilder instance.</returns>
-        public static KernelMemoryBuilder WithERNIEBotEmbeddingGeneration(this KernelMemoryBuilder builder, ERNIEBotClient client, EmbeddingModelEndpoint? endpoint = null)
+        public static KernelMemoryBuilder WithERNIEBotEmbeddingGenerator(this KernelMemoryBuilder builder, ERNIEBotClient client, EmbeddingModelEndpoint? endpoint = null)
         {
-            builder.WithCustomEmbeddingGeneration(new ERNIEBotTextEmbeddingGeneration(client, endpoint));
+            builder.WithCustomEmbeddingGenerator(new ERNIEBotTextEmbeddingGenerator(client, endpoint));
             return builder;
         }
 
@@ -55,8 +55,8 @@ namespace ERNIE_Bot.KernelMemory
         /// <returns>The configured KernelMemoryBuilder instance.</returns>
         public static KernelMemoryBuilder WithERNIEBotDefaults(this KernelMemoryBuilder builder, ERNIEBotClient client)
         {
-            builder.WithERNIEBotTextGeneration(client);
-            builder.WithERNIEBotEmbeddingGeneration(client);
+            builder.WithERNIEBotTextGenerator(client);
+            builder.WithERNIEBotEmbeddingGenerator(client);
             return builder;
         }
     }

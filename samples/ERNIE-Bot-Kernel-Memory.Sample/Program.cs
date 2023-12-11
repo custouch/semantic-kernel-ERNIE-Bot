@@ -29,7 +29,7 @@ var memory = new KernelMemoryBuilder()
 
 await memory.ImportDocumentAsync("sample-SK-Readme.pdf");
 
-var question = "What's Semantic Kernel?";
+var question = "什么是 Semantic Kernel?";
 
 Console.WriteLine($"\n\nQuestion: {question}");
 

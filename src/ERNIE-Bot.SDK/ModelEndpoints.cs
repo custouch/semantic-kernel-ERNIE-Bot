@@ -5,7 +5,7 @@
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/6lp69is2a">ERNIE Bot 8k Chat Model</see>
         /// </summary>
-        public static readonly ModelEndpoint ERNIE_Bot_8K = new("ernie_bot_8k");
+        public static readonly ModelEndpoint ERNIE_Bot_8K = new("ernie_bot_8k",6000);
 
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/clntwmv7t">ERNIE Bot 4 Chat Model</see>
@@ -20,7 +20,7 @@
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/4lilb2lpf"> ERNIE Bot Turbo Chat Model</see>
         /// </summary>
-        public static readonly ModelEndpoint ERNIE_Bot_Turbo = new("eb-instant");
+        public static readonly ModelEndpoint ERNIE_Bot_Turbo = new("eb-instant", 7000);
 
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Jljcadglj">BLOOMZ 7B Chat Model</see>
@@ -53,9 +53,24 @@
         public static readonly ModelEndpoint Qianfan_Chinese_Llama_2_7b = new("qianfan_chinese_llama_2_7b");
 
         /// <summary>
+        /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/8lo479b4b">Qianfan Chinese Llama2 13B Chat Model</see>
+        /// </summary>
+        public static readonly ModelEndpoint Qianfan_Chinese_Llama_2_13b = new("qianfan_chinese_llama_2_13b");
+
+        /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Bllz001ff">ChatGLM2 6b 32k Chat Model</see>
         /// </summary>
         public static readonly ModelEndpoint ChatGLM2_6b_32k = new("chatglm2_6b_32k");
+
+        /// <summary>
+        /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Ylp88e5jc">XuanYuan 70B Chat 4bit</see>
+        /// </summary>
+        public static readonly ModelEndpoint XuanYuan_70B_Chat_4bit = new ("xuanyuan_70b_chat");
+
+        /// <summary>
+        /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Qlphtigbf">ChatLaw</see>
+        /// </summary>
+        public static readonly ModelEndpoint ChatLaw = new("chatlaw");
 
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/ollz02e7i">AquilaChat-7B Chat Model</see>
@@ -70,11 +85,11 @@
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/dllz04sro">bge-large-zh Embedding Model</see>
         /// </summary>
-        public static readonly EmbeddingModelEndpoint bge_large_zh = new("bge_large_zh");
+        public static readonly EmbeddingModelEndpoint bge_large_zh = new("bge_large_zh", 512);
 
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/mllz05nzk">bge-large-en Embedding Model</see>
         /// </summary>
-        public static readonly EmbeddingModelEndpoint bge_large_en = new("bge_large_en");
+        public static readonly EmbeddingModelEndpoint bge_large_en = new("bge_large_en", 512);
     }
 }

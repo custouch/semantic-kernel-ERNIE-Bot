@@ -28,7 +28,7 @@ namespace SK_ERNIE_Bot.Sample.Controllers
                 return NoContent();
             }
 
-            var chat = _kernel.GetService<IChatCompletionService>();
+            var chat = _kernel.GetRequiredService<IChatCompletionService>();
             var history = new ChatHistory();
             history.AddUserMessage(input.Text);
 
@@ -45,7 +45,7 @@ namespace SK_ERNIE_Bot.Sample.Controllers
                 return NoContent();
             }
 
-            var completion = _kernel.GetService<ITextGenerationService>();
+            var completion = _kernel.GetRequiredService<ITextGenerationService>();
 
             var result = await completion.GetTextContentAsync(input.Text, null, cancellationToken: cancellationToken);
 
@@ -61,7 +61,7 @@ namespace SK_ERNIE_Bot.Sample.Controllers
                 await Response.CompleteAsync();
             }
 
-            var chat = _kernel.GetService<IChatCompletionService>();
+            var chat = _kernel.GetRequiredService<IChatCompletionService>();
             var history = new ChatHistory();
             history.AddUserMessage(input.Text);
             var results = chat.GetStreamingChatMessageContentsAsync(history, cancellationToken: cancellationToken);
@@ -104,7 +104,7 @@ namespace SK_ERNIE_Bot.Sample.Controllers
 
                 """;
             var func = _kernel.CreateFunctionFromPrompt(prompt);
-            var result = await _kernel.InvokeAsync(func, input.Text);
+            var result = await _kernel.InvokeAsync(func,new KernelArguments(input.Text));
             return Ok(result.GetValue<string>());
         }
 
@@ -115,7 +115,7 @@ namespace SK_ERNIE_Bot.Sample.Controllers
 
             var translateFunc = plugin["Translate"];
 
-            var result = await _kernel.InvokeAsync(translateFunc, input.Text);
+            var result = await _kernel.InvokeAsync(translateFunc, new KernelArguments(input.Text));
             return Ok(result.GetValue<string>());
         }
 
@@ -127,7 +127,7 @@ namespace SK_ERNIE_Bot.Sample.Controllers
                 return NoContent();
             }
 
-            var chat = _kernel.GetService<IChatCompletionService>();
+            var chat = _kernel.GetRequiredService<IChatCompletionService>();
 
             var history = new ChatHistory($"你是一个友善的AI助手。你的名字叫做Alice，今天是{DateTime.Today}.");
 
