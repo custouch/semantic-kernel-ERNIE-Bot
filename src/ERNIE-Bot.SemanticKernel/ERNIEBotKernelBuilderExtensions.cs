@@ -2,10 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.SemanticKernel.AI.ChatCompletion;
-using Microsoft.SemanticKernel.AI.TextGeneration;
-using Microsoft.SemanticKernel.Plugins.Memory;
-using System.Diagnostics.CodeAnalysis;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.TextGeneration;
+using Microsoft.SemanticKernel.Memory;
 
 namespace Microsoft.SemanticKernel
 {
@@ -21,7 +20,7 @@ namespace Microsoft.SemanticKernel
         /// <param name="serviceId">The service identifier.</param>
         /// <param name="modelEndpoint">The model endpoint.</param>
         /// <returns>The updated kernel builder.</returns>
-        public static KernelBuilder WithERNIEBotChatCompletionService(this KernelBuilder builder,
+        public static IKernelBuilder WithERNIEBotChatCompletionService(this IKernelBuilder builder,
             IServiceProvider service, IConfiguration configuration,
             string? serviceId = null,
             ModelEndpoint? modelEndpoint = null)
@@ -45,7 +44,7 @@ namespace Microsoft.SemanticKernel
         /// <param name="alsoAsTextCompletion"></param>
         /// <param name="setAsDefault"></param>
         /// <returns></returns>
-        public static KernelBuilder WithERNIEBotChatCompletionService(this KernelBuilder builder,
+        public static IKernelBuilder WithERNIEBotChatCompletionService(this IKernelBuilder builder,
             string clientId, string secret,
             string? serviceId = null,
             ModelEndpoint? modelEndpoint = null)
@@ -67,7 +66,6 @@ namespace Microsoft.SemanticKernel
         /// <param name="configuration"></param>
         /// <returns></returns>
 
-        [Experimental("SKEXP0052")]
         public static MemoryBuilder WithERNIEBotEmbeddingGenerationService(this MemoryBuilder builder,
             IServiceProvider service, IConfiguration configuration)
         {
@@ -83,7 +81,6 @@ namespace Microsoft.SemanticKernel
         /// <param name="clientId"></param>
         /// <param name="secret"></param>
         /// <returns></returns>
-        [Experimental("SKEXP0052")]
         public static MemoryBuilder WithERNIEBotEmbeddingGenerationService(this MemoryBuilder builder,
             string clientId, string secret)
         {

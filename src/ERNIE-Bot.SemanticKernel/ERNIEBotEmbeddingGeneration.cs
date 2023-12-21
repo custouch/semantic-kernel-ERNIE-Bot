@@ -1,13 +1,9 @@
 ﻿using ERNIE_Bot.SDK;
 using ERNIE_Bot.SDK.Models;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.AI.Embeddings;
-using Microsoft.SemanticKernel.Services;
-using System.Diagnostics.CodeAnalysis;
+using Microsoft.SemanticKernel.Embeddings;
 
-
-[Experimental("SKEXP0001")]
-public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGeneration
+public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGenerationService
 {
     private readonly ERNIEBotClient _client;
     private readonly Dictionary<string, object?> _attributes = new();

@@ -2,9 +2,8 @@
 using ERNIE_Bot.SDK;
 using ERNIE_Bot.SDK.Models;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.AI;
-using Microsoft.SemanticKernel.AI.ChatCompletion;
-using Microsoft.SemanticKernel.AI.TextGeneration;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.TextGeneration;
 using Microsoft.SemanticKernel.Services;
 using System;
 using System.Runtime.CompilerServices;
@@ -142,7 +141,7 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
             .Select(m => new Message()
             {
                 Role = AuthorRoleToMessageRole(m.Role),
-                Content = m.Content
+                Content = m.Content!
             }).ToList();
     }
 
