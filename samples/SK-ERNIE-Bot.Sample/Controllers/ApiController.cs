@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.AI.ChatCompletion;
-using Microsoft.SemanticKernel.AI.Embeddings;
-using Microsoft.SemanticKernel.AI.TextGeneration;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Embeddings;
+using Microsoft.SemanticKernel.TextGeneration;
 using Microsoft.SemanticKernel.Memory;
 using SK_ERNIE_Bot.Sample.Controllers.Models;
 using System.Text;
+using System.Threading;
 
 namespace SK_ERNIE_Bot.Sample.Controllers
 {
@@ -104,18 +105,18 @@ namespace SK_ERNIE_Bot.Sample.Controllers
 
                 """;
             var func = _kernel.CreateFunctionFromPrompt(prompt);
-            var result = await _kernel.InvokeAsync(func,new KernelArguments(input.Text));
+            var result = await _kernel.InvokeAsync(func, new() { ["input"] = input.Text }, cancellationToken: cancellationToken);
             return Ok(result.GetValue<string>());
         }
 
         [HttpPost("semanticPlugin")]
-        public async Task<IActionResult> SemanticPlugin([FromBody] UserInput input)
+        public async Task<IActionResult> SemanticPlugin([FromBody] UserInput input, CancellationToken cancellationToken)
         {
             var plugin = _kernel.ImportPluginFromPromptDirectory("Plugins/Demo", "Demo");
 
             var translateFunc = plugin["Translate"];
 
-            var result = await _kernel.InvokeAsync(translateFunc, new KernelArguments(input.Text));
+            var result = await _kernel.InvokeAsync(translateFunc, new() { ["input"] = input.Text }, cancellationToken: cancellationToken);
             return Ok(result.GetValue<string>());
         }
 

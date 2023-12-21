@@ -1,6 +1,6 @@
 using ERNIE_Bot.SDK;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Plugins.Memory;
+using Microsoft.SemanticKernel.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped(svc =>
 {
-    var kernel = new KernelBuilder()
+    var kernel = Kernel.CreateBuilder()
         .WithERNIEBotChatCompletionService(svc, builder.Configuration, "ernie_bot", ModelEndpoints.ERNIE_Bot)
         .Build();
     return kernel;
@@ -21,12 +21,10 @@ builder.Services.AddScoped(svc =>
 
 builder.Services.AddScoped(svc =>
 {
-#pragma warning disable SKEXP0052 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
     var memory = new MemoryBuilder()
     .WithERNIEBotEmbeddingGenerationService(svc, builder.Configuration)
     .WithMemoryStore(new VolatileMemoryStore())
     .Build();
-#pragma warning restore SKEXP0052 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
     return memory;
 });
 

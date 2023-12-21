@@ -1,7 +1,6 @@
 ﻿using ERNIE_Bot.SDK.Models;
-using Microsoft.SemanticKernel.AI.ChatCompletion;
-using System.Runtime.CompilerServices;
-using System.Text;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace Connectors.AI.ERNIEBot
 {
