@@ -12,11 +12,9 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
 {
     protected readonly ERNIEBotClient _client;
     private readonly ModelEndpoint _modelEndpoint;
-    private readonly Dictionary<string, string> _attributes = new();
+    private readonly Dictionary<string, object?> _attributes = new();
 
-    public IReadOnlyDictionary<string, string> Attributes => this._attributes;
-
-    IReadOnlyDictionary<string, object?> IAIService.Attributes => throw new NotImplementedException();
+    public IReadOnlyDictionary<string, object?> Attributes => this._attributes;
 
     public ERNIEBotChatCompletion(ERNIEBotClient client, ModelEndpoint? modelEndpoint = null)
     {
@@ -116,26 +114,30 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
     }
     private List<Message> StringToMessages(string text)
     {
-        return new List<Message>()
-        {
+        return
+        [
             new Message()
             {
-                 Role = MessageRole.User,
-                 Content = text
+                Role = MessageRole.User,
+                Content = text
             }
-        };
+        ];
     }
 
     private List<Message> ChatHistoryToMessages(ChatHistory chatHistory, out string? system)
     {
+        system = null;
+
+        if (chatHistory.Count == 1)
+        {
+            return StringToMessages(chatHistory.First().Content!);
+        }
+
         if (chatHistory.First().Role == AuthorRole.System)
         {
             system = chatHistory.First().Content;
         }
-        else
-        {
-            system = null;
-        }
+
         return chatHistory
             .Where(_ => _.Role != AuthorRole.System)
             .Select(m => new Message()
