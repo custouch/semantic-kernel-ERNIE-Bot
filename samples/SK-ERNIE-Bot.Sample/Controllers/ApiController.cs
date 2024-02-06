@@ -77,9 +77,7 @@ namespace SK_ERNIE_Bot.Sample.Controllers
         }
 
         [HttpPost("embedding")]
-#pragma warning disable SKEXP0003 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         public async Task<IActionResult> EmbeddingAsync([FromBody] UserInput input, [FromServices] ISemanticTextMemory memory, CancellationToken cancellationToken)
-#pragma warning restore SKEXP0003 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         {
             const string collection = "demo";
             if (string.IsNullOrWhiteSpace(input.Text))
@@ -138,6 +136,26 @@ namespace SK_ERNIE_Bot.Sample.Controllers
 
             var text = result[0].Content;
             return Ok(text);
+        }
+
+        [HttpPost("get_usage")]
+        public async Task<IActionResult> GetUsageAsync([FromBody] UserInput input, CancellationToken cancellationToken)
+        {
+            var plugin = _kernel.ImportPluginFromPromptDirectory("Plugins/Demo", "Demo");
+
+            var translateFunc = plugin["Translate"];
+
+            var result = await _kernel.InvokeAsync(translateFunc, new() { ["input"] = input.Text }, cancellationToken: cancellationToken);
+
+            var value = result.GetValue<string>();
+
+            var usage = result.Metadata?["Usage"];
+
+            return Ok(new
+            {
+                value,
+                usage
+            });
         }
     }
 }

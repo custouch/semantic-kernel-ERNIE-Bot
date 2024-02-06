@@ -13,6 +13,12 @@ public class ERNIEBotAIRequestSettings : PromptExecutionSettings
     [JsonPropertyName("penalty_score")]
     public float? PenaltyScore { get; set; }
 
+    [JsonPropertyName("response_format")]
+    public string? ResponseFormat { get; set; }
+
+    [JsonPropertyName("max_output_tokens")]
+    public int? MaxTokens { get; set; }
+
     public static ERNIEBotAIRequestSettings FromRequestSettings(PromptExecutionSettings? requestSettings, int? defaultMaxTokens = null)
     {
         if (requestSettings is null)

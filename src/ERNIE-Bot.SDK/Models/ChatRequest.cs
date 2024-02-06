@@ -26,6 +26,23 @@ namespace ERNIE_Bot.SDK.Models
 
         [JsonPropertyName("penalty_score")]
         public float? PenaltyScore { get; set; }
+
+        /// <summary>
+        /// 指定响应内容的格式，说明：<br/>
+        ///（1）可选值：<br/>
+        ///· json_object：以json格式返回，可能出现不满足效果情况 <br/>
+        ///· text：以文本格式返回 <br/>
+        ///（2）如果不填写参数response_format值，默认为text <br/>
+        /// </summary>
+        [JsonPropertyName("response_format")]
+        public string? ResponseFormat { get; set; }
+
+        /// <summary>
+        /// 指定模型最大输出token数，范围[2, 2048]
+        /// </summary>
+        [JsonPropertyName("max_output_tokens")]
+        public int? MaxTokens { get; set; }
+
     }
 
     public class Message

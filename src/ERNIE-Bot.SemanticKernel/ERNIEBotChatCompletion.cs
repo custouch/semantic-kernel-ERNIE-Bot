@@ -37,8 +37,8 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
                                                              system,
                                                              cancellationToken
                                                              );
-
-        return new List<ChatMessageContent>() { new ERNIEBotChatMessage(result) };
+        var metadata = GetResponseMetadata(result);
+        return new List<ChatMessageContent>() { new ERNIEBotChatMessage(result, metadata) };
     }
 
     public async IAsyncEnumerable<StreamingChatMessageContent> GetStreamingChatMessageContentsAsync(ChatHistory chatHistory, PromptExecutionSettings? executionSettings = null, Kernel? kernel = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -58,7 +58,8 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
                                                     );
         await foreach (var result in results)
         {
-            yield return new ERNIEBotStreamingChatMessage(result);
+            var metadata = GetResponseMetadata(result);
+            yield return new ERNIEBotStreamingChatMessage(result, metadata);
         }
     }
 
@@ -77,7 +78,7 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
                                                     cancellationToken
                                                     );
 
-        return new List<TextContent>() { new(result.Result) }.AsReadOnly();
+        return new List<TextContent>() { new(result.Result, metadata: GetResponseMetadata(result)) }.AsReadOnly();
     }
 
     public async IAsyncEnumerable<StreamingTextContent> GetStreamingTextContentsAsync(string prompt, PromptExecutionSettings? executionSettings = null, Kernel? kernel = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -96,7 +97,7 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
                                                      );
         await foreach (var result in results)
         {
-            yield return new StreamingTextContent(result.Result);
+            yield return new StreamingTextContent(result.Result, metadata: GetResponseMetadata(result));
         }
     }
 
@@ -112,6 +113,18 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
 
         return history;
     }
+
+    private static Dictionary<string, object?> GetResponseMetadata(ChatResponse result)
+    {
+        return new Dictionary<string, object?>()
+        {
+            {nameof(result.Id), result.Id},
+            {nameof(result.Created), result.Created},
+            {nameof(result.NeedClearHistory), result.NeedClearHistory},
+            {nameof(result.Usage), result.Usage }
+        };
+    }
+
     private List<Message> StringToMessages(string text)
     {
         return
