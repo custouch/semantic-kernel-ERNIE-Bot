@@ -5,7 +5,7 @@
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/6lp69is2a">ERNIE Bot 8k Chat Model</see>
         /// </summary>
-        public static readonly ModelEndpoint ERNIE_Bot_8K = new("ernie_bot_8k",6000);
+        public static readonly ModelEndpoint ERNIE_Bot_8K = new("ernie_bot_8k", 6000);
 
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/clntwmv7t">ERNIE Bot 4 Chat Model</see>
@@ -65,7 +65,7 @@
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Ylp88e5jc">XuanYuan 70B Chat 4bit</see>
         /// </summary>
-        public static readonly ModelEndpoint XuanYuan_70B_Chat_4bit = new ("xuanyuan_70b_chat");
+        public static readonly ModelEndpoint XuanYuan_70B_Chat_4bit = new("xuanyuan_70b_chat");
 
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Qlphtigbf">ChatLaw</see>
@@ -91,5 +91,10 @@
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/mllz05nzk">bge-large-en Embedding Model</see>
         /// </summary>
         public static readonly EmbeddingModelEndpoint bge_large_en = new("bge_large_en", 512);
+
+        /// <summary>
+        /// <see cref="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/7lq0buxys"/>
+        /// </summary>
+        public static readonly EmbeddingModelEndpoint Tao_8k = new("tao_8k", 8192);
     }
 }

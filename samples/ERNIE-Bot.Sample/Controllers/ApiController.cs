@@ -178,5 +178,29 @@ namespace ERNIE_Bot.Sample.Controllers
 
             return Ok(result.Result);
         }
+
+        [HttpPost("JsonFormat")]
+        public async Task<IActionResult> JsonFormatAsync([FromBody] UserInput input)
+        {
+            if (string.IsNullOrWhiteSpace(input.Text))
+            {
+                return NoContent();
+            }
+
+            var result = await _client.ChatAsync(new ChatCompletionsRequest()
+            {
+                Messages = new List<Message>
+                 {
+                      new Message()
+                      {
+                           Content = input.Text,
+                           Role = MessageRole.User
+                      }
+                 },
+                ResponseFormat = "json_object"
+            }, ModelEndpoints.ERNIE_Bot_4);
+
+            return Ok(result.Result);
+        }
     }
 }

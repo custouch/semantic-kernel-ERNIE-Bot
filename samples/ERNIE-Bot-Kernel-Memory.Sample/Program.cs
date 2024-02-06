@@ -2,7 +2,7 @@
 using ERNIE_Bot.SDK;
 using Microsoft.Extensions.Configuration;
 using Microsoft.KernelMemory;
-using Microsoft.KernelMemory.Handlers;
+using Microsoft.KernelMemory.Configuration;
 using System.Threading.RateLimiting;
 
 var config = new ConfigurationBuilder()
@@ -18,7 +18,8 @@ var client = new ERNIEBotClient(config["ClientId"]!, config["ClientSecret"]!,
                                 }));
 
 var memory = new KernelMemoryBuilder()
-        .WithERNIEBotDefaults(client)
+        .WithERNIEBotTextGenerator(client)
+        .WithERNIEBotEmbeddingGenerator(client, ModelEndpoints.bge_large_en)
         .With(new TextPartitioningOptions
         {
             MaxTokensPerParagraph = 300,
