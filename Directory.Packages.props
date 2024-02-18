@@ -8,23 +8,23 @@
     <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
     <PackageVersion Include="Microsoft.KernelMemory.Abstractions" Version="0.11.231121.2-preview+ea157ef" />
-    <PackageVersion Include="Microsoft.KernelMemory.Core" Version="0.27.240205.2" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="1.3.0" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Core" Version="1.3.0" />
+    <PackageVersion Include="Microsoft.KernelMemory.Core" Version="0.28.240212.1" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="1.4.0" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Core" Version="1.4.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.3.0-alpha" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.3.0-alpha" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.4.0-alpha" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.4.0-alpha" />
     <PackageVersion Include="Microsoft.SemanticKernel.TemplateEngine.Basic" Version="1.0.0-beta8" />
     <!-- Validation -->
     <PackageVersion Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
     <!-- Tests -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0-preview-24080-01" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
-    <PackageVersion Include="System.Text.Json" Version="8.0.1" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.2" />
     <PackageVersion Include="System.Threading.RateLimiting" Version="8.0.0" />
-    <PackageVersion Include="xunit" Version="2.6.6" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.6" />
+    <PackageVersion Include="xunit" Version="2.7.0" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
     <!-- Misc -->
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />

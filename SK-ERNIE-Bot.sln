@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERNIE-Bot.Sample", "samples
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERNIE-Bot.SemanticKernel.Tests", "tests\ERNIE-Bot.SemanticKernel.Tests\ERNIE-Bot.SemanticKernel.Tests.csproj", "{42992CFE-0E45-42DF-A2C7-07BAF0FC0001}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SK-ERNIE-Bot.Sample", "samples\SK-ERNIE-Bot.Sample\SK-ERNIE-Bot.Sample.csproj", "{4575E288-2ABA-49A8-BBBC-F146B2ED7E09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERNIE-Bot-Semantic-Kernel.Sample", "samples\SK-ERNIE-Bot.Sample\ERNIE-Bot-Semantic-Kernel.Sample.csproj", "{4575E288-2ABA-49A8-BBBC-F146B2ED7E09}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1750E273-D16C-4C82-B473-48A8D7EFFEAA}"
 	ProjectSection(SolutionItems) = preProject

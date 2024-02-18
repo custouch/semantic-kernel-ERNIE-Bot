@@ -45,106 +45,16 @@ namespace IntegrationTests.SDK
             }
         }
 
-        [Fact]
-        public async Task ERNIEBotStreamChatAsync()
+        [Theory]
+        [ClassData(typeof(ChatCompletionTestEndpoints))]
+        public async Task StreamChatAsync(ModelEndpoint endpoint)
         {
-            await foreach (var r in InternalStreamChatAsync(ModelEndpoints.ERNIE_Bot))
+            await foreach (var r in InternalStreamChatAsync(endpoint))
             {
                 Assert.NotNull(r);
                 break;
             }
         }
-
-        [Fact]
-        public async Task ERNIEBotTurboStreamChatAsync()
-        {
-            await foreach (var r in InternalStreamChatAsync(ModelEndpoints.ERNIE_Bot_Turbo))
-            {
-                Assert.NotNull(r);
-                break;
-            }
-        }
-
-        [Fact]
-        public async Task BLOOMZ7BStreamChatAsync()
-        {
-            await foreach (var r in InternalStreamChatAsync(ModelEndpoints.BLOOMZ_7B))
-            {
-                Assert.NotNull(r);
-                break;
-            }
-        }
-
-        [Fact]
-        public async Task Llama_2_7b_ChatStreamAsync()
-        {
-            await foreach (var r in InternalStreamChatAsync(ModelEndpoints.Llama_2_7b_chat))
-            {
-                Assert.NotNull(r);
-                break;
-            }
-        }
-
-        [Fact]
-        public async Task Llama_2_13b_ChatStreamAsync()
-        {
-            await foreach (var r in InternalStreamChatAsync(ModelEndpoints.Llama_2_13b_chat))
-            {
-                Assert.NotNull(r);
-                break;
-            }
-        }
-
-        [Fact]
-        public async Task Llama_2_70b_ChatStreamAsync()
-        {
-            await foreach (var r in InternalStreamChatAsync(ModelEndpoints.Llama_2_70b_chat))
-            {
-                Assert.NotNull(r);
-                break;
-            }
-        }
-
-        [Fact]
-        public async Task Qianfan_BLOOMZ_7B_compressedStreamAsync()
-        {
-            await foreach (var r in InternalStreamChatAsync(ModelEndpoints.Qianfan_BLOOMZ_7B_compressed))
-            {
-                Assert.NotNull(r);
-                break;
-            }
-        }
-
-        [Fact]
-        public async Task Qianfan_Chinese_Llama_2_7bStreamAsync()
-        {
-            await foreach (var r in InternalStreamChatAsync(ModelEndpoints.Qianfan_Chinese_Llama_2_7b))
-            {
-                Assert.NotNull(r);
-                break;
-            }
-        }
-
-        [Fact]
-        public async Task ChatGLM2_6b_32kStreamAsync()
-        {
-            await foreach (var r in InternalStreamChatAsync(ModelEndpoints.ChatGLM2_6b_32k))
-            {
-                Assert.NotNull(r);
-                break;
-            }
-        }
-
-        [Fact]
-        public async Task AquilaChat_7bStreamAsync()
-        {
-            await foreach (var r in InternalStreamChatAsync(ModelEndpoints.AquilaChat_7b))
-            {
-                Assert.NotNull(r);
-                break;
-            }
-        }
-
         #endregion StreamChatCompletion
     }
 }
