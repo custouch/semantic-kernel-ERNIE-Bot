@@ -23,6 +23,11 @@
         public static readonly ModelEndpoint ERNIE_Bot_Turbo = new("eb-instant", 7000);
 
         /// <summary>
+        /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/klqx7b1xf">ERNIE Bot Speed Chat Model</see>
+        /// </summary>
+        public static readonly ModelEndpoint ERNIE_Bot_Speed = new("ernie_speed", 7000);
+
+        /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Jljcadglj">BLOOMZ 7B Chat Model</see>
         /// </summary>
         public static readonly ModelEndpoint BLOOMZ_7B = new("bloomz_7b1");

@@ -41,82 +41,11 @@ namespace IntegrationTests.SDK
             return response.Result;
         }
 
-        [Fact]
-        public async Task ERNIEBotChatAsync()
+        [Theory]
+        [ClassData(typeof(ChatCompletionTestEndpoints))]
+        public async Task ChatAsync(ModelEndpoint endpoint)
         {
-            var result = await InternalChatAsync(ModelEndpoints.ERNIE_Bot);
-
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async Task ERNIEBotTurboChatAsync()
-        {
-            var result = await InternalChatAsync(ModelEndpoints.ERNIE_Bot_Turbo);
-
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async Task BLOOMZ7BChatAsync()
-        {
-            var result = await InternalChatAsync(ModelEndpoints.BLOOMZ_7B);
-
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async Task Llama_2_7b_chatAsync()
-        {
-            var result = await InternalChatAsync(ModelEndpoints.Llama_2_7b_chat);
-
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async Task Llama_2_13b_chatAsync()
-        {
-            var result = await InternalChatAsync(ModelEndpoints.Llama_2_13b_chat);
-
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async Task Llama_2_70b_chatAsync()
-        {
-            var result = await InternalChatAsync(ModelEndpoints.Llama_2_70b_chat);
-
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async Task Qianfan_BLOOMZ_7B_compressedAsync()
-        {
-            var result = await InternalChatAsync(ModelEndpoints.Qianfan_BLOOMZ_7B_compressed);
-
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async Task Qianfan_Chinese_Llama_2_7bAsync()
-        {
-            var result = await InternalChatAsync(ModelEndpoints.Qianfan_Chinese_Llama_2_7b);
-
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async Task ChatGLM2_6b_32kAsync()
-        {
-            var result = await InternalChatAsync(ModelEndpoints.ChatGLM2_6b_32k);
-
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async Task AquilaChat_7bAsync()
-        {
-            var result = await InternalChatAsync(ModelEndpoints.AquilaChat_7b);
+            var result = await InternalChatAsync(endpoint);
 
             Assert.NotNull(result);
         }
