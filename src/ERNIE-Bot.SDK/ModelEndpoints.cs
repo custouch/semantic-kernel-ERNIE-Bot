@@ -10,12 +10,22 @@
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/clntwmv7t">ERNIE Bot 4 Chat Model</see>
         /// </summary>
-        public static readonly ModelEndpoint ERNIE_Bot_4 = new("completions_pro");
+        public static readonly ModelEndpoint ERNIE_Bot_4 = new("completions_pro", 5000);
 
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/jlil56u11">ERNIE Bot Chat Model</see>
         /// </summary>
         public static readonly ModelEndpoint ERNIE_Bot = new("completions");
+
+        /// <summary>
+        /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Llsr67q8h"/>
+        /// </summary>
+        public static readonly ModelEndpoint ERNIE_Bot_35_4K_0205 = new("ernie-3.5-4k-0205");
+
+        /// <summary>
+        /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/llsr6hjxo"/>
+        /// </summary>
+        public static readonly ModelEndpoint ERNIE_Bot_35_8K_0205 = new("ernie-3.5-8k-0205");
 
         /// <summary>
         /// <see href="https://cloud.baidu.com/doc/WENXINWORKSHOP/s/4lilb2lpf"> ERNIE Bot Turbo Chat Model</see>

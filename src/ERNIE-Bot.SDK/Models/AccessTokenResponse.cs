@@ -5,7 +5,7 @@ namespace ERNIE_Bot.SDK.Models
     /// <summary>
     /// Access Token Response
     /// </summary>
-    public class TokenResponse
+    public class AccessTokenResponse
     {
         [JsonPropertyName("access_token")]
         public string AccessToken { get; set; } = string.Empty;

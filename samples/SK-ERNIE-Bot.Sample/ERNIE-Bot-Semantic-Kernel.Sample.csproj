@@ -14,7 +14,6 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" />
 		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Memory" />
-		<PackageReference Include="Microsoft.SemanticKernel.TemplateEngine.Basic" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 	</ItemGroup>
 
