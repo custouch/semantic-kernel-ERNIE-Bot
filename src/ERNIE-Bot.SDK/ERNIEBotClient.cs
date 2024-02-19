@@ -154,7 +154,7 @@ namespace ERNIE_Bot.SDK
 
             var webRequest = new HttpRequestMessage(HttpMethod.Post, url);
             var response = await _client.SendAsync(webRequest, cancellationToken);
-            var accessToken = await ParseResponseAsync<TokenResponse>(response);
+            var accessToken = await ParseResponseAsync<AccessTokenResponse>(response);
 
             if (string.IsNullOrWhiteSpace(accessToken.AccessToken))
             {
