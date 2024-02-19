@@ -43,6 +43,32 @@ namespace ERNIE_Bot.SDK.Models
         [JsonPropertyName("max_output_tokens")]
         public int? MaxTokens { get; set; }
 
+        /// <summary>
+        /// 生成停止标识，当模型生成结果以stop中某个元素结尾时，停止文本生成。
+        /// <br/> 说明：
+        /// <br/>（1）每个元素长度不超过20字符 
+        /// <br/>（2）最多4个元素
+        /// </summary>
+        [JsonPropertyName("stop")]
+        public string[]? Stops { get; set; }
+
+        /// <summary>
+        /// 是否强制关闭实时搜索功能，默认false，表示不关闭
+        /// </summary>
+        [JsonPropertyName("disable_search")]
+        public bool? DisableSearch { get; set; }
+
+        /// <summary>
+        /// 是否开启引用返回，说明：
+        ///（1）开启后，有概率触发搜索溯源信息search_info，search_info内容见响应参数介绍
+        ///（2）默认false，不开启
+        [JsonPropertyName("enable_citation")]
+        public bool? EnableCitation { get; set; }
+    }
+
+    public class FunctionInfo
+    {
+
     }
 
     public class Message
@@ -52,8 +78,10 @@ namespace ERNIE_Bot.SDK.Models
 
         [JsonPropertyName("content")]
         public string Content { get; set; } = string.Empty;
-    }
 
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+    }
     public static class MessageRole
     {
         public const string User = "user";
