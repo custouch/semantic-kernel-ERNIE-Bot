@@ -7,13 +7,13 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.KernelMemory.Core" Version="0.28.240212.1" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="1.4.0" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Core" Version="1.4.0" />
+    <PackageVersion Include="Microsoft.KernelMemory.Core" Version="0.34.240313.1" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="1.6.2" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Core" Version="1.6.2" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.4.0-alpha" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.4.0-alpha" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.6.2-alpha" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Plugins.Memory" Version="1.6.2-alpha" />
     <!-- Validation -->
     <PackageVersion Include="Microsoft.VisualStudio.Validation" Version="17.8.8" />
     <!-- Tests -->
@@ -23,7 +23,7 @@
     <PackageVersion Include="System.Threading.RateLimiting" Version="8.0.0" />
     <PackageVersion Include="xunit" Version="2.7.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.0" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.2" />
     <!-- Misc -->
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>

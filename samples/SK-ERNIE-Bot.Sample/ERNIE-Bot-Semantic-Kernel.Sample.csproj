@@ -8,7 +8,7 @@
 		<UserSecretsId>84a2cf80-3689-4f7e-b25f-661eea20cf5d</UserSecretsId>
 		<LangVersion>11</LangVersion>
 		<IsPackable>false</IsPackable>
-		<NoWarn>SKEXP0003;SKEXP0052</NoWarn>
+		<NoWarn>SKEXP0001;SKEXP0003;SKEXP0050;SKEXP0052</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
