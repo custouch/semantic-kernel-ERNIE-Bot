@@ -15,7 +15,7 @@ namespace ERNIE_Bot.SDK
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return await _cache.GetStringAsync(Defaults.TokenCacheName);
+            return await _cache.GetStringAsync(Defaults.TokenCacheName).ConfigureAwait(false);
         }
 
         public async Task SaveTokenAsync(string accessToken, TimeSpan expiration, CancellationToken cancellationToken)
@@ -25,7 +25,7 @@ namespace ERNIE_Bot.SDK
             await _cache.SetStringAsync(Defaults.TokenCacheName, accessToken, new DistributedCacheEntryOptions()
             {
                 AbsoluteExpirationRelativeToNow = expiration
-            }, cancellationToken);
+            }, cancellationToken).ConfigureAwait(false);
         }
     }
 }

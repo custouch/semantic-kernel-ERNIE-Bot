@@ -66,11 +66,11 @@ namespace ERNIE_Bot.SDK
 
             OrganizeChatMessages(request.Messages);
 
-            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(modelEndpoint), request);
+            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(modelEndpoint), request).ConfigureAwait(false);
 
-            var response = await _client.SendAsync(webRequest, cancellationToken);
+            var response = await _client.SendAsync(webRequest, cancellationToken).ConfigureAwait(false);
 
-            return await ParseResponseAsync<ChatResponse>(response);
+            return await ParseResponseAsync<ChatResponse>(response).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -96,9 +96,9 @@ namespace ERNIE_Bot.SDK
 
             OrganizeChatMessages(request.Messages);
 
-            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(modelEndpoint), request, cancellationToken);
+            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(modelEndpoint), request, cancellationToken).ConfigureAwait(false);
 
-            var response = await _client.SendAsync(webRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            var response = await _client.SendAsync(webRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 
             await foreach (var item in ParseResponseStreamAsync(response, cancellationToken))
             {
@@ -112,11 +112,11 @@ namespace ERNIE_Bot.SDK
         /// <returns></returns>
         public async Task<EmbeddingsResponse> EmbeddingsAsync(EmbeddingsRequest request, CancellationToken cancellationToken = default)
         {
-            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(ModelEndpoints.Embedding_v1), request);
+            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(ModelEndpoints.Embedding_v1), request).ConfigureAwait(false);
 
-            var response = await _client.SendAsync(webRequest, cancellationToken);
+            var response = await _client.SendAsync(webRequest, cancellationToken).ConfigureAwait(false);
 
-            return await ParseResponseAsync<EmbeddingsResponse>(response);
+            return await ParseResponseAsync<EmbeddingsResponse>(response).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -128,11 +128,11 @@ namespace ERNIE_Bot.SDK
         /// <returns></returns>
         public async Task<EmbeddingsResponse> EmbeddingsAsync(EmbeddingsRequest request, EmbeddingModelEndpoint modelEndpoint, CancellationToken cancellationToken = default)
         {
-            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(modelEndpoint), request);
+            var webRequest = await CreateRequestAsync(HttpMethod.Post, Defaults.Endpoint(modelEndpoint), request).ConfigureAwait(false);
 
-            var response = await _client.SendAsync(webRequest, cancellationToken);
+            var response = await _client.SendAsync(webRequest, cancellationToken).ConfigureAwait(false);
 
-            return await ParseResponseAsync<EmbeddingsResponse>(response);
+            return await ParseResponseAsync<EmbeddingsResponse>(response).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace ERNIE_Bot.SDK
         /// <exception cref="HttpRequestException"></exception>
         public async Task<string> GetAccessTokenAsync(CancellationToken cancellationToken = default)
         {
-            var token = await _tokenStore.GetTokenAsync(cancellationToken);
+            var token = await _tokenStore.GetTokenAsync(cancellationToken).ConfigureAwait(false);
 
             if (!string.IsNullOrWhiteSpace(token))
             {
@@ -153,15 +153,15 @@ namespace ERNIE_Bot.SDK
             var url = $"{Defaults.AccessTokenEndpoint}?client_id={_clientId}&client_secret={_clientSecret}&grant_type=client_credentials";
 
             var webRequest = new HttpRequestMessage(HttpMethod.Post, url);
-            var response = await _client.SendAsync(webRequest, cancellationToken);
-            var accessToken = await ParseResponseAsync<AccessTokenResponse>(response);
+            var response = await _client.SendAsync(webRequest, cancellationToken).ConfigureAwait(false);
+            var accessToken = await ParseResponseAsync<AccessTokenResponse>(response).ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(accessToken.AccessToken))
             {
                 throw new HttpRequestException($"Failed to get access token");
             }
 
-            await _tokenStore.SaveTokenAsync(accessToken.AccessToken, TimeSpan.FromSeconds(accessToken.Expiration), cancellationToken);
+            await _tokenStore.SaveTokenAsync(accessToken.AccessToken, TimeSpan.FromSeconds(accessToken.Expiration), cancellationToken).ConfigureAwait(false);
 
             return accessToken.AccessToken;
         }
@@ -170,7 +170,7 @@ namespace ERNIE_Bot.SDK
 
         private async Task<HttpRequestMessage> CreateRequestAsync<TRequest>(HttpMethod method, string path, TRequest? body = null, CancellationToken cancellationToken = default) where TRequest : class
         {
-            var accessToken = await GetAccessTokenAsync(cancellationToken);
+            var accessToken = await GetAccessTokenAsync(cancellationToken).ConfigureAwait(false);
 
             var uri = path + "?access_token=" + accessToken;
 
@@ -186,7 +186,7 @@ namespace ERNIE_Bot.SDK
 
         private async Task<TResponse> ParseResponseAsync<TResponse>(HttpResponseMessage response)
         {
-            var responseJson = await response.Content.ReadAsStringAsync();
+            var responseJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var error = JsonSerializer.Deserialize<ERNIEBotError>(responseJson);
 
             if (error?.Code != -1)
@@ -209,21 +209,21 @@ namespace ERNIE_Bot.SDK
         {
             if (!response.IsSuccessStatusCode)
             {
-                var responseJson = await response.Content.ReadAsStringAsync();
+                var responseJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var error = JsonSerializer.Deserialize<ERNIEBotError>(responseJson);
 
                 throw new ERNIEBotException(error);
             }
 
-            await using var stream = await response.Content.ReadAsStreamAsync();
+            await using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
             using var reader = new StreamReader(stream);
 
             while (!reader.EndOfStream)
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                var line = await reader.ReadLineAsync();
+                var line = await reader.ReadLineAsync().ConfigureAwait(false);
 
                 if (string.IsNullOrEmpty(line))
                 {

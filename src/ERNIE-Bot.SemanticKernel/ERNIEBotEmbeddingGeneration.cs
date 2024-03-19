@@ -21,7 +21,7 @@ public class ERNIEBotEmbeddingGeneration : ITextEmbeddingGenerationService
             var embeddings = await _client.EmbeddingsAsync(new EmbeddingsRequest()
             {
                 Input = data.ToList()
-            }, cancellationToken);
+            }, cancellationToken).ConfigureAwait(false);
 
             // TODO: ITextEmbeddingGeneration not support ReadOnlyMemory<double>
             return embeddings.Data.Select(d => new ReadOnlyMemory<float>(d.Embedding.Select(e => (float)e).ToArray())).ToList();

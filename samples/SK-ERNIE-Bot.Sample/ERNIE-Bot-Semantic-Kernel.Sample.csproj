@@ -18,13 +18,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\ERNIE-Bot.SemanticKernel\ERNIE-Bot.SemanticKernel.csproj" />
+		<ProjectReference Include="..\..\src\ERNIE-Bot.SemanticKernel\ERNIE-Bot.SemanticKernel.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Plugins\Demo\Translate\skprompt.txt">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<None Update="Plugins\Demo\Translate\skprompt.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>

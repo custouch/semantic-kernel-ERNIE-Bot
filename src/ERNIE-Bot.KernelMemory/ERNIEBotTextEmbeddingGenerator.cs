@@ -32,7 +32,7 @@ namespace ERNIE_Bot.KernelMemory
             var embeddings = await _client.EmbeddingsAsync(new SDK.Models.EmbeddingsRequest()
             {
                 Input = [text]
-            }, _endpoint, cancellationToken);
+            }, _endpoint, cancellationToken).ConfigureAwait(false);
 
             return new Embedding(embeddings.Data[0].Embedding.Select(e => (float)e).ToArray());
         }

@@ -37,11 +37,11 @@ namespace ERNIE_Bot.SDK
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
             using RateLimitLease lease = await _rateLimiter.AcquireAsync(
-                permitCount: 1, cancellationToken);
+                permitCount: 1, cancellationToken).ConfigureAwait(false);
 
             if (lease.IsAcquired)
             {
-                return await base.SendAsync(request, cancellationToken);
+                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
             }
 
             var response = new HttpResponseMessage(HttpStatusCode.TooManyRequests);
