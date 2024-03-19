@@ -100,7 +100,7 @@ namespace ERNIE_Bot.SDK
 
             var response = await _client.SendAsync(webRequest, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 
-            await foreach (var item in ParseResponseStreamAsync(response, cancellationToken))
+            await foreach (var item in ParseResponseStreamAsync(response, cancellationToken).ConfigureAwait(false))
             {
                 yield return item;
             }
