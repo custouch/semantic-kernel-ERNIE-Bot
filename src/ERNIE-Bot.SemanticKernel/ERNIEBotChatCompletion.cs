@@ -55,7 +55,7 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
                                                      settings.PenaltyScore,
                                                      system,
                                                      cancellationToken
-                                                    );
+                                                    ).ConfigureAwait(false);
         await foreach (var result in results)
         {
             var metadata = GetResponseMetadata(result);
