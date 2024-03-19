@@ -36,7 +36,7 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
                                                              settings.PenaltyScore,
                                                              system,
                                                              cancellationToken
-                                                             );
+                                                             ).ConfigureAwait(false);
         var metadata = GetResponseMetadata(result);
         return new List<ChatMessageContent>() { new ERNIEBotChatMessage(result, metadata) };
     }
@@ -76,7 +76,7 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
                                                     settings.PenaltyScore,
                                                     null,
                                                     cancellationToken
-                                                    );
+                                                    ).ConfigureAwait(false);
 
         return new List<TextContent>() { new(result.Result, metadata: GetResponseMetadata(result)) }.AsReadOnly();
     }
@@ -178,7 +178,7 @@ public class ERNIEBotChatCompletion : IChatCompletionService, ITextGenerationSer
                 TopP = topP,
                 PenaltyScore = penaltyScore,
                 System = system,
-            }, _modelEndpoint, cancellationToken);
+            }, _modelEndpoint, cancellationToken).ConfigureAwait(false);
         }
         catch (ERNIEBotException ex)
         {
