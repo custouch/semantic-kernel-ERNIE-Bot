@@ -6,7 +6,7 @@
 		<!-- Microsoft -->
 		<PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
 		<PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
-		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
 		<PackageVersion Include="Microsoft.KernelMemory.Core" Version="0.34.240313.1" />
 		<PackageVersion Include="Microsoft.SemanticKernel.Abstractions" Version="1.6.2" />
 		<PackageVersion Include="Microsoft.SemanticKernel.Core" Version="1.6.2" />
